@@ -1,0 +1,34 @@
+# Changelog
+
+All notable changes to Docklane are listed here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
+[Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+## [0.1.0] — 2026-10-11
+
+First version.
+
+### Added
+
+- Edge panel with live thumbnails of every window on every desktop, including full-screen spaces;
+  click to focus that exact window
+- Keep apps in the panel, group by app, drag to reorder, rename windows, drop files on a thumbnail
+- Dock badges, audio chip, desktop / full-screen chip, focus ring, dimmed minimized windows
+- Right-click menu with New Window, Arrange (halves, center, fill), Minimize / Restore, Hide,
+  Close, Quit
+- Left, top, bottom or right edge, size slider, optional background, one panel per display
+- Auto-hide, or keep the panel visible and move windows out of its way
+- Large live preview on hover, "only this desktop" filter, keyboard navigation (⌃⌥K) and a
+  show/hide shortcut (⌃⌥D)
+- ⌘Tab (or ⌥Tab) window switcher in most-recently-used order with `/` search and Q / H / W / M
+  actions
+- Workspaces: save and restore the set of open windows
+- Privacy blur, menu bar quick controls, launch at login, onboarding for permissions
+- 11 languages with an in-app language choice: English, Chinese (Simplified), Hindi, Spanish,
+  Arabic, French, Bengali, Portuguese, Russian, Indonesian and Turkish
+- App icon and a matching menu bar glyph
+
+[Unreleased]: https://github.com/mertdurukan/docklane/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/mertdurukan/docklane/releases/tag/v0.1.0

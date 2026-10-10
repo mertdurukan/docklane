@@ -1,0 +1,76 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "NSScreenCaptureUsageDescription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض Docklane معاينات حية لنوافذك. لا تغادر المعاينات جهاز Mac أبدًا."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane আপনার উইন্ডোগুলোর লাইভ প্রিভিউ দেখায়। প্রিভিউ কখনও আপনার Mac-এর বাইরে যায় না।"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane shows live previews of your windows. Previews never leave your Mac."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane muestra vistas previas en directo de tus ventanas. Las vistas previas nunca salen de tu Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane affiche des aperçus en direct de vos fenêtres. Les aperçus ne quittent jamais votre Mac."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane आपकी विंडो के लाइव प्रीव्यू दिखाता है। प्रीव्यू कभी आपके Mac से बाहर नहीं जाते।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane menampilkan pratinjau langsung jendela Anda. Pratinjau tidak pernah meninggalkan Mac Anda."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Docklane mostra pré-visualizações ao vivo das suas janelas. As pré-visualizações nunca saem do seu Mac."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane показывает живые превью ваших окон. Превью никогда не покидают ваш Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane pencerelerinin canlı önizlemelerini gösterir. Önizlemeler Mac'inden hiç çıkmaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane 会显示窗口的实时预览。预览永远不会离开你的 Mac。"
+          }
+        }
+      }
+    }
+  }
+}

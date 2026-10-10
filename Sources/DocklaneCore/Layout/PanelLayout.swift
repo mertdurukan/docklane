@@ -1,0 +1,146 @@
+import Foundation
+import CoreGraphics
+
+/// Tile and panel measurements derived from the single Size slider (0 = small, 1 = large),
+/// so the panel window and the SwiftUI content always agree.
+public struct PanelMetrics: Equatable, Sendable {
+    /// Fixed tile width on vertical (left/right) panels.
+    public let tileWidth: CGFloat
+    /// Fixed tile height on horizontal (bottom) panels.
+    public let tileHeight: CGFloat
+    /// App icon overlapping a tile's corner.
+    public let iconSize: CGFloat
+    public let spacing: CGFloat
+    public let fontSize: CGFloat
+
+    /// Gap between the screen edge and the tiles.
+    public static let edgeInset: CGFloat = 8
+    /// Room around each tile for its shadow and the overhanging app icon.
+    public static let tileInset: CGFloat = 8
+
+    public init(size: Double) {
+        let s = CGFloat(min(max(size, 0), 1))
+        tileWidth = (120 + s * 240).rounded()
+        tileHeight = (tileWidth * 0.6).rounded()
+        iconSize = min(max(tileWidth * 0.16, 22), 44).rounded()
+        spacing = (6 + s * 6).rounded()
+        fontSize = (11 + s * 3).rounded()
+    }
+
+    /// Panel depth perpendicular to its edge.
+    public func thickness(for edge: PanelEdge) -> CGFloat {
+        let tile = edge.isVertical ? tileWidth : tileHeight
+        return tile + 2 * (Self.edgeInset + Self.tileInset)
+    }
+
+    /// Tile size for an image of the given aspect ratio: vertical panels fix the width,
+    /// horizontal ones the height. Extreme ratios are clamped so tiles stay usable.
+    public func tileSize(imageSize: CGSize?, edge: PanelEdge) -> CGSize {
+        guard let imageSize, imageSize.width > 0, imageSize.height > 0 else {
+            return CGSize(width: tileWidth, height: tileHeight)
+        }
+        let ratio = min(max(imageSize.height / imageSize.width, 0.4), 1.1)
+        if edge.isVertical {
+            return CGSize(width: tileWidth, height: (tileWidth * ratio).rounded())
+        }
+        return CGSize(width: (tileHeight / ratio).rounded(), height: tileHeight)
+    }
+}
+
+/// Where the panel goes on one screen (Cocoa coordinates, origin bottom-left).
+public struct PanelFrames: Equatable, Sendable {
+    /// The panel window: only as long as its tiles, centred on the edge, so clicks beside the
+    /// tiles reach the windows behind. Spans the whole edge when no content length is known.
+    public let panel: CGRect
+    /// Kept clear of other windows; empty when the panel auto-hides (like the Dock).
+    public let reserved: CGRect
+    /// What remains for other windows.
+    public let usable: CGRect
+}
+
+public enum PanelLayout {
+    /// Gap between the panel and windows kept clear of it.
+    public static let windowGap: CGFloat = 4
+
+    /// Room at both ends of the tiles for their shadows and overhanging app icons.
+    public static let endInset: CGFloat = PanelMetrics.edgeInset + PanelMetrics.tileInset
+
+    /// `contentLength` is the tiles' natural length along the edge (nil: not measured yet).
+    /// Windows are kept clear of the whole edge strip, like the Dock, whatever the tiles' length.
+    public static func frames(edge: PanelEdge, thickness: CGFloat, visibleFrame vf: CGRect, autoHide: Bool,
+                              contentLength: CGFloat? = nil) -> PanelFrames {
+        let strip: CGRect
+        switch edge {
+        case .left: strip = CGRect(x: vf.minX, y: vf.minY, width: thickness, height: vf.height)
+        case .right: strip = CGRect(x: vf.maxX - thickness, y: vf.minY, width: thickness, height: vf.height)
+        case .bottom: strip = CGRect(x: vf.minX, y: vf.minY, width: vf.width, height: thickness)
+        case .top: strip = CGRect(x: vf.minX, y: vf.maxY - thickness, width: vf.width, height: thickness)
+        }
+        let panel = contentLength.map { fitted(strip, edge: edge, length: $0 + 2 * endInset) } ?? strip
+        guard !autoHide else { return PanelFrames(panel: panel, reserved: .zero, usable: vf) }
+        let panelStrip = strip
+
+        let reserved: CGRect
+        let usable: CGRect
+        let s = panelStrip
+        switch edge {
+        case .left:
+            reserved = CGRect(x: s.minX, y: s.minY, width: s.width + windowGap, height: s.height)
+            usable = CGRect(x: reserved.maxX, y: vf.minY, width: vf.maxX - reserved.maxX, height: vf.height)
+        case .right:
+            reserved = CGRect(x: s.minX - windowGap, y: s.minY, width: s.width + windowGap, height: s.height)
+            usable = CGRect(x: vf.minX, y: vf.minY, width: reserved.minX - vf.minX, height: vf.height)
+        case .bottom:
+            reserved = CGRect(x: s.minX, y: s.minY, width: s.width, height: s.height + windowGap)
+            usable = CGRect(x: vf.minX, y: reserved.maxY, width: vf.width, height: vf.maxY - reserved.maxY)
+        case .top:
+            reserved = CGRect(x: s.minX, y: s.minY - windowGap, width: s.width, height: s.height + windowGap)
+            usable = CGRect(x: vf.minX, y: vf.minY, width: vf.width, height: reserved.minY - vf.minY)
+        }
+        return PanelFrames(panel: panel, reserved: reserved, usable: usable)
+    }
+
+    /// `length` along the edge (at most the whole strip), centred on the strip.
+    static func fitted(_ strip: CGRect, edge: PanelEdge, length: CGFloat) -> CGRect {
+        if edge.isVertical {
+            let height = min(max(length, 0), strip.height).rounded(.up)
+            return CGRect(x: strip.minX, y: (strip.midY - height / 2).rounded(), width: strip.width, height: height)
+        }
+        let width = min(max(length, 0), strip.width).rounded(.up)
+        return CGRect(x: (strip.midX - width / 2).rounded(), y: strip.minY, width: width, height: strip.height)
+    }
+
+    /// Depth of the strip at the screen edge that reveals an auto-hidden panel: the pointer
+    /// only has to get close to the edge, not hit its last pixel.
+    public static let revealDepth: CGFloat = 4
+
+    /// Strip at the screen edge that reveals an auto-hidden panel. For the top edge it sits
+    /// right below the menu bar (`visibleFrame`), so the menu bar keeps working. With a `panel`
+    /// frame it covers only the panel's stretch of the edge, like the Dock's.
+    public static func revealZone(edge: PanelEdge, screenFrame f: CGRect, visibleFrame: CGRect? = nil,
+                                  panel: CGRect? = nil) -> CGRect {
+        let depth = revealDepth
+        let zone: CGRect
+        switch edge {
+        case .left: zone = CGRect(x: f.minX, y: f.minY, width: depth, height: f.height)
+        case .right: zone = CGRect(x: f.maxX - depth, y: f.minY, width: depth, height: f.height)
+        case .bottom: zone = CGRect(x: f.minX, y: f.minY, width: f.width, height: depth)
+        case .top:
+            let top = (visibleFrame ?? f).maxY
+            zone = CGRect(x: f.minX, y: top - depth, width: f.width, height: depth)
+        }
+        guard let panel else { return zone }
+        if edge.isVertical {
+            return CGRect(x: zone.minX, y: panel.minY, width: zone.width, height: panel.height)
+        }
+        return CGRect(x: panel.minX, y: zone.minY, width: panel.width, height: zone.height)
+    }
+
+    /// When an auto-hidden panel that was revealed at `revealedAt` may hide again, given that
+    /// the pointer left it at `leftAt`: it stays at least `minimumVisible`, and after that
+    /// `delay` past the moment the pointer left.
+    public static func hideDeadline(revealedAt: Date, leftAt: Date, minimumVisible: TimeInterval,
+                                    delay: TimeInterval) -> Date {
+        max(revealedAt.addingTimeInterval(minimumVisible), leftAt.addingTimeInterval(delay))
+    }
+}
