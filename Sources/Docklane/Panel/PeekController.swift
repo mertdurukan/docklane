@@ -24,17 +24,48 @@ final class PeekController {
     private var refresher: Task<Void, Never>?
     private var hovered: WindowNumber?
 
+    /// True while a tile's context menu is open: the preview would cover it.
+    private var menuIsOpen = false
+    private var observers: [Any] = []
+
     private init() {}
+
+    /// A right-click opens a context menu: close the preview and keep it closed until the
+    /// menu is gone.
+    private func watchContextMenus() {
+        guard observers.isEmpty else { return }
+        if let monitor = NSEvent.addLocalMonitorForEvents(matching: .rightMouseDown, handler: { [weak self] event in
+            MainActor.assumeIsolated { self?.hide() }
+            return event
+        }) {
+            observers.append(monitor)
+        }
+        observers.append(NotificationCenter.default.addObserver(
+            forName: NSMenu.didBeginTrackingNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.menuIsOpen = true
+                self?.hide()
+            }
+        })
+        observers.append(NotificationCenter.default.addObserver(
+            forName: NSMenu.didEndTrackingNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.menuIsOpen = false }
+        })
+    }
 
     func hoverBegan(_ window: DockWindow) {
         guard AppSettings.shared.peekEnabled else { return }
+        watchContextMenus()
+        guard !menuIsOpen else { return }
         hovered = window.id
         pending?.cancel()
         // Already peeking: move to the new tile at once; otherwise wait for the delay.
         let delay = panel?.isVisible == true ? 0 : AppSettings.shared.peekDelay
         pending = Task { [weak self] in
             if delay > 0 { try? await Task.sleep(for: .seconds(delay)) }
-            guard !Task.isCancelled, self?.hovered == window.id else { return }
+            guard !Task.isCancelled, self?.hovered == window.id, self?.menuIsOpen == false else { return }
             await self?.show(window)
         }
     }

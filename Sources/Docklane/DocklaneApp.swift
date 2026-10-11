@@ -68,13 +68,18 @@ private struct QuickControls: View {
                 }
             }
 
-            Picker("Panel position", selection: $settings.edge) {
-                Text("Left").tag(PanelEdge.left)
-                Text("Top").tag(PanelEdge.top)
-                Text("Bottom").tag(PanelEdge.bottom)
-                Text("Right").tag(PanelEdge.right)
+            // Label above the control, like Panel size: beside it, longer translations wrap.
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Panel position").font(.subheadline.weight(.medium))
+                Picker("Panel position", selection: $settings.edge) {
+                    Text("Left").tag(PanelEdge.left)
+                    Text("Top").tag(PanelEdge.top)
+                    Text("Bottom").tag(PanelEdge.bottom)
+                    Text("Right").tag(PanelEdge.right)
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
             }
-            .pickerStyle(.segmented)
 
             VStack(alignment: .leading, spacing: 8) {
                 Toggle("Show panel background", isOn: $settings.showBackground)

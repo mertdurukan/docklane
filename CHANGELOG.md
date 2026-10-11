@@ -87,6 +87,10 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- The large preview no longer opens over a window's context menu: a right-click closes it and it
+  stays closed until the menu is gone
+- Menu bar popover: "Panel position" sits above its control like "Panel size", so longer
+  translations don't wrap
 - Windows of an app that had just launched could take several seconds to appear when the app
   wasn't ready for Accessibility yet; Docklane now retries subscribing after 0.5, 1 and 2 s
 - A permission turned off while Docklane runs (in System Settings or by a macOS update) no
