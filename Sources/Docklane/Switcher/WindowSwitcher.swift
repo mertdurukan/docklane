@@ -32,6 +32,11 @@ final class WindowSwitcher {
     private var panel: SwitcherPanel?
     private var isActive = false
     private var previousApp: NSRunningApplication?
+    /// Q/C/W/M was used and the selection hasn't moved since: releasing the modifier then
+    /// stays in the app you were in instead of switching to whatever slid into the selection.
+    private var stayOnRelease = false
+    /// Apps quit from this switcher session (they may not have terminated yet).
+    private var quitPIDs: Set<pid_t> = []
     /// While open, checks the modifier itself: a release event can be missed (tap timeout,
     /// secure input), which would otherwise leave the switcher stuck open.
     private var releaseWatch: Timer?
@@ -94,7 +99,7 @@ final class WindowSwitcher {
             return true
         case .modifierReleased:
             // While searching the switcher stays open so you can type without the modifier.
-            if !model.isSearching { commit() }
+            if !model.isSearching { finishOnRelease() }
             return true
         case .cancel:
             if model.isSearching && !model.query.isEmpty {
@@ -122,7 +127,7 @@ final class WindowSwitcher {
             }
             return true
         case .quitApp:
-            return act({ WindowActions.quitApp(pid: $0.pid) }, removing: .removeApp)
+            return act({ WindowActions.quitApp(pid: $0.pid) }, removing: .removeApp, quits: true)
         case .minimizeApp:
             return act({ selected in
                 guard !selected.isAppWithoutWindows else { return }
@@ -142,6 +147,7 @@ final class WindowSwitcher {
 
     private func move(_ delta: Int) -> Bool {
         guard isActive, !model.items.isEmpty else { return isActive }
+        stayOnRelease = false
         let count = model.items.count
         model.selection = ((model.selection + delta) % count + count) % count
         return true
@@ -158,9 +164,11 @@ final class WindowSwitcher {
     private enum AfterAction { case removeApp, removeWindow }
 
     /// Runs `action` after the event tap returns (it talks to other apps); the list updates now.
-    private func act(_ action: @escaping (DockWindow) -> Void, removing scope: AfterAction) -> Bool {
+    private func act(_ action: @escaping (DockWindow) -> Void, removing scope: AfterAction, quits: Bool = false) -> Bool {
         guard isActive, model.items.indices.contains(model.selection) else { return isActive }
         let selected = model.items[model.selection]
+        stayOnRelease = true
+        if quits { quitPIDs.insert(selected.pid) }
         DispatchQueue.main.async { action(selected) }
         let remove: (DockWindow) -> Bool
         switch scope {
@@ -170,7 +178,7 @@ final class WindowSwitcher {
         model.allItems.removeAll(where: remove)
         model.items.removeAll(where: remove)
         if model.allItems.isEmpty {
-            hide()
+            DispatchQueue.main.async { [weak self] in self?.finishOnRelease() }
         } else {
             model.selection = min(model.selection, max(model.items.count - 1, 0))
             layoutPanel()
@@ -196,6 +204,8 @@ final class WindowSwitcher {
         model.query = ""
         model.selection = selection
         previousApp = front
+        stayOnRelease = false
+        quitPIDs = []
 
         let panel = self.panel ?? makePanel()
         self.panel = panel
@@ -254,7 +264,7 @@ final class WindowSwitcher {
                 if SwitcherKeys.modifierReleased(triggerHeld: self.keyTap.isTriggerHeld,
                                                  isOpen: self.isActive, isSearching: self.model.isSearching) {
                     switcherLog.debug("modifier release caught by watch")
-                    self.commit()
+                    self.finishOnRelease()
                 }
             }
         }
@@ -284,6 +294,17 @@ final class WindowSwitcher {
                 previousApp?.activate()
             }
         }
+    }
+
+    /// The modifier was released: switch to the selection, or, right after Q/C/W/M, stay in
+    /// the app you were in (unless that app was just quit).
+    private func finishOnRelease() {
+        guard stayOnRelease, let previousApp, !previousApp.isTerminated,
+              !quitPIDs.contains(previousApp.processIdentifier) else {
+            commit()
+            return
+        }
+        cancel()
     }
 
     private func cancel() {
