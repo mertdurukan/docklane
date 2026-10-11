@@ -91,7 +91,10 @@ public enum WindowCatalog {
         let candidates = infos.compactMap(WindowRecord.init).filter {
             WindowFilter.isUserWindow($0, ownPID: getpid(), regularApps: Set(appsByPID.keys))
         }
-        let minimized = AccessibilityInspector.minimizedWindowNumbers(of: Set(candidates.map(\.pid)))
+        // Minimized windows are never on screen: only apps with an off-screen window are asked
+        // (each ask is a round trip to the app).
+        let minimized = AccessibilityInspector.minimizedWindowNumbers(
+            of: Set(candidates.lazy.filter { !$0.isOnScreen }.map(\.pid)))
         let spaces = SpaceDirectory.snapshot(for: candidates.map(\.id))
         let placements = spaces?.placements
         let records = WindowFilter.resolving(candidates, located: placements.map { Set($0.keys) },

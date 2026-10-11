@@ -104,6 +104,7 @@ final class DesktopSwitcher {
     /// Returns false with a single space, so the key combination reaches the frontmost app.
     private func show(reverse: Bool) -> Bool {
         let engine = WindowEngine.shared
+        engine.refreshIfPending()
         let spaces = engine.spaces
         guard spaces.count > 1 else { return false }
         model.spaces = spaces
@@ -118,7 +119,7 @@ final class DesktopSwitcher {
         panel.orderFrontRegardless()
         isActive = true
         startReleaseWatch()
-        engine.refreshStaleThumbnails()
+        DispatchQueue.main.async { engine.refreshStaleThumbnails() }
         return true
     }
 
@@ -286,7 +287,7 @@ private struct DesktopCard: View {
                     .font(.system(size: 11, weight: .semibold).monospacedDigit())
                     .frame(width: 18, height: 18)
                     .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(.white.opacity(0.16)))
-                if let pid = title.pid, let icon = NSRunningApplication(processIdentifier: pid)?.icon {
+                if let pid = title.pid, let icon = AppIcons.icon(for: pid) {
                     Image(nsImage: icon).resizable().frame(width: 16, height: 16)
                 }
                 Text(verbatim: title.text)
@@ -348,7 +349,7 @@ private struct MiniWindow: View {
             } else {
                 ZStack {
                     Color.white.opacity(0.25)
-                    if let icon = NSRunningApplication(processIdentifier: pid)?.icon {
+                    if let icon = AppIcons.icon(for: pid) {
                         Image(nsImage: icon).resizable().aspectRatio(contentMode: .fit).padding(4)
                     }
                 }

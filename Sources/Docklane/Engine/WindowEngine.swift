@@ -5,10 +5,11 @@ import Observation
 /// Single source of truth for the panel: the window list in a stable order, thumbnails,
 /// focus, Dock badges and the user's manual layout.
 ///
-/// Accessibility and workspace events trigger a refresh right away; a light 2 s scan catches
-/// anything events miss (e.g. windows closed on another Space). Thumbnails refresh every 10 s,
-/// when focus moves and when windows appear. Everything pauses while displays sleep or the
-/// session is locked.
+/// Accessibility and workspace events trigger a refresh shortly after (a Space change once its
+/// slide is over); a light scan catches anything events miss (every 2 s while the panel or a
+/// switcher is on screen, 6 s otherwise), and a viewer that appears refreshes first if anything
+/// is pending. Thumbnails, audio and badges are only taken while something shows them.
+/// Everything pauses while displays sleep or the session is locked.
 @MainActor
 @Observable
 final class WindowEngine {
@@ -48,6 +49,9 @@ final class WindowEngine {
     @ObservationIgnored private var timers: [Timer] = []
     @ObservationIgnored private var scanTicks = 0
     @ObservationIgnored private var pendingRefresh: Task<Void, Never>?
+    /// Something changed that only matters once a viewer appears (focus moved while nobody
+    /// looked); the next viewer refreshes first.
+    @ObservationIgnored private var needsRefresh = false
     @ObservationIgnored private var pendingMemoryRelief: Task<Void, Never>?
     @ObservationIgnored private var isPaused = false
     @ObservationIgnored private var isStarted = false
@@ -86,7 +90,7 @@ final class WindowEngine {
             },
             repeating(Self.badgeInterval) { engine in
                 guard engine.isAnyoneLooking() else { return }
-                engine.refreshBadges()
+                engine.refreshIndicators()
             },
             repeating(Self.thumbnailInterval) { engine in
                 guard engine.isAnyoneLooking() else { return }
@@ -118,8 +122,18 @@ final class WindowEngine {
         }
     }
 
+    /// Brings the list up to date now if a refresh is waiting, so a panel or switcher that
+    /// just opened never shows a list from before the last change.
+    func refreshIfPending() {
+        guard pendingRefresh != nil || needsRefresh else { return }
+        refresh()
+    }
+
     func refresh() {
         guard !isPaused else { return }
+        pendingRefresh?.cancel()
+        pendingRefresh = nil
+        needsRefresh = false
         let catalog = WindowCatalog.snapshot()
         let snapshot = catalog.windows
         if catalog.spaces != spaces {
@@ -157,12 +171,11 @@ final class WindowEngine {
         }
         hasScanned = true
         updateFocus()
-        // The audio chip is only on screen in the panel and the switcher.
-        if isAnyoneLooking() { refreshAudio() }
     }
 
     /// The panel or a switcher just appeared: bring what it shows up to date.
     func viewerAppeared() {
+        refreshIfPending()
         refreshStaleThumbnails()
         refreshIndicators()
     }
@@ -340,7 +353,8 @@ final class WindowEngine {
             scheduleRefresh()
         case .focusChanged:
             updateFocus()
-            scheduleRefresh(after: .milliseconds(150))
+            // Focus moves all the time; a full scan only matters to something on screen.
+            if isAnyoneLooking() { scheduleRefresh(after: .milliseconds(150)) } else { needsRefresh = true }
         case .geometryChanged(let pid):
             onGeometryChanged?(pid)
             scheduleRefresh(after: .milliseconds(300))
@@ -370,8 +384,16 @@ final class WindowEngine {
         center.addObserver(forName: NSWorkspace.activeSpaceDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated {
                 guard let self else { return }
-                self.refresh()
-                if self.isAnyoneLooking() { self.refreshThumbnails(self.windows.filter(\.isOnScreen)) }
+                // After the slide: scanning during it competes with the transition for the
+                // window server and the apps being asked. A viewer opening sooner refreshes first.
+                self.scheduleRefresh(after: .milliseconds(350))
+                if self.isAnyoneLooking() {
+                    Task { [weak self] in
+                        try? await Task.sleep(for: .milliseconds(450))
+                        guard let self, self.isAnyoneLooking() else { return }
+                        self.refreshThumbnails(self.windows.filter(\.isOnScreen))
+                    }
+                }
             }
         }
 

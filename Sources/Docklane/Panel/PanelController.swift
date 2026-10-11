@@ -24,6 +24,8 @@ final class PanelController {
     @ObservationIgnored private var revealedAt: [CGDirectDisplayID: Date] = [:]
     /// Natural length of each panel's tiles along the edge, reported by its DockView.
     @ObservationIgnored private var contentLengths: [CGDirectDisplayID: CGFloat] = [:]
+    /// Whether each display showed a full-screen space at the last Space change.
+    @ObservationIgnored private var fullScreenShown: [CGDirectDisplayID: Bool] = [:]
     @ObservationIgnored private var mouseMonitors: [Any] = []
     @ObservationIgnored private var hideTimer: Timer?
     /// Top edge only: when the pointer entered a reveal zone; it reveals after `topRevealDwell`
@@ -57,6 +59,7 @@ final class PanelController {
         }
         registerHotKeys()
         observeLayout()
+        observeSpaces()
         observeAppearance()
     }
 
@@ -240,8 +243,6 @@ final class PanelController {
             _ = settings.hotKey
             _ = settings.navigationHotKey
             _ = settings.keepWindowsClear
-            // Entering or leaving a full-screen space moves a top panel.
-            _ = WindowEngine.shared.spaces
         } onChange: { [weak self] in
             Task { @MainActor in
                 guard let self else { return }
@@ -251,6 +252,26 @@ final class PanelController {
                 self.configureAutoHide()
                 self.onLayoutChanged?()
                 self.observeLayout()
+            }
+        }
+    }
+
+    /// Entering or leaving a full-screen space moves a top panel (the menu bar is hidden there).
+    /// Only that is redone on a Space change, not the hot keys and pointer monitors.
+    private func observeSpaces() {
+        withObservationTracking {
+            _ = WindowEngine.shared.spaces
+        } onChange: { [weak self] in
+            Task { @MainActor in
+                guard let self else { return }
+                let shown = Dictionary(self.panels.map { ($0.key, Self.showsFullScreenSpace($0.value.screen)) },
+                                       uniquingKeysWith: { first, _ in first })
+                if self.settings.edge == .top && shown != self.fullScreenShown {
+                    self.relayout()
+                    self.onLayoutChanged?()
+                }
+                self.fullScreenShown = shown
+                self.observeSpaces()
             }
         }
     }
@@ -294,10 +315,12 @@ final class PanelController {
     /// app's space.
     private func setVisible(_ panel: DockPanel, _ visible: Bool) {
         guard visible != Self.isShown(panel) || (visible && !panel.isVisible) else { return }
-        if visible && !Self.isShown(panel) { WindowEngine.shared.viewerAppeared() }
+        let appearing = visible && !Self.isShown(panel)
         panel.alphaValue = visible ? 1 : 0
         panel.ignoresMouseEvents = !visible
         if visible { panel.orderFrontRegardless() }
+        // Show first, update after: the panel appears with what it has, then refreshes.
+        if appearing { DispatchQueue.main.async { WindowEngine.shared.viewerAppeared() } }
     }
 
     private static func isShown(_ panel: DockPanel) -> Bool { panel.isVisible && panel.alphaValue > 0 }

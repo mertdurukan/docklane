@@ -168,6 +168,7 @@ final class WindowSwitcher {
 
     /// Returns false when there is nothing to switch to, so the system shortcut still works.
     private func show(reverse: Bool) -> Bool {
+        WindowEngine.shared.refreshIfPending()
         let ordered = WindowEngine.shared.switcherOrder()
         guard !ordered.isEmpty else { return false }
         // Read focus live, before Docklane activates: the recent-window list can lag behind.
@@ -192,8 +193,12 @@ final class WindowSwitcher {
         isActive = true
         startReleaseWatch()
         switcherLog.debug("shown items=\(items.count, privacy: .public) docklaneActive=\(NSApp.isActive, privacy: .public)")
-        WindowEngine.shared.refreshStaleThumbnails(among: items)
-        WindowEngine.shared.refreshIndicators()
+        // After the panel is up and the event tap has returned: the badge read walks the Dock's
+        // accessibility tree, and captures compete with the panel's first frame.
+        DispatchQueue.main.async {
+            WindowEngine.shared.refreshStaleThumbnails(among: items)
+            WindowEngine.shared.refreshIndicators()
+        }
         return true
     }
 
@@ -472,7 +477,7 @@ private struct SwitcherCard: View {
     let isSelected: Bool
     let isPlayingAudio: Bool
 
-    private var icon: NSImage? { NSRunningApplication(processIdentifier: window.pid)?.icon }
+    private var icon: NSImage? { AppIcons.icon(for: window.pid) }
     private var isPrivate: Bool { AppSettings.shared.isPrivate(window.bundleID) }
     private let size = SwitcherLayout.thumbnailSize
     private let corner: CGFloat = 12
@@ -487,7 +492,7 @@ private struct SwitcherCard: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: size.width, height: size.height, alignment: .top)
-                    .blur(radius: isPrivate ? 12 : 0)
+                    .blurred(12, if: isPrivate)
                 if isPrivate {
                     Image(systemName: "lock.fill").font(.system(size: 24)).foregroundStyle(.white.opacity(0.85))
                 }
@@ -531,8 +536,7 @@ private struct SwitcherCard: View {
                     .offset(x: -iconSize * 0.25, y: iconSize * 0.25)
             }
         }
-        .saturation(window.isMinimized ? 0 : 1)
-        .opacity(window.isMinimized ? 0.55 : 1)
+        .dimmed(window.isMinimized)
         .frame(width: SwitcherLayout.cardWidth, height: SwitcherLayout.cardHeight, alignment: .top)
         .contentShape(Rectangle())
         .accessibilityElement(children: .ignore)

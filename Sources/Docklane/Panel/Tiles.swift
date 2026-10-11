@@ -24,7 +24,7 @@ struct WindowTile: View {
     private var settings: AppSettings { .shared }
 
     private let corner: CGFloat = 10
-    private var appIcon: NSImage? { NSRunningApplication(processIdentifier: window.pid)?.icon }
+    private var appIcon: NSImage? { AppIcons.icon(for: window.pid) }
     private var title: String { customLabel ?? window.displayTitle }
     private var isPrivate: Bool { settings.isPrivate(window.bundleID) }
 
@@ -76,8 +76,7 @@ struct WindowTile: View {
             .overlay(alignment: .topTrailing) {
                 if let badge { BadgeView(text: badge) }
             }
-            .saturation(window.isMinimized ? 0 : 1)
-            .opacity(window.isMinimized ? 0.55 : 1)
+            .dimmed(window.isMinimized)
             .scaleEffect(isHovered && !reduceMotion ? 1.03 : 1)
             // No margin toward the screen edge (the panel's minimal edge gap is the distance),
             // except inside a background, so tiles don't touch its border.
@@ -104,7 +103,7 @@ struct WindowTile: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size.width, height: size.height)
-                .blur(radius: isPrivate ? 14 : 0)
+                .blurred(14, if: isPrivate)
                 .overlay {
                     if isPrivate {
                         Image(systemName: "lock.fill")
@@ -180,16 +179,27 @@ struct PinnedApp: Identifiable {
     let isRunning: Bool
     var id: String { bundleID }
 
+    /// Location, name and icon per bundle id: LaunchServices lookups, and the panel builds
+    /// these on every redraw.
+    @MainActor private static var details: [String: (url: URL, name: String, icon: NSImage)] = [:]
+
+    @MainActor
     init?(bundleID: String) {
         let running = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).first
-        let url = running?.bundleURL ?? NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID)
-        guard running != nil || url != nil else { return nil }
         self.bundleID = bundleID
-        self.url = url
         isRunning = running != nil
-        let fileName = url.map { FileManager.default.displayName(atPath: $0.path) } ?? bundleID
+        if let cached = Self.details[bundleID] {
+            (url, name, icon) = (cached.url, cached.name, cached.icon)
+            return
+        }
+        guard let url = running?.bundleURL ?? NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else {
+            return nil
+        }
+        self.url = url
+        let fileName = FileManager.default.displayName(atPath: url.path)
         name = running?.localizedName ?? (fileName.hasSuffix(".app") ? String(fileName.dropLast(4)) : fileName)
-        icon = running?.icon ?? url.map { NSWorkspace.shared.icon(forFile: $0.path) } ?? NSImage()
+        icon = running?.icon ?? NSWorkspace.shared.icon(forFile: url.path)
+        Self.details[bundleID] = (url, name, icon)
     }
 }
 
@@ -269,7 +279,7 @@ struct AudioChip: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 6)
             .padding(.vertical, 3)
-            .background(.ultraThinMaterial, in: Capsule())
+            .background(Capsule().fill(.black.opacity(0.55)))
             .environment(\.colorScheme, .dark)
             .accessibilityLabel(Text("Playing audio"))
     }
@@ -306,7 +316,7 @@ struct TitlePill: View {
             .truncationMode(.tail)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(.ultraThinMaterial, in: Capsule())
+            .background(Capsule().fill(.black.opacity(0.55)))
             .environment(\.colorScheme, .dark)
     }
 }
@@ -330,8 +340,23 @@ struct SpaceChip: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 6)
             .padding(.vertical, 3)
-            .background(.ultraThinMaterial, in: Capsule())
+            .background(Capsule().fill(.black.opacity(0.55)))
             .environment(\.colorScheme, .dark)
+    }
+}
+
+extension View {
+    /// Filters cost a render pass even when they change nothing (blur 0, saturation 1), so
+    /// they are only added when they do something.
+    @ViewBuilder
+    func blurred(_ radius: CGFloat, if condition: Bool) -> some View {
+        if condition { blur(radius: radius) } else { self }
+    }
+
+    /// Minimized windows: grey and faded.
+    @ViewBuilder
+    func dimmed(_ condition: Bool) -> some View {
+        if condition { saturation(0).opacity(0.55) } else { self }
     }
 }
 

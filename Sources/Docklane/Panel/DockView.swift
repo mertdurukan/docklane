@@ -21,6 +21,7 @@ struct DockView: View {
         let arrangement = DockOrdering.arrange(windowsHere, pinned: settings.pinnedApps,
                                                manualOrder: engine.memory.manualOrder)
         let launchers = pinnedLaunchers
+        let usable = usableFrame
         let isEmpty = arrangement.open.isEmpty && arrangement.minimized.isEmpty && launchers.isEmpty
 
         Group {
@@ -29,9 +30,9 @@ struct DockView: View {
                     .onAppear { reportLength(0) }
             } else {
                 ViewThatFits(in: edge.isVertical ? .vertical : .horizontal) {
-                    measured(tiles(arrangement, launchers, metrics: metrics, edge: edge), edge: edge)
+                    measured(tiles(arrangement, launchers, metrics: metrics, edge: edge, usable: usable), edge: edge)
                     ScrollView(edge.isVertical ? .vertical : .horizontal, showsIndicators: false) {
-                        measured(tiles(arrangement, launchers, metrics: metrics, edge: edge), edge: edge)
+                        measured(tiles(arrangement, launchers, metrics: metrics, edge: edge, usable: usable), edge: edge)
                     }
                 }
                 .background {
@@ -69,7 +70,7 @@ struct DockView: View {
 
     @ViewBuilder
     private func tiles(_ arrangement: DockOrdering.Arrangement, _ launchers: [PinnedApp],
-                       metrics: PanelMetrics, edge: PanelEdge) -> some View {
+                       metrics: PanelMetrics, edge: PanelEdge, usable: CGRect) -> some View {
         let stack = edge.isVertical
             ? AnyLayout(VStackLayout(spacing: metrics.spacing))
             : AnyLayout(HStackLayout(spacing: metrics.spacing))
@@ -88,20 +89,20 @@ struct DockView: View {
                 if index > 0 && arrangement.open[index - 1].bundleID != window.bundleID {
                     GroupSeparator(edge: edge, metrics: metrics, strong: false)
                 }
-                tile(window, badge: carriers.contains(window.id), metrics: metrics, edge: edge, order: order)
+                tile(window, badge: carriers.contains(window.id), metrics: metrics, edge: edge, order: order, usable: usable)
             }
 
             if !arrangement.minimized.isEmpty {
                 if !arrangement.open.isEmpty { GroupSeparator(edge: edge, metrics: metrics, strong: true) }
                 ForEach(arrangement.minimized) { window in
-                    tile(window, badge: carriers.contains(window.id), metrics: metrics, edge: edge, order: order)
+                    tile(window, badge: carriers.contains(window.id), metrics: metrics, edge: edge, order: order, usable: usable)
                 }
             }
         }
     }
 
     private func tile(_ window: DockWindow, badge: Bool, metrics: PanelMetrics, edge: PanelEdge,
-                      order: [WindowNumber]) -> some View {
+                      order: [WindowNumber], usable: CGRect) -> some View {
         WindowTile(
             window: window,
             image: engine.thumbnails[window.id],
@@ -112,7 +113,7 @@ struct DockView: View {
             isPlayingAudio: badge && engine.isPlayingAudio(window),
             metrics: metrics,
             edge: edge,
-            usableFrame: usableFrame
+            usableFrame: usable
         )
         .opacity(dragging == window.id ? 0.4 : 1)
         .onDrag {

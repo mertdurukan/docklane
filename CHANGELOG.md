@@ -33,6 +33,14 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- Lighter on the system: no rescan of every app on each focus change while nothing of Docklane
+  is on screen, the Space-change scan waits until the slide is over, hot keys and pointer
+  monitors are no longer rebuilt on every Space change, the minimized check only asks apps
+  with an off-screen window, the audio check runs every 5 s instead of on each scan, app icons
+  are cached instead of looked up on every redraw, and the panel and switchers appear first
+  and update right after. The large preview is captured at the size it is shown and redrawn
+  only when the window changed. Title, desktop and audio labels use a plain dark fill instead
+  of a live blur. Idle wake-ups dropped from about one a second to almost none
 - Thumbnails are taken only when needed: never while nobody looks (not at start, not for new
   windows, focus or desktop changes); when the panel or a switcher appears, only those older
   than 30 s are taken again, and every 30 s while it stays open. Single frames come from the

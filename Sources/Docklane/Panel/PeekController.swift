@@ -11,13 +11,14 @@ final class PeekModel {
 }
 
 /// Large live preview that appears next to the panel after hovering a tile for a moment, like
-/// the Windows taskbar peek. Refreshes every second while open; click-through.
+/// the Windows taskbar peek. Refreshes every second while open (redrawn only when the window
+/// changed); click-through.
 @MainActor
 final class PeekController {
     static let shared = PeekController()
 
     private let model = PeekModel()
-    private let capturer = WindowCapturer(maxPixelSize: CGSize(width: 1600, height: 1000))
+    private let capturer = WindowCapturer()
     private var panel: NSPanel?
     private var pending: Task<Void, Never>?
     private var refresher: Task<Void, Never>?
@@ -64,20 +65,51 @@ final class PeekController {
         model.image = WindowEngine.shared.thumbnails[window.id]
         let panel = self.panel ?? makePanel()
         self.panel = panel
-        position(panel, imageSize: model.image?.size)
+        // Sized from the window (points), so a small window isn't blown up to its pixel size.
+        position(panel, imageSize: window.bounds.size)
         panel.orderFrontRegardless()
 
+        // Captured only as large as the preview shows it, and redrawn only when the window's
+        // content changed: a still window costs one small capture a second, nothing else.
+        let (pixels, scale) = previewPixelSize(for: window.bounds.size)
         refresher?.cancel()
         refresher = Task { [weak self, capturer] in
+            var lastFingerprint: UInt64?
             while !Task.isCancelled {
-                if let image = await capturer.capture(window) {
+                if let image = await capturer.capture(window, within: pixels) {
                     guard !Task.isCancelled, let self, self.model.window?.id == window.id else { return }
-                    self.model.image = NSImage(cgImage: image.cgImage, size: image.size)
-                    self.position(panel, imageSize: image.size)
+                    if image.fingerprint != lastFingerprint || self.model.image?.size != image.size {
+                        lastFingerprint = image.fingerprint
+                        let resized = self.model.image.map { !Self.sameAspect($0.size, image.size) } ?? true
+                        self.model.image = NSImage(cgImage: image.cgImage, size: image.size)
+                        if resized {
+                            self.position(panel, imageSize: CGSize(width: image.size.width / scale,
+                                                                   height: image.size.height / scale))
+                        }
+                    }
                 }
                 try? await Task.sleep(for: .seconds(1))
             }
         }
+    }
+
+    private static func sameAspect(_ a: CGSize, _ b: CGSize) -> Bool {
+        guard a.height > 0, b.height > 0 else { return false }
+        return abs(a.width / a.height - b.width / b.height) < 0.01
+    }
+
+    /// Pixel size of the preview image on the pointer's display, and that display's scale.
+    private func previewPixelSize(for windowSize: CGSize) -> (CGSize, CGFloat) {
+        let mouse = NSEvent.mouseLocation
+        let screen = NSScreen.screens.first { $0.frame.contains(mouse) } ?? NSScreen.main
+        let area = screen?.visibleFrame ?? CGRect(x: 0, y: 0, width: 1440, height: 900)
+        let scale = screen?.backingScaleFactor ?? 2
+        let fitted = WindowCapturer.fittedSize(for: windowSize, within: Self.maxImageSize(in: area))
+        return (CGSize(width: fitted.width * scale, height: fitted.height * scale), scale)
+    }
+
+    private static func maxImageSize(in area: CGRect) -> CGSize {
+        CGSize(width: area.width * 0.45, height: area.height * 0.6)
     }
 
     private func makePanel() -> NSPanel {
@@ -102,8 +134,7 @@ final class PeekController {
         let edge = AppSettings.shared.edge
         let dock = PanelController.shared.panelFrame(on: screen) ?? area
 
-        let maxSize = CGSize(width: area.width * 0.45, height: area.height * 0.6)
-        let image = WindowCapturer.fittedSize(for: imageSize ?? CGSize(width: 16, height: 10), within: maxSize)
+        let image = WindowCapturer.fittedSize(for: imageSize ?? CGSize(width: 16, height: 10), within: Self.maxImageSize(in: area))
         let header: CGFloat = 40
         let size = CGSize(width: max(image.width, 320) + 24, height: image.height + header + 24)
         let gap: CGFloat = 10
@@ -129,7 +160,7 @@ private struct PeekView: View {
             let isPrivate = AppSettings.shared.isPrivate(window.bundleID)
             VStack(spacing: 10) {
                 HStack(spacing: 8) {
-                    if let icon = NSRunningApplication(processIdentifier: window.pid)?.icon {
+                    if let icon = AppIcons.icon(for: window.pid) {
                         Image(nsImage: icon).resizable().frame(width: 20, height: 20)
                     }
                     Text(verbatim: WindowEngine.shared.label(for: window) ?? window.displayTitle)
@@ -147,7 +178,7 @@ private struct PeekView: View {
                         Image(nsImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .blur(radius: isPrivate ? 24 : 0)
+                            .blurred(24, if: isPrivate)
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     }
                     if isPrivate {
