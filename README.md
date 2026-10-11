@@ -55,10 +55,19 @@ Hide Preview, Minimize / Restore, Hide, Close Window and Quit.
 
 ### ⌘Tab for windows, not apps
 
-- Every window in most-recently-used order, Finder included
-- Tab / ⇧Tab / arrow keys, release ⌘ to switch, Esc to cancel
-- Q / H / W / M quit, hide, close or minimize the selected window's app or window
-- Press F (⌘F while holding ⌘) to search window titles and app names (diacritic-insensitive)
+- Every window in most-recently-used order, Finder included; one press goes to the next app
+- Keys while holding ⌘, as in the system switcher and every Mac app:
+
+  | Key | Does |
+  | --- | --- |
+  | Tab / ⇧Tab, \` / ⇧\`, arrows | Move |
+  | Release ⌘, Return | Switch |
+  | 1–9 | Go to that desktop or full-screen space (the numbered strip at the top) |
+  | F | Search window titles and app names (diacritic-insensitive) |
+  | Q / H / W / M | Quit, hide, close or minimize, like ⌘Q / ⌘H / ⌘W / ⌘M |
+  | Esc, ⌘. | Cancel |
+
+  Letters follow the keyboard layout; numbers and \` use their key positions.
 - Can use ⌥Tab instead, or be turned off; optional "only this desktop" filter
 
 <p align="center"><img src="docs/screenshots/switcher.png" alt="The window switcher listing every window with a live thumbnail"></p>

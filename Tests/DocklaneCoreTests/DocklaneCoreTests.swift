@@ -631,11 +631,31 @@ final class SwitcherKeysTests: XCTestCase {
         // Turkish Q: "/" is Shift+7, and the ANSI slash key types ".".
         XCTAssertEqual(SwitcherKeys.decide(press(nil, "/", base: "7", shift: true), isOpen: true, isSearching: false),
                        .handle(.beginSearch))
-        XCTAssertEqual(SwitcherKeys.decide(press(nil, "."), isOpen: true, isSearching: false), .swallow)
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "."), isOpen: true, isSearching: false), .handle(.cancel),
+                       "the key typing \".\" is ⌘. (cancel) wherever it is")
         // AZERTY: the key at the ANSI "Q" position types "a"; the real "q" quits.
         XCTAssertEqual(SwitcherKeys.decide(press(nil, "a"), isOpen: true, isSearching: false), .swallow)
         XCTAssertEqual(SwitcherKeys.decide(press(nil, "Q", base: "q", shift: true), isOpen: true, isSearching: false),
                        .handle(.quitApp))
+    }
+
+    func testSystemSwitcherConventions() {
+        let back = SwitcherKeyPress(special: .backquote, triggerHeld: true)
+        XCTAssertEqual(SwitcherKeys.decide(back, isOpen: true, isSearching: false), .handle(.previous))
+        let forward = SwitcherKeyPress(special: .backquote, triggerHeld: true, shift: true)
+        XCTAssertEqual(SwitcherKeys.decide(forward, isOpen: true, isSearching: false), .handle(.next))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "."), isOpen: true, isSearching: false), .handle(.cancel))
+    }
+
+    func testNumbersGoToSpaces() {
+        let two = SwitcherKeyPress(digit: 2, character: "2", baseCharacter: "2", text: "2", triggerHeld: true)
+        XCTAssertEqual(SwitcherKeys.decide(two, isOpen: true, isSearching: false), .handle(.goToSpace(2)))
+        XCTAssertEqual(SwitcherKeys.decide(two, isOpen: true, isSearching: true), .handle(.character("2")),
+                       "digits are text while searching")
+        XCTAssertEqual(SwitcherKeys.decide(two, isOpen: false, isSearching: false), .pass)
+        // AZERTY number row types "é" without Shift; the position still means desktop 2.
+        let azerty = SwitcherKeyPress(digit: 2, character: "é", baseCharacter: "é", triggerHeld: true)
+        XCTAssertEqual(SwitcherKeys.decide(azerty, isOpen: true, isSearching: false), .handle(.goToSpace(2)))
     }
 
     func testCommandFStartsSearchOnAnyLayout() {
@@ -664,5 +684,68 @@ final class SwitcherKeysTests: XCTestCase {
         XCTAssertFalse(SwitcherKeys.modifierReleased(triggerHeld: false, isOpen: true, isSearching: true))
         XCTAssertFalse(SwitcherKeys.modifierReleased(triggerHeld: true, isOpen: true, isSearching: false))
         XCTAssertFalse(SwitcherKeys.modifierReleased(triggerHeld: false, isOpen: false, isSearching: false))
+    }
+}
+
+final class SpaceNavigationTests: XCTestCase {
+    private let desktop1 = SpaceInfo(id: 3, isFullScreen: false, desktopNumber: 1, display: "A", isShown: false)
+    private let claude = SpaceInfo(id: 681, isFullScreen: true, desktopNumber: nil, display: "A", isShown: false)
+    private let chrome = SpaceInfo(id: 652, isFullScreen: true, desktopNumber: nil, display: "A", isShown: true)
+    private var spaces: [SpaceInfo] { [desktop1, claude, chrome] }
+    private let arrows = SpaceShortcuts(left: SystemShortcut(keyCode: 123, modifiers: 0x840000),
+                                        right: SystemShortcut(keyCode: 124, modifiers: 0x840000), desktops: [:])
+
+    private func win(_ id: WindowNumber, on space: UInt64, minimized: Bool = false) -> DockWindow {
+        DockWindow(id: id, pid: 1, bundleID: "a", appName: "A", title: "", bounds: .zero,
+                   isOnScreen: false, isMinimized: minimized, spaceIDs: [space])
+    }
+
+    func testGoesToTheMostRecentWindowOfThatSpace() {
+        let windows = [win(1, on: 652), win(2, on: 681), win(3, on: 681)]
+        XCTAssertEqual(SpaceNavigation.move(to: claude, spaces: spaces, windows: windows, shortcuts: arrows), .focus(2))
+    }
+
+    func testMinimizedWindowsDoNotCount() {
+        let windows = [win(1, on: 3, minimized: true)]
+        XCTAssertEqual(SpaceNavigation.move(to: desktop1, spaces: spaces, windows: windows, shortcuts: arrows),
+                       .press(SystemShortcut(keyCode: 123, modifiers: 0x840000), times: 2))
+    }
+
+    func testEmptyDesktopPrefersItsOwnShortcut() {
+        let numbered = SpaceShortcuts(left: arrows.left, right: arrows.right,
+                                      desktops: [1: SystemShortcut(keyCode: 18, modifiers: 0x40000)])
+        XCTAssertEqual(SpaceNavigation.move(to: desktop1, spaces: spaces, windows: [], shortcuts: numbered),
+                       .press(SystemShortcut(keyCode: 18, modifiers: 0x40000), times: 1))
+    }
+
+    func testNoWayThereAndAlreadyThere() {
+        let none = SpaceShortcuts(left: nil, right: nil, desktops: [:])
+        XCTAssertEqual(SpaceNavigation.move(to: desktop1, spaces: spaces, windows: [], shortcuts: none), .none)
+        XCTAssertEqual(SpaceNavigation.move(to: chrome, spaces: spaces, windows: [], shortcuts: arrows), .none)
+    }
+
+    func testParsesSystemShortcutsWithDefaults() {
+        let parsed = SpaceShortcuts.parse([
+            "79": ["enabled": NSNumber(value: 1), "value": ["parameters": [65535, 123, 8650752].map(NSNumber.init(value:))]],
+            "81": ["enabled": NSNumber(value: 0)],
+            "118": ["enabled": NSNumber(value: 1), "value": ["parameters": [65535, 18, 262144].map(NSNumber.init(value:))]],
+        ])
+        XCTAssertEqual(parsed.left, SystemShortcut(keyCode: 123, modifiers: 8650752))
+        XCTAssertNil(parsed.right, "switched off")
+        XCTAssertEqual(parsed.desktops, [1: SystemShortcut(keyCode: 18, modifiers: 262144)])
+        let defaults = SpaceShortcuts.parse(nil)
+        XCTAssertEqual(defaults.right?.keyCode, 124)
+        XCTAssertTrue(defaults.desktops.isEmpty)
+    }
+
+    func testSpacesInMissionControlOrder() {
+        let displays: [[String: Any]] = [[
+            "Display Identifier": "A",
+            "Current Space": ["ManagedSpaceID": NSNumber(value: 652)],
+            "Spaces": [["ManagedSpaceID": NSNumber(value: 3), "type": NSNumber(value: 0)],
+                       ["ManagedSpaceID": NSNumber(value: 681), "type": NSNumber(value: 4)],
+                       ["ManagedSpaceID": NSNumber(value: 652), "type": NSNumber(value: 4)]],
+        ]]
+        XCTAssertEqual(SpaceDirectory.spaces(displays: displays, activeSpace: 652), spaces)
     }
 }

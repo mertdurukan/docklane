@@ -77,7 +77,13 @@ public enum WindowFilter {
 /// Lists user windows across every desktop and full-screen space.
 @MainActor
 public enum WindowCatalog {
-    public static func snapshot() -> [DockWindow] {
+    public struct Snapshot: Sendable {
+        public let windows: [DockWindow]
+        /// Every space in Mission Control order; empty when that is unknown.
+        public let spaces: [SpaceInfo]
+    }
+
+    public static func snapshot() -> Snapshot {
         let appsByPID = AppDirectory.shared.regularApps
 
         let infos = CGWindowListCopyWindowInfo([.optionAll, .excludeDesktopElements], kCGNullWindowID)
@@ -86,11 +92,12 @@ public enum WindowCatalog {
             WindowFilter.isUserWindow($0, ownPID: getpid(), regularApps: Set(appsByPID.keys))
         }
         let minimized = AccessibilityInspector.minimizedWindowNumbers(of: Set(candidates.map(\.pid)))
-        let placements = SpaceDirectory.placements(for: candidates.map(\.id))
+        let spaces = SpaceDirectory.snapshot(for: candidates.map(\.id))
+        let placements = spaces?.placements
         let records = WindowFilter.resolving(candidates, located: placements.map { Set($0.keys) },
                                              minimized: minimized)
 
-        return records.compactMap { record in
+        let windows = records.compactMap { record -> DockWindow? in
             guard let app = appsByPID[record.pid] else { return nil }
             let isMinimized = minimized.contains(record.id)
             return DockWindow(
@@ -102,8 +109,10 @@ public enum WindowCatalog {
                 bounds: record.bounds,
                 isOnScreen: record.isOnScreen,
                 isMinimized: isMinimized,
-                space: isMinimized ? .current : placements?[record.id] ?? .current
+                space: isMinimized ? .current : placements?[record.id] ?? .current,
+                spaceIDs: spaces?.windowSpaces[record.id] ?? []
             )
         }
+        return Snapshot(windows: windows, spaces: spaces?.spaces ?? [])
     }
 }

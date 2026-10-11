@@ -6,6 +6,8 @@ public enum SwitcherCommand: Equatable, Sendable {
     case confirm, cancel
     case quitApp, hideApp, closeWindow, minimizeWindow
     case beginSearch
+    /// Go to the Nth space of the desktop strip (1-based, Mission Control order).
+    case goToSpace(Int)
     case character(String)
     case backspace
     /// The modifier (⌘ or ⌥) was released.
@@ -17,9 +19,13 @@ public enum SwitcherCommand: Equatable, Sendable {
 public struct SwitcherKeyPress: Equatable, Sendable {
     public enum Special: Equatable, Sendable {
         case tab, left, right, up, down, returnKey, escape, delete, space
+        /// The key above Tab (` on US keyboards): ⌘` steps back, as in the system switcher.
+        case backquote
     }
 
     public var special: Special?
+    /// 1–9 from the number row or keypad, by key position (like ⌃1 "Switch to Desktop 1").
+    public var digit: Int?
     /// Character the key gives on the current Latin layout with the Shift state held.
     public var character: String?
     /// The same key without Shift, for letter shortcuts.
@@ -32,9 +38,10 @@ public struct SwitcherKeyPress: Equatable, Sendable {
     /// A modifier other than the trigger and Shift (⌃, or ⌥/⌘ when not the trigger) is held.
     public var otherModifier: Bool
 
-    public init(special: Special? = nil, character: String? = nil, baseCharacter: String? = nil,
+    public init(special: Special? = nil, digit: Int? = nil, character: String? = nil, baseCharacter: String? = nil,
                 text: String? = nil, triggerHeld: Bool, shift: Bool = false, otherModifier: Bool = false) {
         self.special = special
+        self.digit = digit
         self.character = character
         self.baseCharacter = baseCharacter
         self.text = text
@@ -86,6 +93,10 @@ public enum SwitcherKeys {
         guard !key.otherModifier else { return .swallow }
 
         if key.special == .space { return .handle(.confirm) }
+        if key.special == .backquote { return .handle(key.shift ? .next : .previous) }
+        if let digit = key.digit, (1...9).contains(digit) { return .handle(.goToSpace(digit)) }
+        // ⌘. is the macOS "cancel" shortcut.
+        if key.character == "." { return .handle(.cancel) }
         // ⌘F, the macOS "Find" shortcut (⌘ is already down); "/" also works.
         if key.character == "/" { return .handle(.beginSearch) }
         switch key.baseCharacter?.lowercased() {

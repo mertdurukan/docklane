@@ -96,6 +96,7 @@ final class SwitcherKeyTap {
         // Characters are only looked up while the switcher is open (never stored).
         let press = SwitcherKeyPress(
             special: Self.special(code),
+            digit: Self.digit(code),
             character: isOpen ? KeyboardLayout.character(for: code, shift: flags.contains(.maskShift)) : nil,
             baseCharacter: isOpen ? KeyboardLayout.character(for: code, shift: false) : nil,
             text: isOpen && isSearching() ? Self.typedText(of: event) : nil,
@@ -128,8 +129,17 @@ final class SwitcherKeyTap {
         case kVK_Escape: .escape
         case kVK_Delete: .delete
         case kVK_Space: .space
+        case kVK_ANSI_Grave, kVK_ISO_Section: .backquote
         default: nil
         }
+    }
+
+    private static func digit(_ code: Int) -> Int? {
+        let row = [kVK_ANSI_1, kVK_ANSI_2, kVK_ANSI_3, kVK_ANSI_4, kVK_ANSI_5, kVK_ANSI_6, kVK_ANSI_7, kVK_ANSI_8, kVK_ANSI_9]
+        let pad = [kVK_ANSI_Keypad1, kVK_ANSI_Keypad2, kVK_ANSI_Keypad3, kVK_ANSI_Keypad4, kVK_ANSI_Keypad5,
+                   kVK_ANSI_Keypad6, kVK_ANSI_Keypad7, kVK_ANSI_Keypad8, kVK_ANSI_Keypad9]
+        if let index = row.firstIndex(of: code) ?? pad.firstIndex(of: code) { return index + 1 }
+        return nil
     }
 
     /// Printable text of a key press in the current layout (any script), or nil.

@@ -16,6 +16,8 @@ public struct DockWindow: Identifiable, Hashable, Sendable {
     public var isOnScreen: Bool
     public var isMinimized: Bool
     public var space: SpacePlacement
+    /// Spaces the window is on (several when assigned to all desktops); empty if unknown.
+    public var spaceIDs: [UInt64]
 
     public init(
         id: WindowNumber,
@@ -26,7 +28,8 @@ public struct DockWindow: Identifiable, Hashable, Sendable {
         bounds: CGRect,
         isOnScreen: Bool,
         isMinimized: Bool = false,
-        space: SpacePlacement = .current
+        space: SpacePlacement = .current,
+        spaceIDs: [UInt64] = []
     ) {
         self.id = id
         self.pid = pid
@@ -37,6 +40,7 @@ public struct DockWindow: Identifiable, Hashable, Sendable {
         self.isOnScreen = isOnScreen
         self.isMinimized = isMinimized
         self.space = space
+        self.spaceIDs = spaceIDs
     }
 
     /// Title for labels: the window title, or the app name when the window has none.

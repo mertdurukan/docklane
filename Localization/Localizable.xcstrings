@@ -6768,6 +6768,70 @@
         }
       }
     },
+    "Tab next  ·  1–9 desktop  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab التالي  ·  1–9 سطح المكتب  ·  F بحث  ·  Q إنهاء  ·  H إخفاء  ·  W إغلاق  ·  M تصغير  ·  Esc إلغاء"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab পরবর্তী  ·  1–9 ডেস্কটপ  ·  F খুঁজুন  ·  Q বের হন  ·  H লুকান  ·  W বন্ধ  ·  M ছোট  ·  Esc বাতিল"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab siguiente  ·  1–9 escritorio  ·  F buscar  ·  Q salir  ·  H ocultar  ·  W cerrar  ·  M minimizar  ·  Esc cancelar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab suivant  ·  1–9 bureau  ·  F rechercher  ·  Q quitter  ·  H masquer  ·  W fermer  ·  M réduire  ·  Échap annuler"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab अगला  ·  1–9 डेस्कटॉप  ·  F खोजें  ·  Q बाहर निकलें  ·  H छिपाएँ  ·  W बंद करें  ·  M छोटा करें  ·  Esc रद्द करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab berikutnya  ·  1–9 desktop  ·  F cari  ·  Q keluar  ·  H sembunyikan  ·  W tutup  ·  M minimalkan  ·  Esc batal"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab próxima  ·  1–9 mesa  ·  F buscar  ·  Q encerrar  ·  H ocultar  ·  W fechar  ·  M minimizar  ·  Esc cancelar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab далее  ·  1–9 рабочий стол  ·  F поиск  ·  Q завершить  ·  H скрыть  ·  W закрыть  ·  M свернуть  ·  Esc отмена"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab ilerle  ·  1–9 masaüstü  ·  F ara  ·  Q çık  ·  H gizle  ·  W kapat  ·  M küçült  ·  Esc iptal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab 下一个  ·  1–9 桌面  ·  F 搜索  ·  Q 退出  ·  H 隐藏  ·  W 关闭  ·  M 最小化  ·  Esc 取消"
+          }
+        }
+      }
+    },
     "Tab next  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel": {
       "localizations": {
         "ar": {

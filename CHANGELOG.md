@@ -6,6 +6,14 @@ All notable changes to Docklane are listed here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Go to any desktop or full-screen space from the window switcher: hold ⌘, press 1–9.
+  A numbered strip at the top shows the spaces in Mission Control order. Docklane lands on
+  the window last used there; for an empty desktop it uses your own Mission Control
+  shortcut (⌃1… or ⌃←/⌃→)
+- ⌘` / ⌘⇧` move through the switcher and ⌘. cancels it, as in the system switcher
+
 ### Changed
 
 - Search in the window switcher is now ⌘F (press F while holding ⌘), the macOS Find

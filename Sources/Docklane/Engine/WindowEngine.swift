@@ -17,6 +17,8 @@ final class WindowEngine {
     private(set) var windows: [DockWindow] = []
     private(set) var thumbnails: [WindowNumber: NSImage] = [:]
     private(set) var focusedWindow: WindowNumber?
+    /// Every desktop and full-screen space, in Mission Control order.
+    private(set) var spaces: [SpaceInfo] = []
     private(set) var badges: [String: String] = [:]
     /// Bundle identifiers of processes playing sound (helpers included).
     private(set) var audioBundles: Set<String> = []
@@ -99,7 +101,9 @@ final class WindowEngine {
 
     func refresh() {
         guard !isPaused else { return }
-        let snapshot = WindowCatalog.snapshot()
+        let catalog = WindowCatalog.snapshot()
+        let snapshot = catalog.windows
+        if catalog.spaces != spaces { spaces = catalog.spaces }
         let previous = windows
         let merged = Self.merge(previous: previous, snapshot: snapshot)
 
@@ -191,8 +195,15 @@ final class WindowEngine {
     /// Window switcher order: most recently used first, then the rest in panel order,
     /// minimized windows last.
     func switcherOrder() -> [DockWindow] {
-        let rank = Dictionary(recentWindows.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
         let source = AppSettings.shared.switcherCurrentDesktopOnly ? windows.filter { $0.space == .current } : windows
+        return byRecency(source)
+    }
+
+    /// Every window, most recently used first, minimized windows last.
+    func windowsByRecency() -> [DockWindow] { byRecency(windows) }
+
+    private func byRecency(_ source: [DockWindow]) -> [DockWindow] {
+        let rank = Dictionary(recentWindows.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
         let indexed = source.enumerated().map { (offset: $0.offset, window: $0.element) }
         return indexed.sorted { lhs, rhs in
             if lhs.window.isMinimized != rhs.window.isMinimized { return !lhs.window.isMinimized }
