@@ -40,6 +40,10 @@ final class AppSettings {
     var showAudioIndicator: Bool { didSet { store(showAudioIndicator, "showAudioIndicator") } }
     var panelCurrentDesktopOnly: Bool { didSet { store(panelCurrentDesktopOnly, "panelCurrentDesktopOnly") } }
     var switcherCurrentDesktopOnly: Bool { didSet { store(switcherCurrentDesktopOnly, "switcherCurrentDesktopOnly") } }
+    /// The window switcher also lists running apps that have no window, like the macOS one.
+    var switcherShowsAppsWithoutWindows: Bool {
+        didSet { store(switcherShowsAppsWithoutWindows, "switcherShowsAppsWithoutWindows") }
+    }
     /// Shortcut that opens the panel for arrow-key navigation.
     var navigationHotKey: HotKeyChoice { didSet { store(navigationHotKey.rawValue, "navigationHotKey") } }
 
@@ -90,6 +94,7 @@ final class AppSettings {
             "showAudioIndicator": true,
             "panelCurrentDesktopOnly": false,
             "switcherCurrentDesktopOnly": false,
+            "switcherShowsAppsWithoutWindows": true,
             "navigationHotKey": HotKeyChoice.controlOptionK.rawValue,
         ])
         size = defaults.double(forKey: "size")
@@ -115,6 +120,7 @@ final class AppSettings {
         showAudioIndicator = defaults.bool(forKey: "showAudioIndicator")
         panelCurrentDesktopOnly = defaults.bool(forKey: "panelCurrentDesktopOnly")
         switcherCurrentDesktopOnly = defaults.bool(forKey: "switcherCurrentDesktopOnly")
+        switcherShowsAppsWithoutWindows = defaults.bool(forKey: "switcherShowsAppsWithoutWindows")
         navigationHotKey = HotKeyChoice(rawValue: defaults.string(forKey: "navigationHotKey") ?? "") ?? .controlOptionK
     }
 

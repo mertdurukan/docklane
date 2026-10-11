@@ -114,6 +114,11 @@ private struct BehaviorSettings: View {
                 }
                 Toggle("Only show windows from the current desktop", isOn: $settings.switcherCurrentDesktopOnly)
                     .disabled(settings.switcherShortcut == .off)
+                Toggle(isOn: $settings.switcherShowsAppsWithoutWindows) {
+                    Text("Show apps with no open windows")
+                    Text("Like the macOS app switcher: choosing one opens the app as a click on its Dock icon would.")
+                }
+                .disabled(settings.switcherShortcut == .off)
                 Toggle("Desktop switcher (\(settings.switcherShortcut.desktopTitle))", isOn: $settings.desktopSwitcherEnabled)
             } header: {
                 Text("Window switcher")

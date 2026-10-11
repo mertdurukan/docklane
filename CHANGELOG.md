@@ -6,6 +6,15 @@ All notable changes to Docklane are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.2.1] — 2026-10-11
+
+### Added
+
+- The window switcher also lists running apps that have no open window, like the macOS app
+  switcher (Finder with every window closed, Xcode without a project, Keychain Access before its
+  window opens), after the open windows and marked "No open windows". Choosing one opens the app
+  as a click on its Dock icon would. Can be turned off in Settings → Behavior
+
 ## [0.2.0] — 2026-10-11
 
 ### Added
@@ -189,6 +198,7 @@ First version.
   Arabic, French, Bengali, Portuguese, Russian, Indonesian and Turkish
 - App icon and a matching menu bar glyph
 
-[Unreleased]: https://github.com/mertdurukan/docklane/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/mertdurukan/docklane/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/mertdurukan/docklane/releases/tag/v0.2.1
 [0.2.0]: https://github.com/mertdurukan/docklane/releases/tag/v0.2.0
 [0.1.0]: https://github.com/mertdurukan/docklane/releases/tag/v0.1.0

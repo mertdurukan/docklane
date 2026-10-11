@@ -110,6 +110,22 @@ public enum WindowActions {
         NSWorkspace.shared.open(files, withApplicationAt: appURL, configuration: NSWorkspace.OpenConfiguration())
     }
 
+    /// Brings a running app forward the way clicking its Dock icon does: macOS sends it a
+    /// "reopen" event, so an app without windows opens one (Xcode's welcome window, Keychain
+    /// Access's main window). Used for apps the window switcher lists without windows.
+    public static func reopen(pid: pid_t) {
+        guard let app = NSRunningApplication(processIdentifier: pid), !app.isTerminated else { return }
+        if app.isHidden { app.unhide() }
+        NSApp.activate()
+        guard let url = app.bundleURL else {
+            app.activate()
+            return
+        }
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+        NSWorkspace.shared.openApplication(at: url, configuration: configuration)
+    }
+
     /// Launches (or activates) an app, e.g. a pinned app without windows.
     public static func launch(bundleID: String) {
         guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return }

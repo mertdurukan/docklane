@@ -125,13 +125,17 @@ final class WindowSwitcher {
             return act({ WindowActions.quitApp(pid: $0.pid) }, removing: .removeApp)
         case .minimizeApp:
             return act({ selected in
+                guard !selected.isAppWithoutWindows else { return }
                 for window in WindowEngine.shared.windows where window.pid == selected.pid && !window.isMinimized {
                     WindowActions.minimize(window)
                 }
             }, removing: .removeApp)
-        case .closeWindow:
-            return act({ WindowActions.close($0) }, removing: .removeWindow)
-        case .minimizeWindow:
+        case .closeWindow, .minimizeWindow:
+            // An app without windows has nothing to close or minimize.
+            if isActive, model.items.indices.contains(model.selection), model.items[model.selection].isAppWithoutWindows {
+                return true
+            }
+            if case .closeWindow = key { return act({ WindowActions.close($0) }, removing: .removeWindow) }
             return act({ WindowActions.minimize($0) }, removing: .removeWindow)
         }
     }
@@ -271,6 +275,10 @@ final class WindowSwitcher {
         // Focusing talks to other apps; do it after the event tap has returned.
         let previousApp = previousApp
         DispatchQueue.main.async {
+            if let target, target.isAppWithoutWindows {
+                WindowActions.reopen(pid: target.pid)
+                return
+            }
             if let target, WindowFocuser.focus(target) { return }
             if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
                 previousApp?.activate()
@@ -530,7 +538,9 @@ private struct SwitcherCard: View {
         .overlay(shape.strokeBorder(.white.opacity(0.16), lineWidth: 0.5))
         .overlay(alignment: .topLeading) {
             HStack(spacing: 4) {
-                if let chip = SpaceChip.label(for: window.space) {
+                if window.isAppWithoutWindows {
+                    SpaceChip(text: String(localized: "No open windows"), systemImage: "macwindow.badge.plus")
+                } else if let chip = SpaceChip.label(for: window.space) {
                     SpaceChip(text: chip.text, systemImage: chip.symbol)
                 }
                 if isPlayingAudio { AudioChip() }

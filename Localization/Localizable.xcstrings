@@ -4272,6 +4272,70 @@
         }
       }
     },
+    "Like the macOS app switcher: choosing one opens the app as a click on its Dock icon would.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كما في مبدّل التطبيقات في macOS: اختيار أحدها يفتح التطبيق كما لو نقرت على رمزه في Dock."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS-এর অ্যাপ সুইচারের মতো: একটি বেছে নিলে অ্যাপটি Dock-এ তার আইকনে ক্লিক করার মতো খোলে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Como en el selector de apps de macOS: al elegir una, la app se abre como si hicieras clic en su icono del Dock."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme dans le sélecteur d’apps de macOS : en choisir une ouvre l’app comme un clic sur son icône dans le Dock."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS ऐप स्विचर की तरह: किसी को चुनने पर ऐप वैसे खुलता है जैसे Dock में उसके आइकन पर क्लिक करने से।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seperti pengalih app macOS: memilih salah satu membuka app seperti mengeklik ikonnya di Dock."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Como no alternador de apps do macOS: escolher um abre o app como um clique no ícone dele no Dock."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как в переключателе приложений macOS: выбранное приложение открывается так же, как по щелчку на его значке в Dock."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS'un uygulama değiştiricisindeki gibi: birini seçince uygulama, Dock'taki simgesine tıklamışsın gibi açılır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "与 macOS 应用切换器一样：选择后会像点按其程序坞图标那样打开应用。"
+          }
+        }
+      }
+    },
     "Minimize": {
       "localizations": {
         "ar": {
@@ -5036,6 +5100,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "没有匹配的窗口"
+          }
+        }
+      }
+    },
+    "No open windows": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد نوافذ مفتوحة"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কোনো খোলা উইন্ডো নেই"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin ventanas abiertas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune fenêtre ouverte"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कोई विंडो खुली नहीं"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tidak ada jendela terbuka"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhuma janela aberta"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет открытых окон"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık pencere yok"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有打开的窗口"
           }
         }
       }
@@ -9388,6 +9516,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "在正在播放声音的应用上显示声音图标"
+          }
+        }
+      }
+    },
+    "Show apps with no open windows": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار التطبيقات التي ليس لها نوافذ مفتوحة"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "খোলা উইন্ডো নেই এমন অ্যাপও দেখান"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar apps sin ventanas abiertas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher les apps sans fenêtre ouverte"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "जिन ऐप्स की कोई विंडो खुली नहीं, उन्हें भी दिखाएँ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan app tanpa jendela terbuka"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar apps sem janelas abertas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывать приложения без открытых окон"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık penceresi olmayan uygulamaları da göster"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示没有打开窗口的应用"
           }
         }
       }

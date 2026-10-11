@@ -1187,3 +1187,34 @@ final class RecentWindowsTests: XCTestCase {
         XCTAssertEqual(recent.order.first, WindowNumber(RecentWindows.limit + 5))
     }
 }
+
+final class WindowlessAppsTests: XCTestCase {
+    private func window(_ id: WindowNumber, pid: pid_t, minimized: Bool = false) -> DockWindow {
+        DockWindow(id: id, pid: pid, bundleID: "app\(pid)", appName: "App \(pid)", title: "t", bounds: .zero,
+                   isOnScreen: !minimized, isMinimized: minimized)
+    }
+
+    func testStandInsForAppsWithoutWindowsByRecencyThenName() {
+        let apps = [WindowlessApps.App(pid: 1, bundleID: "a", name: "Safari"),
+                    WindowlessApps.App(pid: 2, bundleID: "b", name: "Xcode"),
+                    WindowlessApps.App(pid: 3, bundleID: "c", name: "Keychain Access"),
+                    WindowlessApps.App(pid: 4, bundleID: "d", name: "Calendar")]
+        let standIns = WindowlessApps.standIns(apps: apps, windows: [window(10, pid: 1)], recentPIDs: [2])
+        XCTAssertEqual(standIns.map(\.appName), ["Xcode", "Calendar", "Keychain Access"])
+        XCTAssertTrue(standIns.allSatisfy(\.isAppWithoutWindows))
+        XCTAssertEqual(standIns.map(\.displayTitle), ["Xcode", "Calendar", "Keychain Access"])
+        XCTAssertFalse(window(10, pid: 1).isAppWithoutWindows)
+    }
+
+    func testAnAppWithOnlyMinimizedWindowsIsNotAStandIn() {
+        let apps = [WindowlessApps.App(pid: 1, bundleID: "a", name: "Notes")]
+        XCTAssertTrue(WindowlessApps.standIns(apps: apps, windows: [window(5, pid: 1, minimized: true)], recentPIDs: []).isEmpty)
+    }
+
+    func testStandInsGoBetweenOpenAndMinimizedWindows() {
+        let standIn = DockWindow.appWithoutWindows(pid: 9, bundleID: "x", appName: "X")
+        let ordered = [window(1, pid: 1), window(2, pid: 2), window(3, pid: 3, minimized: true)]
+        XCTAssertEqual(WindowlessApps.inserting([standIn], into: ordered).map(\.id), [1, 2, standIn.id, 3])
+        XCTAssertEqual(WindowlessApps.inserting([standIn], into: [window(1, pid: 1)]).map(\.id), [1, standIn.id])
+    }
+}

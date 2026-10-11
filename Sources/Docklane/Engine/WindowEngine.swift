@@ -41,6 +41,8 @@ final class WindowEngine {
 
     /// Most recently focused windows first (for the window switcher).
     @ObservationIgnored private var recentWindows = RecentWindows()
+    /// Apps by activation, most recent first (orders apps without windows in the switcher).
+    @ObservationIgnored private var recentAppPIDs: [pid_t] = []
     @ObservationIgnored private let capturer = WindowCapturer()
     @ObservationIgnored private var fingerprints: [WindowNumber: UInt64] = [:]
     /// When each thumbnail was last taken.
@@ -258,7 +260,15 @@ final class WindowEngine {
     /// minimized windows last.
     func switcherOrder() -> [DockWindow] {
         let source = AppSettings.shared.switcherCurrentDesktopOnly ? windows.filter { $0.space == .current } : windows
-        return byRecency(source)
+        let ordered = byRecency(source)
+        guard AppSettings.shared.switcherShowsAppsWithoutWindows else { return ordered }
+        // Apps own no desktop, so they are listed whatever the desktop filter says; an app with
+        // windows only on another desktop is not "without windows".
+        let apps = AppDirectory.shared.regularApps.values.map {
+            WindowlessApps.App(pid: $0.pid, bundleID: $0.bundleID, name: $0.name)
+        }
+        let standIns = WindowlessApps.standIns(apps: apps, windows: windows, recentPIDs: recentAppPIDs)
+        return WindowlessApps.inserting(standIns, into: ordered)
     }
 
     /// Every window, most recently used first, minimized windows last.
@@ -288,7 +298,7 @@ final class WindowEngine {
         guard !isPaused, PermissionMonitor.shared.state.screenRecording else { return }
         let now = Date()
         let wanted = targets.filter { window in
-            !capturing.contains(window.id)
+            !window.isAppWithoutWindows && !capturing.contains(window.id)
                 && (captureFailures[window.id].map { now.timeIntervalSince($0) > Self.failureBackoff } ?? true)
         }
         guard !wanted.isEmpty else { return }
@@ -397,8 +407,17 @@ final class WindowEngine {
                 }
             }
         }
-        center.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated { self?.updateFocus() }
+        center.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main) { [weak self] note in
+            let pid = (note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication)?.processIdentifier
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                if let pid, pid != getpid() {
+                    self.recentAppPIDs.removeAll { $0 == pid }
+                    self.recentAppPIDs.insert(pid, at: 0)
+                    self.recentAppPIDs = Array(self.recentAppPIDs.prefix(100))
+                }
+                self.updateFocus()
+            }
         }
         center.addObserver(forName: NSWorkspace.activeSpaceDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated {
