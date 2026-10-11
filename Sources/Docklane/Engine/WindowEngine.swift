@@ -38,6 +38,7 @@ final class WindowEngine {
     @ObservationIgnored private var watcher: AppEventWatcher?
     @ObservationIgnored private var timers: [Timer] = []
     @ObservationIgnored private var pendingRefresh: Task<Void, Never>?
+    @ObservationIgnored private var pendingMemoryRelief: Task<Void, Never>?
     @ObservationIgnored private var isPaused = false
     @ObservationIgnored private var isStarted = false
 
@@ -76,6 +77,17 @@ final class WindowEngine {
     // MARK: - Window list
 
     /// Coalesces bursts of events into one refresh.
+    /// Freed thumbnails leave dirty pages in the allocator; once windows stop closing, hand
+    /// the free pages back to the system so the footprint returns to its resting size.
+    private func scheduleMemoryRelief() {
+        pendingMemoryRelief?.cancel()
+        pendingMemoryRelief = Task {
+            try? await Task.sleep(for: .seconds(5))
+            guard !Task.isCancelled else { return }
+            malloc_zone_pressure_relief(nil, 0)
+        }
+    }
+
     func scheduleRefresh(after delay: Duration = .milliseconds(60)) {
         pendingRefresh?.cancel()
         pendingRefresh = Task { [weak self] in
@@ -98,6 +110,7 @@ final class WindowEngine {
             thumbnails[window.id] = nil
             fingerprints[window.id] = nil
         }
+        if !vanished.isEmpty { scheduleMemoryRelief() }
         // Windows that vanished while their app keeps running were closed: forget their
         // manual position and label so a reused window number can't inherit them.
         let closed = vanished.filter { NSRunningApplication(processIdentifier: $0.pid) != nil }
@@ -204,15 +217,28 @@ final class WindowEngine {
 
     func refreshThumbnails(_ targets: [DockWindow]) {
         guard !isPaused, !targets.isEmpty else { return }
+        let bounds = thumbnailPixelSizes(targets)
         Task { [weak self, capturer] in
-            let images = await capturer.capture(targets)
+            let images = await capturer.capture(targets, within: bounds)
             self?.apply(images)
         }
     }
 
+    /// Thumbnails are captured only as large as a panel tile or switcher card shows them.
+    private func thumbnailPixelSizes(_ targets: [DockWindow]) -> [WindowNumber: CGSize] {
+        let settings = AppSettings.shared
+        let metrics = settings.metrics
+        let scale = NSScreen.screens.map(\.backingScaleFactor).max() ?? 2
+        return Dictionary(targets.map { window in
+            (window.id, metrics.thumbnailPixelSize(for: window.bounds.size, edge: settings.edge, scale: scale,
+                                                   otherImage: SwitcherLayout.thumbnailSize))
+        }, uniquingKeysWith: { first, _ in first })
+    }
+
     private func apply(_ images: [WindowNumber: WindowImage]) {
         let live = Set(windows.map(\.id))
-        for (id, image) in images where live.contains(id) && fingerprints[id] != image.fingerprint {
+        for (id, image) in images where live.contains(id)
+            && (fingerprints[id] != image.fingerprint || thumbnails[id]?.size != image.size) {
             fingerprints[id] = image.fingerprint
             thumbnails[id] = NSImage(cgImage: image.cgImage, size: image.size)
         }

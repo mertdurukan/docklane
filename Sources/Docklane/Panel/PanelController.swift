@@ -243,6 +243,7 @@ final class PanelController {
             Task { @MainActor in
                 guard let self else { return }
                 self.preview()
+                WindowEngine.shared.refreshAllThumbnails()
                 self.observeAppearance()
             }
         }

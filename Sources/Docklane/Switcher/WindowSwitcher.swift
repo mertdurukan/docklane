@@ -231,6 +231,8 @@ final class WindowSwitcher {
 /// Grid geometry for the switcher.
 struct SwitcherLayout {
     static let cardWidth: CGFloat = 220
+    /// Box the window image is fitted into on a card.
+    static let thumbnailSize = CGSize(width: 200, height: 126)
     static let cardHeight: CGFloat = 178
     static let spacing: CGFloat = 10
     static let padding: CGFloat = 18
@@ -371,7 +373,7 @@ private struct SwitcherCard: View {
 
     private var icon: NSImage? { NSRunningApplication(processIdentifier: window.pid)?.icon }
     private var isPrivate: Bool { AppSettings.shared.isPrivate(window.bundleID) }
-    private let thumbnailSize = CGSize(width: 200, height: 126)
+    private let thumbnailSize = SwitcherLayout.thumbnailSize
 
     var body: some View {
         VStack(spacing: 8) {

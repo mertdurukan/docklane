@@ -31,23 +31,27 @@ public actor WindowCapturer {
         self.maxPixelSize = maxPixelSize
     }
 
-    public func capture(_ window: DockWindow) async -> WindowImage? {
+    /// `within` overrides the capturer's maximum pixel size for this call.
+    public func capture(_ window: DockWindow, within bounds: CGSize? = nil) async -> WindowImage? {
+        let bounds = bounds ?? maxPixelSize
         if window.isOnScreen {
-            if let image = await captureWithScreenCaptureKit(window) { return WindowImage(image) }
-            return windowServerCapture(window.id).map(WindowImage.init)
+            if let image = await captureWithScreenCaptureKit(window, within: bounds) { return WindowImage(image) }
+            return windowServerCapture(window.id, within: bounds).map(WindowImage.init)
         }
-        if let image = windowServerCapture(window.id) { return WindowImage(image) }
-        return await captureWithScreenCaptureKit(window).map(WindowImage.init)
+        if let image = windowServerCapture(window.id, within: bounds) { return WindowImage(image) }
+        return await captureWithScreenCaptureKit(window, within: bounds).map(WindowImage.init)
     }
 
     /// Captures several windows, at most `limit` at a time.
-    public func capture(_ windows: [DockWindow], limit: Int = 4) async -> [WindowNumber: WindowImage] {
+    /// `within` gives each window's maximum pixel size (default: the capturer's).
+    public func capture(_ windows: [DockWindow], within bounds: [WindowNumber: CGSize] = [:],
+                        limit: Int = 4) async -> [WindowNumber: WindowImage] {
         var results: [WindowNumber: WindowImage] = [:]
         var pending = windows[...]
         await withTaskGroup(of: (WindowNumber, WindowImage?).self) { group in
             func startNext() {
                 guard let window = pending.popFirst() else { return }
-                group.addTask { (window.id, await self.capture(window)) }
+                group.addTask { (window.id, await self.capture(window, within: bounds[window.id])) }
             }
             for _ in 0..<limit { startNext() }
             for await (id, image) in group {
@@ -60,9 +64,9 @@ public actor WindowCapturer {
 
     // MARK: - ScreenCaptureKit
 
-    private func captureWithScreenCaptureKit(_ window: DockWindow) async -> CGImage? {
+    private func captureWithScreenCaptureKit(_ window: DockWindow, within bounds: CGSize) async -> CGImage? {
         guard let scWindow = await shareableWindow(window.id) else { return nil }
-        let size = Self.fittedSize(for: scWindow.frame.size, within: maxPixelSize)
+        let size = Self.fittedSize(for: scWindow.frame.size, within: bounds)
         let configuration = SCStreamConfiguration()
         configuration.sourceRect = CGRect(origin: .zero, size: scWindow.frame.size)
         configuration.width = Int(size.width)
@@ -84,7 +88,7 @@ public actor WindowCapturer {
 
     // MARK: - WindowServer (private)
 
-    private func windowServerCapture(_ id: WindowNumber) -> CGImage? {
+    private func windowServerCapture(_ id: WindowNumber, within bounds: CGSize) -> CGImage? {
         guard let capture = PrivateSymbols.hwCaptureWindowList,
               let mainConnection = PrivateSymbols.mainConnectionID else { return nil }
         var windowID = id
@@ -94,7 +98,7 @@ public actor WindowCapturer {
                 .takeRetainedValue() as? [CGImage],
               let full = images.first, full.width > 1, full.height > 1
         else { return nil }
-        return Self.scaled(full, within: maxPixelSize)
+        return Self.scaled(full, within: bounds)
     }
 
     // MARK: - Geometry
@@ -111,13 +115,16 @@ public actor WindowCapturer {
 
     static func scaled(_ image: CGImage, within bounds: CGSize) -> CGImage {
         let size = fittedSize(for: CGSize(width: image.width, height: image.height), within: bounds)
-        guard Int(size.width) != image.width || Int(size.height) != image.height,
-              let context = CGContext(
-                data: nil, width: Int(size.width), height: Int(size.height),
-                bitsPerComponent: 8, bytesPerRow: 0,
-                space: CGColorSpaceCreateDeviceRGB(),
-                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-              )
+        guard Int(size.width) != image.width || Int(size.height) != image.height else { return image }
+        // Same colour space and pixel format as the capture, so CoreGraphics draws it without
+        // a converted copy (which it would keep in its image cache).
+        func context(_ space: CGColorSpace?, _ info: UInt32) -> CGContext? {
+            guard let space else { return nil }
+            return CGContext(data: nil, width: Int(size.width), height: Int(size.height),
+                             bitsPerComponent: 8, bytesPerRow: 0, space: space, bitmapInfo: info)
+        }
+        guard let context = context(image.colorSpace, image.bitmapInfo.rawValue)
+                ?? context(CGColorSpaceCreateDeviceRGB(), CGImageAlphaInfo.premultipliedLast.rawValue)
         else { return image }
         context.interpolationQuality = .high
         context.draw(image, in: CGRect(origin: .zero, size: size))

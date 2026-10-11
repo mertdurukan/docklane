@@ -21,6 +21,8 @@ All notable changes to Docklane are listed here. The format follows
 - Clicking a window of a hidden app (⌘H) now unhides the app
 - Choosing a window whose app has quit hands focus back instead of leaving it on Docklane
 - Thumbnails of apps that quit are released (memory no longer grows over time)
+- Thumbnails are captured only as large as a tile or switcher card shows them, and
+  CoreGraphics no longer keeps converted copies: memory stays flat after hundreds of windows
 - `Scripts/build-app.sh` stops instead of installing an ad-hoc signed copy when the signing
   identity is missing (that broke permissions); `ADHOC=1` allows it
 

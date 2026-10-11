@@ -27,6 +27,24 @@ public struct PanelMetrics: Equatable, Sendable {
         fontSize = (11 + s * 3).rounded()
     }
 
+    /// Height-to-width ratios tiles are clamped to.
+    public static let minimumAspect: CGFloat = 0.4
+    public static let maximumAspect: CGFloat = 1.1
+
+    /// Pixel size to capture a window of `source` size (points) at, so that neither its
+    /// panel tile (which fills, cropping extreme shapes) nor `otherImage` (the window
+    /// switcher's box, which fits) shows it larger than captured, at backing `scale`.
+    /// Capturing more only costs memory.
+    public func thumbnailPixelSize(for source: CGSize, edge: PanelEdge, scale: CGFloat,
+                                   otherImage: CGSize) -> CGSize {
+        guard source.width > 0, source.height > 0 else { return CGSize(width: 1, height: 1) }
+        let tile = tileSize(imageSize: source, edge: edge)
+        let fill = max(tile.width / source.width, tile.height / source.height)
+        let fit = min(otherImage.width / source.width, otherImage.height / source.height)
+        let factor = max(fill, fit) * scale
+        return CGSize(width: (source.width * factor).rounded(.up), height: (source.height * factor).rounded(.up))
+    }
+
     /// Panel depth perpendicular to its edge.
     public func thickness(for edge: PanelEdge) -> CGFloat {
         let tile = edge.isVertical ? tileWidth : tileHeight
@@ -39,7 +57,7 @@ public struct PanelMetrics: Equatable, Sendable {
         guard let imageSize, imageSize.width > 0, imageSize.height > 0 else {
             return CGSize(width: tileWidth, height: tileHeight)
         }
-        let ratio = min(max(imageSize.height / imageSize.width, 0.4), 1.1)
+        let ratio = min(max(imageSize.height / imageSize.width, Self.minimumAspect), Self.maximumAspect)
         if edge.isVertical {
             return CGSize(width: tileWidth, height: (tileWidth * ratio).rounded())
         }
