@@ -21,6 +21,17 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # Commits are authored by the maintainer alone: no AI co-author or "generated with"
+      # lines anywhere in the history (the same rule as the local commit-msg hook).
+      - name: Attribution
+        run: |
+          if git log --format=%B | grep -inE '^(co-authored-by|signed-off-by):.*(claude|anthropic)|generated with .*claude'; then
+            echo "Remove the attribution lines above from the commit messages." >&2
+            exit 1
+          fi
 
       - name: Toolchain
         run: xcodebuild -version && swift --version
