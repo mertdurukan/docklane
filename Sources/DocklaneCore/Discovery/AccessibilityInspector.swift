@@ -52,17 +52,32 @@ public enum AccessibilityInspector {
         return windowNumber(of: value as! AXUIElement)
     }
 
+    /// Elements found before, so the costly off-Space search runs once per window.
+    private static var elementCache: [WindowNumber: (pid: pid_t, element: AXUIElement)] = [:]
+    private static let elementCacheLimit = 400
+    /// Total time the off-Space search may take on the main thread.
+    private static let searchBudget: TimeInterval = 0.5
+
     /// AX element for a window. Falls back to probing the app's element ids for windows on
-    /// another Space or in full screen, which `kAXWindows` leaves out.
+    /// another Space or in full screen, which `kAXWindows` leaves out. Returns nil quickly
+    /// for an app that does not respond.
     public static func element(for number: WindowNumber, pid: pid_t) -> AXUIElement? {
-        if let listed = windows(of: pid).first(where: { windowNumber(of: $0) == number }) {
-            return listed
+        if let cached = elementCache[number], cached.pid == pid, windowNumber(of: cached.element) == number {
+            return cached.element
         }
-        return offSpaceElement(for: number, pid: pid)
+        var value: CFTypeRef?
+        let result = AXUIElementCopyAttributeValue(application(pid), kAXWindowsAttribute as CFString, &value)
+        if result == .cannotComplete { return nil }  // hung: don't probe a thousand ids
+        let listed = (value as? [AXUIElement])?.first { windowNumber(of: $0) == number }
+        guard let element = listed ?? offSpaceElement(for: number, pid: pid) else { return nil }
+        if elementCache.count >= elementCacheLimit { elementCache.removeAll() }
+        elementCache[number] = (pid, element)
+        return element
     }
 
     /// Builds candidate elements from remote tokens (pid, 0, "coco", element id) until one
-    /// reports the wanted window number. Technique popularised by AltTab.
+    /// reports the wanted window number. Technique popularised by AltTab. Each candidate gets
+    /// the short timeout and the whole search a time budget.
     private static func offSpaceElement(for number: WindowNumber, pid: pid_t) -> AXUIElement? {
         guard let create = PrivateSymbols.axCreateWithRemoteToken else { return nil }
         var token = Data(count: 20)
@@ -71,16 +86,16 @@ public enum AccessibilityInspector {
             raw.storeBytes(of: Int32(0), toByteOffset: 4, as: Int32.self)
             raw.storeBytes(of: Int32(0x636F_636F), toByteOffset: 8, as: Int32.self)
         }
+        let deadline = Date().addingTimeInterval(searchBudget)
         let maximumElementID: UInt64 = 1000
         for elementID in 0..<maximumElementID {
+            if elementID % 50 == 0 && Date() > deadline { return nil }
             token.withUnsafeMutableBytes { raw in
                 raw.storeBytes(of: elementID, toByteOffset: 12, as: UInt64.self)
             }
             guard let element = create(token as CFData)?.takeRetainedValue() else { continue }
-            if windowNumber(of: element) == number {
-                AXUIElementSetMessagingTimeout(element, messagingTimeout)
-                return element
-            }
+            AXUIElementSetMessagingTimeout(element, messagingTimeout)
+            if windowNumber(of: element) == number { return element }
         }
         return nil
     }

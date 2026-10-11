@@ -1,5 +1,6 @@
 import AppKit
 import ApplicationServices
+import DocklaneCore
 
 /// Subscribes to Accessibility notifications of every regular app, so the engine learns about
 /// new, closed, minimized, retitled, moved and focused windows as they happen instead of
@@ -54,11 +55,16 @@ final class AppEventWatcher {
     private func watch(_ pid: pid_t) {
         var created: AXObserver?
         guard AXObserverCreate(pid, Self.callback, &created) == .success, let observer = created else { return }
-        let appElement = AXUIElementCreateApplication(pid)
+        // Short timeout: registering is IPC, and a hung app would otherwise block for seconds
+        // per notification.
+        let appElement = AccessibilityInspector.application(pid)
         let refcon = Unmanaged.passUnretained(self).toOpaque()
         for notification in Self.notifications {
-            // Some apps don't support every notification; that's fine.
-            AXObserverAddNotification(observer, appElement, notification as CFString, refcon)
+            // Some apps don't support every notification; that's fine. A hung app is not
+            // asked again for each one.
+            if AXObserverAddNotification(observer, appElement, notification as CFString, refcon) == .cannotComplete {
+                break
+            }
         }
         CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .commonModes)
         observers[pid] = observer

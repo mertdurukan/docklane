@@ -14,6 +14,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- An app that stopped responding no longer freezes Docklane: focusing one of its windows
+  gives up within half a second (measured 0.52 s) and app notifications use a short timeout
 - The window switcher no longer gets stuck open when the ⌘ release is missed; it checks the
   key itself while open
 - Q/H/W/M in the switcher only act while ⌘ is held; a key typed after a missed release
