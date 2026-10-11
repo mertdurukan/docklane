@@ -156,7 +156,7 @@ struct WindowTile: View {
             Button(isPrivate ? "Show Preview" : "Hide Preview") { settings.togglePrivate(window.bundleID) }
         }
         Button(window.isMinimized ? "Restore" : "Minimize") {
-            window.isMinimized ? WindowFocuser.focus(window) : WindowActions.minimize(window)
+            if window.isMinimized { WindowFocuser.focus(window) } else { WindowActions.minimize(window) }
         }
         Divider()
         Button("Hide") { WindowActions.hideApp(pid: window.pid) }

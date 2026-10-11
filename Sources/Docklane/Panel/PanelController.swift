@@ -134,9 +134,10 @@ final class PanelController {
         navigationDisplay = nil
         navigationItems = []
         applyVisibility()
-        if activate, let target {
-            WindowFocuser.focus(target)
-        } else if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
+        if activate, let target, WindowFocuser.focus(target) {
+            return
+        }
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
             navigationPreviousApp?.activate()
         }
     }

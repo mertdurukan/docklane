@@ -207,9 +207,10 @@ final class WindowSwitcher {
         guard isActive else { return }
         let target = model.items.indices.contains(model.selection) ? model.items[model.selection] : nil
         hide()
-        if let target {
-            WindowFocuser.focus(target)
-        } else if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
+        if let target, WindowFocuser.focus(target) {
+            return
+        }
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
             previousApp?.activate()
         }
     }

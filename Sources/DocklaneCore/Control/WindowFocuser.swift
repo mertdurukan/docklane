@@ -5,35 +5,54 @@ import ApplicationServices
 ///
 /// macOS 14+ silently ignores focus requests from apps that are not active (the window
 /// server even reports success), so the sequence is:
-/// 1. activate Docklane itself — allowed because the user just clicked its panel,
-/// 2. ask the window server to front the exact window and make it key (switches Space),
-/// 3. raise the window's Accessibility element (found even on other Spaces),
-/// 4. fall back to plain app activation when the exact-window path is unavailable,
-/// 5. never leave Docklane holding focus.
+/// 1. unhide the target app if it is hidden,
+/// 2. activate Docklane itself — allowed because the user just clicked its panel,
+/// 3. ask the window server to front the exact window and make it key (switches Space).
+///    Always attempted: activation is asynchronous, so `NSApp.isActive` is often still
+///    false here even though the request will be honoured,
+/// 4. raise the window's Accessibility element (found even on other Spaces),
+/// 5. fall back to plain app activation when the exact-window path is unavailable,
+/// 6. check a moment later that the window really has focus and retry once,
+/// 7. never leave Docklane holding focus.
 @MainActor
 public enum WindowFocuser {
-    public static func focus(_ window: DockWindow) {
-        guard let app = NSRunningApplication(processIdentifier: window.pid) else { return }
+    /// Returns false when the window's app is gone; the caller should then hand focus back
+    /// to whichever app was in front before Docklane.
+    @discardableResult
+    public static func focus(_ window: DockWindow) -> Bool {
+        guard let app = NSRunningApplication(processIdentifier: window.pid), !app.isTerminated else {
+            return false
+        }
+        if app.isHidden { app.unhide() }
 
         NSApp.activate()
-        let isActive = NSApp.isActive
-        let frontedByWindowServer = isActive && frontWindow(window.id, pid: window.pid)
-        if !frontedByWindowServer {
+        if !frontWindow(window.id, pid: window.pid) {
             app.activate()
         }
 
         let element = AccessibilityInspector.element(for: window.id, pid: window.pid)
         if let element { raise(element) }
 
-        // After a Space switch the window settles a moment later; raise again and make sure
-        // focus really moved on from Docklane.
+        // After a Space switch the window settles a moment later; confirm the exact window
+        // has focus, otherwise try once more, and make sure focus moved on from Docklane.
         Task { @MainActor in
             try? await Task.sleep(for: .milliseconds(300))
-            if let element { raise(element) }
+            guard !app.isTerminated else { return }
+            if !hasFocus(window) {
+                if app.isHidden { app.unhide() }
+                if !frontWindow(window.id, pid: window.pid) { app.activate() }
+                if let element { raise(element) }
+            }
             if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
                 app.activate()
             }
         }
+        return true
+    }
+
+    private static func hasFocus(_ window: DockWindow) -> Bool {
+        NSWorkspace.shared.frontmostApplication?.processIdentifier == window.pid
+            && AccessibilityInspector.focusedWindowNumber() == window.id
     }
 
     /// `_SLPSSetFrontProcessWithOptions` + two synthetic event records that make the window

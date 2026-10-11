@@ -12,6 +12,13 @@ All notable changes to Docklane are listed here. The format follows
 - The switcher's keyboard hint wraps to up to three lines, breaking only between shortcuts
 - v0.1.0 is now signed with a Developer ID and notarized; no Open Anyway step
 
+### Fixed
+
+- Clicking a window sometimes brought only its app forward instead of that exact window;
+  focus is now checked and retried once
+- Clicking a window of a hidden app (⌘H) now unhides the app
+- Choosing a window whose app has quit hands focus back instead of leaving it on Docklane
+
 ## [0.1.0] — 2026-10-11
 
 First version.
