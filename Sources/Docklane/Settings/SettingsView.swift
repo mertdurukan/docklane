@@ -451,6 +451,8 @@ private struct GeneralSettings: View {
 }
 
 private struct AboutSettings: View {
+    @State private var copied = false
+
     private var version: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"
     }
@@ -476,6 +478,15 @@ private struct AboutSettings: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
+            Button(copied ? "Copied" : "Copy Diagnostic Info") {
+                Diagnostics.copyToPasteboard()
+                copied = true
+                Task {
+                    try? await Task.sleep(for: .seconds(2))
+                    copied = false
+                }
+            }
+            .help("Version, macOS, permissions and counts for a bug report; no window titles or app names.")
             Text(verbatim: "MIT License · © 2026 Mert Durukan")
                 .font(.caption)
                 .foregroundStyle(.tertiary)

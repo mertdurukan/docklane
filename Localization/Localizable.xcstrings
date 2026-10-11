@@ -1840,6 +1840,134 @@
         }
       }
     },
+    "Copied": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم النسخ"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কপি হয়েছে"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copié"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कॉपी हो गया"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disalin"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiado"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировано"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyalandı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已拷贝"
+          }
+        }
+      }
+    },
+    "Copy Diagnostic Info": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ معلومات التشخيص"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ডায়াগনস্টিক তথ্য কপি করুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiar información de diagnóstico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier les infos de diagnostic"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डायग्नॉस्टिक जानकारी कॉपी करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin Info Diagnostik"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiar informações de diagnóstico"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировать диагностику"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanı bilgisini kopyala"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拷贝诊断信息"
+          }
+        }
+      }
+    },
     "Delete": {
       "localizations": {
         "ar": {
@@ -10540,6 +10668,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "版本 %@"
+          }
+        }
+      }
+    },
+    "Version, macOS, permissions and counts for a bug report; no window titles or app names.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار وmacOS والأذونات والأعداد لبلاغ عن خطأ؛ دون عناوين النوافذ أو أسماء التطبيقات."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "বাগ রিপোর্টের জন্য সংস্করণ, macOS, অনুমতি ও সংখ্যা; উইন্ডোর শিরোনাম বা অ্যাপের নাম নেই।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versión, macOS, permisos y recuentos para informar de un error; sin títulos de ventanas ni nombres de apps."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version, macOS, autorisations et compteurs pour un rapport de bug ; sans titres de fenêtres ni noms d’apps."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बग रिपोर्ट के लिए वर्ज़न, macOS, अनुमतियाँ और गिनती; विंडो टाइटल या ऐप के नाम नहीं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versi, macOS, izin, dan jumlah untuk laporan bug; tanpa judul jendela atau nama app."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versão, macOS, permissões e contagens para relatar um bug; sem títulos de janelas nem nomes de apps."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия, macOS, разрешения и счётчики для отчёта об ошибке; без заголовков окон и названий приложений."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hata bildirimi için sürüm, macOS, izinler ve sayılar; pencere başlığı ya da uygulama adı içermez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于错误报告的版本、macOS、权限和计数；不含窗口标题或应用名称。"
           }
         }
       }

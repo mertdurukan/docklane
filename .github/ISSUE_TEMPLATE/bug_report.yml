@@ -1,0 +1,36 @@
+name: Bug report
+description: Something in Docklane doesn't work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the panel on the left edge
+        2. Click the thumbnail of a full-screen window
+        3. …
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostic info
+      description: Settings → About → **Copy Diagnostic Info**, then paste here. It has no window titles or app names.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log (optional)
+      description: |
+        Right after the problem, run this in Terminal and paste the output:
+        `/usr/bin/log show --last 10m --predicate 'subsystem == "io.github.mertdurukan.docklane"'`
+        If Docklane crashed, attach the newest `Docklane-*.ips` from `~/Library/Logs/DiagnosticReports`.
+      render: text

@@ -51,6 +51,10 @@ final class WindowEngine {
     /// single-frame capture falls back to a costly ScreenCaptureKit query).
     @ObservationIgnored private var captureFailures: [WindowNumber: Date] = [:]
     private static let failureBackoff: TimeInterval = 10
+    /// For diagnostics: captures since launch.
+    @ObservationIgnored private(set) var capturesSucceeded = 0
+    @ObservationIgnored private(set) var capturesFailed = 0
+    @ObservationIgnored private(set) var lastCaptureFailure: Date?
     @ObservationIgnored private var watcher: AppEventWatcher?
     @ObservationIgnored private var timers: [Timer] = []
     @ObservationIgnored private var scanTicks = 0
@@ -307,6 +311,12 @@ final class WindowEngine {
             self.capturing.subtract(wanted.map(\.id))
             let failedAt = Date()
             for window in wanted where images[window.id] == nil { self.captureFailures[window.id] = failedAt }
+            self.capturesSucceeded += images.count
+            let failed = wanted.count - images.count
+            if failed > 0 {
+                self.capturesFailed += failed
+                self.lastCaptureFailure = failedAt
+            }
             for id in images.keys { self.captureFailures[id] = nil }
             self.apply(images)
         }

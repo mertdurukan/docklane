@@ -1088,3 +1088,20 @@ final class SharedEdgeTests: XCTestCase {
         XCTAssertTrue(PanelLayout.revealZones(edge: .left, screenFrame: main, otherScreens: [left]).isEmpty)
     }
 }
+
+final class DiagnosticReportTests: XCTestCase {
+    func testLinesAndHomeRedaction() {
+        var report = DiagnosticReport()
+        report.add("Version", "0.2.0 (12)")
+        report.add("App", DiagnosticReport.redacted("/Users/someone/Downloads/Docklane.app", home: "/Users/someone"))
+        XCTAssertEqual(report.text, "Version: 0.2.0 (12)\nApp: ~/Downloads/Docklane.app")
+        XCTAssertEqual(DiagnosticReport.redacted("/Applications/Docklane.app", home: "/Users/someone"), "/Applications/Docklane.app")
+        XCTAssertEqual(DiagnosticReport.redacted("/Users/someone2/x", home: "/Users/someone"), "/Users/someone2/x")
+    }
+
+    func testAge() {
+        let now = Date(timeIntervalSince1970: 100)
+        XCTAssertEqual(DiagnosticReport.age(of: Date(timeIntervalSince1970: 88), now: now), "12 s ago")
+        XCTAssertEqual(DiagnosticReport.age(of: nil, now: now), "never")
+    }
+}

@@ -8,6 +8,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Settings → About → Copy Diagnostic Info: version, macOS, Mac model, permissions, missing
+  system interfaces, displays, window and capture counts, main settings and the login item state,
+  for a bug report — no window titles or app names. A bug report form on GitHub asks for it
 - Saved window layouts can be renamed, updated with the current windows and deleted (with a
   confirmation) from a menu on each layout. Opening a layout that comes back only in part says
   what is missing ("Not installed on this Mac: …", "Opened no window to put back: …") instead of
