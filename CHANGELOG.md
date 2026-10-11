@@ -6,6 +6,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-10-11
+
 ### Added
 
 - Settings → About → Check for Updates: asks GitHub for the latest release number, only when you
@@ -29,17 +31,18 @@ All notable changes to Docklane are listed here. The format follows
   minimize keys by what they act on: "C send app to Dock", "M minimize window"
 - Live pins: Pin Live Preview (panel menu) keeps a live, always-on-top copy of a window on every
   desktop (10 frames a second; once a second for a window on another desktop), up to four
-- App rules (Settings → Workspaces): new windows of an app are placed as soon as they open
-  (left / right / top / bottom half, center, fill); windows open when Docklane starts are left alone
+- Automatic window placement (Settings → Window Layouts): new windows of an app are placed as
+  soon as they open (left / right / top / bottom half, center, fill); windows open when Docklane
+  starts are left alone
 - Arrange the front window from the keyboard: ⌃⌥←/→/↑/↓ halves, pressing again cycles to a
   third and two thirds; ⌃⌥↩ fill, ⌃⌥C center, ⌃⌥⌘←/→ to the other display (same place, scaled).
   Respects the strip a pinned panel keeps clear; ⌃⌥Z undoes; can be turned off
-- Window memory. Workspaces get a shortcut each (⌃⌥⌘1–9), remember which display every
+- Window memory. Window layouts get a shortcut each (⌃⌥⌘1–9), remember which display every
   window was on (and where on it, so they fit another resolution or the laptop screen), wait
   for apps they open to show their windows, and can hide every other app. Docklane also
   remembers the layout of each set of displays and puts windows back when a display is
-  connected or disconnected. ⌃⌥Z undoes the last layout change (workspace, display change,
-  Move & Resize). Moving windows to another desktop is not possible on current macOS
+  connected or disconnected. ⌃⌥Z undoes the last arrangement (a layout, a display change,
+  Move & Resize or a keyboard shortcut). Moving windows to another desktop is not possible on current macOS
 - Desktop switcher on ⌥Tab: every desktop and full-screen space as a miniature (wallpaper
   with its windows where they are, or the full-screen app), in Mission Control order. Hold ⌥,
   Tab to move, release to go; 1–9 jump straight to one. The first press selects the desktop
@@ -90,8 +93,9 @@ All notable changes to Docklane are listed here. The format follows
 - Search in the window switcher is now ⌘F (press F while holding ⌘), the macOS Find
   shortcut, on every keyboard layout; "/" still works
 - The window switcher is only as wide as its cards, centred, with no empty columns
-- The switcher's keyboard hint wraps to up to three lines, breaking only between shortcuts
-- v0.1.0 is now signed with a Developer ID and notarized; no Open Anyway step
+- The switcher's keyboard hint wraps to up to four lines, breaking only between shortcuts
+- Releases are signed with a Developer ID and notarized by Apple (v0.1.0 was replaced with a
+  notarized build too): no Open Anyway step
 
 ### Fixed
 
@@ -139,9 +143,9 @@ All notable changes to Docklane are listed here. The format follows
   gives up within half a second (measured 0.52 s) and app notifications use a short timeout
 - The window switcher no longer gets stuck open when the ⌘ release is missed; it checks the
   key itself while open
-- Q/H/W/M in the switcher only act while ⌘ is held; a key typed after a missed release
+- Q/C/W/M in the switcher only act while ⌘ is held; a key typed after a missed release
   switches and goes to the app instead of quitting or closing something
-- Switcher shortcuts follow the keyboard layout: Q/H/W/M are the real letters on AZERTY,
+- Switcher shortcuts follow the keyboard layout: Q/C/W/M are the real letters on AZERTY,
   Turkish F, Dvorak and while a Cyrillic layout is on
 - Clicking another app while searching closes the switcher instead of keeping the keyboard
 - Focusing and quitting from the switcher run after the key event is released to the system
@@ -185,5 +189,6 @@ First version.
   Arabic, French, Bengali, Portuguese, Russian, Indonesian and Turkish
 - App icon and a matching menu bar glyph
 
-[Unreleased]: https://github.com/mertdurukan/docklane/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/mertdurukan/docklane/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/mertdurukan/docklane/releases/tag/v0.2.0
 [0.1.0]: https://github.com/mertdurukan/docklane/releases/tag/v0.1.0
