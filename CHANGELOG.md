@@ -8,6 +8,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Settings → General says when macOS is waiting for approval to open Docklane at login (with a
+  button to Login Items) and when Docklane runs from outside the Applications folder
 - Settings → About → Copy Diagnostic Info: version, macOS, Mac model, permissions, missing
   system interfaces, displays, window and capture counts, main settings and the login item state,
   for a bug report — no window titles or app names. A bug report form on GitHub asks for it

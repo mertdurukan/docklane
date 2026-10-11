@@ -390,6 +390,7 @@ private struct WorkspacesSettings: View {
 
 private struct GeneralSettings: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
+    @State private var loginStatus = SMAppService.mainApp.status
     @State private var language = AppLanguage.current
     @State private var languageChanged = false
     private var permissions: PermissionState { PermissionMonitor.shared.state }
@@ -404,7 +405,23 @@ private struct GeneralSettings: View {
                         } catch {
                             launchAtLogin = SMAppService.mainApp.status == .enabled
                         }
+                        loginStatus = SMAppService.mainApp.status
                     }
+                if loginStatus == .requiresApproval {
+                    HStack {
+                        Label("macOS needs your approval to open Docklane at login.", systemImage: "exclamationmark.triangle.fill")
+                            .font(.callout)
+                            .foregroundStyle(.orange)
+                        Spacer()
+                        Button("Open Login Items") { SMAppService.openSystemSettingsLoginItems() }
+                    }
+                }
+                if Bundle.main.bundlePath.contains("/AppTranslocation/") || !Bundle.main.bundlePath.hasPrefix("/Applications/") {
+                    Label("Docklane isn't in the Applications folder. Move it there so it keeps its permissions and can open at login.",
+                          systemImage: "exclamationmark.triangle.fill")
+                        .font(.callout)
+                        .foregroundStyle(.orange)
+                }
                 Picker("App language", selection: $language) {
                     ForEach(AppLanguage.allCases) { Text($0.title).tag($0) }
                 }
@@ -432,7 +449,11 @@ private struct GeneralSettings: View {
             }
         }
         .formStyle(.grouped)
-        .onAppear { PermissionMonitor.shared.check() }
+        .onAppear {
+            PermissionMonitor.shared.check()
+            loginStatus = SMAppService.mainApp.status
+            launchAtLogin = loginStatus == .enabled
+        }
     }
 
     private func permission(_ title: LocalizedStringKey, detail: LocalizedStringKey, granted: Bool,

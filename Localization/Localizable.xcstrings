@@ -2416,6 +2416,70 @@
         }
       }
     },
+    "Docklane isn't in the Applications folder. Move it there so it keeps its permissions and can open at login.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane ليس في مجلد التطبيقات. انقله إليه ليحتفظ بأذوناته ويمكن فتحه عند تسجيل الدخول."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane অ্যাপ্লিকেশনস ফোল্ডারে নেই। অনুমতি ধরে রাখতে ও লগইনে খুলতে এটিকে সেখানে সরান।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane no está en la carpeta Aplicaciones. Muévelo allí para que conserve sus permisos y pueda abrirse al iniciar sesión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane n’est pas dans le dossier Applications. Déplacez-le pour qu’il garde ses autorisations et puisse s’ouvrir à la connexion."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane ऐप्लिकेशन फ़ोल्डर में नहीं है। अनुमतियाँ बनी रहें और यह लॉगिन पर खुल सके, इसके लिए इसे वहाँ ले जाएँ।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane tidak ada di folder Aplikasi. Pindahkan ke sana agar izinnya tetap dan dapat dibuka saat masuk."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Docklane não está na pasta Aplicativos. Mova-o para lá para manter as permissões e poder abrir ao iniciar sessão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane находится не в папке «Программы». Переместите его туда, чтобы сохранить разрешения и запуск при входе."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane Uygulamalar klasöründe değil. İzinlerini koruması ve girişte açılabilmesi için oraya taşı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane 不在“应用程序”文件夹中。请将其移到那里，以保留权限并能在登录时打开。"
+          }
+        }
+      }
+    },
     "Docklane needs two permissions. Grant them in System Settings → Privacy & Security; Docklane starts on its own once both are on.": {
       "localizations": {
         "ar": {
@@ -5228,6 +5292,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "打开"
+          }
+        }
+      }
+    },
+    "Open Login Items": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح عناصر تسجيل الدخول"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "লগইন আইটেম খুলুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir ítems de inicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir les éléments de connexion"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लॉगिन आइटम खोलें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka Item Masuk"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir Itens de Início"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть объекты входа"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giriş Öğelerini aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开登录项"
           }
         }
       }
@@ -11500,6 +11628,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "设置了多种键盘语言时，macOS 也会用 ⌃⌥Space 切换输入法。"
+          }
+        }
+      }
+    },
+    "macOS needs your approval to open Docklane at login.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج macOS إلى موافقتك لفتح Docklane عند تسجيل الدخول."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "লগইনের সময় Docklane খুলতে macOS-এর আপনার অনুমোদন দরকার।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS necesita tu aprobación para abrir Docklane al iniciar sesión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS a besoin de votre accord pour ouvrir Docklane à l’ouverture de session."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लॉगिन पर Docklane खोलने के लिए macOS को आपकी मंज़ूरी चाहिए।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS memerlukan persetujuan Anda untuk membuka Docklane saat masuk."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O macOS precisa da sua aprovação para abrir o Docklane ao iniciar sessão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS нужно ваше разрешение, чтобы открывать Docklane при входе."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane'in girişte açılması için macOS onayını bekliyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS 需要你批准才能在登录时打开 Docklane。"
           }
         }
       }
