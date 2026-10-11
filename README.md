@@ -199,8 +199,7 @@ tccutil reset All io.github.mertdurukan.docklane
 
 ## Releasing
 
-Pushing a `v*` tag makes CI publish a GitHub release with an ad-hoc signed zip. Replace it with
-a notarized build so users can open the app without an **Open Anyway** step. Once:
+Releases are published from a Mac, under your own GitHub account; CI only tests and builds. Once:
 
 1. In Xcode → Settings → Accounts → *your team* → Manage Certificates, add a
    **Developer ID Application** certificate (only the team's Account Holder can create one).
@@ -211,14 +210,22 @@ a notarized build so users can open the app without an **Open Anyway** step. Onc
 xcrun notarytool store-credentials docklane --apple-id "you@example.com" --team-id "TEAMID"
 ```
 
-Then, for each release (the app's sources must match the tag):
+For each release: move the `[Unreleased]` notes in CHANGELOG.md under `## [X.Y.Z] — date`, push
+`main`, then tag and run the script from that commit:
 
 ```bash
-Scripts/release-notarized.sh 0.1.0
+git tag -a v0.2.0 -m "Docklane 0.2.0" && git push origin v0.2.0
+Scripts/release-notarized.sh 0.2.0
 ```
 
-It builds a universal app with the hardened runtime, signs it with your Developer ID, notarizes
-and staples it, and replaces `Docklane.zip` on the GitHub release.
+It first checks the tag (annotated, on `origin/main`, matching the sources), the changelog
+section, that the Developer ID certificate is valid for 30 more days and that notarytool can
+sign in. Then it builds a universal app with the hardened runtime, notarizes it (stopping with
+Apple's log unless it is accepted), staples it and creates a **draft** release with the
+changelog section, install notes and the zip's SHA-256. Finally it downloads the zip from the
+draft and checks Gatekeeper, both architectures and the version. Publish with
+`gh release edit v0.2.0 --draft=false`, or run the script with `PUBLISH=1`; `DRY_RUN=1` runs
+only the checks.
 
 ## Uninstall
 

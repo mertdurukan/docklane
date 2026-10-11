@@ -6,11 +6,19 @@ on:
     tags: ["v*"]
   pull_request:
 
+# Releases are published from a Mac with Scripts/release-notarized.sh (notarized, under the
+# maintainer's own account); CI only tests and builds.
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: macos-26
-    permissions:
-      contents: write
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
@@ -30,18 +38,3 @@ jobs:
         with:
           name: Docklane
           path: dist/Docklane.zip
-
-      # A version tag publishes a GitHub release with the zip and that version's changelog section.
-      - name: Release
-        if: github.ref_type == 'tag'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          awk -v v="$VERSION" '
-            index($0, "## [" v "]") == 1 { found = 1; next }
-            found && (/^## \[/ || /^\[/) { exit }
-            found { print }
-          ' CHANGELOG.md > notes.md
-          cat docs/release-install.md >> notes.md
-          gh release create "$GITHUB_REF_NAME" dist/Docklane.zip --title "Docklane $VERSION" --notes-file notes.md

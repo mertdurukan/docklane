@@ -73,8 +73,18 @@ fi
 
 if [ "$NOTARIZE" = "1" ]; then
     ditto -c -k --keepParent "$BUNDLE" "dist/$APP-notarize.zip"
-    xcrun notarytool submit "dist/$APP-notarize.zip" --keychain-profile "$NOTARY_PROFILE" --wait
+    # Stop on anything but "Accepted" and show Apple's log, instead of stapling nothing.
+    RESULT="$(xcrun notarytool submit "dist/$APP-notarize.zip" --keychain-profile "$NOTARY_PROFILE" \
+        --wait --output-format json)"
     rm -f "dist/$APP-notarize.zip"
+    STATUS="$(/usr/bin/plutil -extract status raw -o - - <<<"$RESULT" 2>/dev/null || echo unknown)"
+    SUBMISSION="$(/usr/bin/plutil -extract id raw -o - - <<<"$RESULT" 2>/dev/null || echo "")"
+    if [ "$STATUS" != "Accepted" ]; then
+        echo "Notarization: $STATUS" >&2
+        [ -n "$SUBMISSION" ] && xcrun notarytool log "$SUBMISSION" --keychain-profile "$NOTARY_PROFILE" >&2 || true
+        exit 1
+    fi
+    echo "Notarization: Accepted ($SUBMISSION)"
     xcrun stapler staple "$BUNDLE"
     spctl --assess --type execute --verbose "$BUNDLE"
 fi
