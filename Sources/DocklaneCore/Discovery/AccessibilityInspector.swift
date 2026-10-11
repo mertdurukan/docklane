@@ -33,15 +33,23 @@ public enum AccessibilityInspector {
         copyValue(window, kAXMinimizedAttribute) as? Bool ?? false
     }
 
-    /// Window numbers of minimized windows for the given apps.
-    public static func minimizedWindowNumbers(of pids: Set<pid_t>) -> Set<WindowNumber> {
+    /// Window numbers of minimized windows for the given apps, and the apps that didn't
+    /// answer (hung, or busy past the short timeout): their state is unknown, not "none".
+    public static func minimizedWindowNumbers(of pids: Set<pid_t>) -> (minimized: Set<WindowNumber>, unanswered: Set<pid_t>) {
         var result: Set<WindowNumber> = []
+        var unanswered: Set<pid_t> = []
         for pid in pids {
-            for window in windows(of: pid) where isMinimized(window) {
+            var value: CFTypeRef?
+            let status = AXUIElementCopyAttributeValue(application(pid), kAXWindowsAttribute as CFString, &value)
+            if status == .cannotComplete {
+                unanswered.insert(pid)
+                continue
+            }
+            for window in value as? [AXUIElement] ?? [] where isMinimized(window) {
                 if let number = windowNumber(of: window) { result.insert(number) }
             }
         }
-        return result
+        return (result, unanswered)
     }
 
     /// Focused window of the frontmost app.

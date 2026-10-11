@@ -45,6 +45,12 @@ final class WindowEngine {
     @ObservationIgnored private var fingerprints: [WindowNumber: UInt64] = [:]
     /// When each thumbnail was last taken.
     @ObservationIgnored private var captureDates: [WindowNumber: Date] = [:]
+    /// Captures under way: a window already being captured is not asked for again.
+    @ObservationIgnored private var capturing: Set<WindowNumber> = []
+    /// Windows whose capture failed recently: not retried for `failureBackoff` (a failed
+    /// single-frame capture falls back to a costly ScreenCaptureKit query).
+    @ObservationIgnored private var captureFailures: [WindowNumber: Date] = [:]
+    private static let failureBackoff: TimeInterval = 10
     @ObservationIgnored private var watcher: AppEventWatcher?
     @ObservationIgnored private var timers: [Timer] = []
     @ObservationIgnored private var scanTicks = 0
@@ -134,7 +140,7 @@ final class WindowEngine {
         pendingRefresh?.cancel()
         pendingRefresh = nil
         needsRefresh = false
-        let catalog = WindowCatalog.snapshot()
+        let catalog = WindowCatalog.snapshot(knownMinimized: Set(windows.lazy.filter(\.isMinimized).map(\.id)))
         let snapshot = catalog.windows
         if catalog.spaces != spaces {
             spaces = catalog.spaces
@@ -151,6 +157,7 @@ final class WindowEngine {
             thumbnails[window.id] = nil
             fingerprints[window.id] = nil
             captureDates[window.id] = nil
+            captureFailures[window.id] = nil
         }
         if !vanished.isEmpty { scheduleMemoryRelief() }
         // Windows that vanished while their app keeps running were closed: forget their
@@ -285,11 +292,23 @@ final class WindowEngine {
 
     func refreshThumbnails(_ targets: [DockWindow]) {
         // Without Screen Recording every capture fails; don't keep asking.
-        guard !isPaused, !targets.isEmpty, PermissionMonitor.shared.state.screenRecording else { return }
-        let bounds = thumbnailPixelSizes(targets)
+        guard !isPaused, PermissionMonitor.shared.state.screenRecording else { return }
+        let now = Date()
+        let wanted = targets.filter { window in
+            !capturing.contains(window.id)
+                && (captureFailures[window.id].map { now.timeIntervalSince($0) > Self.failureBackoff } ?? true)
+        }
+        guard !wanted.isEmpty else { return }
+        capturing.formUnion(wanted.map(\.id))
+        let bounds = thumbnailPixelSizes(wanted)
         Task { [weak self, capturer] in
-            let images = await capturer.capture(targets, within: bounds)
-            self?.apply(images)
+            let images = await capturer.capture(wanted, within: bounds)
+            guard let self else { return }
+            self.capturing.subtract(wanted.map(\.id))
+            let failedAt = Date()
+            for window in wanted where images[window.id] == nil { self.captureFailures[window.id] = failedAt }
+            for id in images.keys { self.captureFailures[id] = nil }
+            self.apply(images)
         }
     }
 

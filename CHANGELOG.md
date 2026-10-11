@@ -87,6 +87,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- An app that stops responding keeps its minimized windows marked as minimized instead of them
+  moving around the panel; a window whose image can't be taken is not retried for 10 s, and a
+  window already being captured is not captured twice
 - Window switcher in long languages: the hint may take a fourth line (Russian lost its last key
   with a single window), the search placeholder stays on one line, and in Arabic every key stays
   next to its label

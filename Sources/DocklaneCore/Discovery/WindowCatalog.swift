@@ -83,7 +83,9 @@ public enum WindowCatalog {
         public let spaces: [SpaceInfo]
     }
 
-    public static func snapshot() -> Snapshot {
+    /// `knownMinimized`: windows that were minimized at the last snapshot; an app that
+    /// doesn't answer this time keeps that state instead of its windows jumping around.
+    public static func snapshot(knownMinimized: Set<WindowNumber> = []) -> Snapshot {
         let appsByPID = AppDirectory.shared.regularApps
 
         let infos = CGWindowListCopyWindowInfo([.optionAll, .excludeDesktopElements], kCGNullWindowID)
@@ -93,8 +95,10 @@ public enum WindowCatalog {
         }
         // Minimized windows are never on screen: only apps with an off-screen window are asked
         // (each ask is a round trip to the app).
-        let minimized = AccessibilityInspector.minimizedWindowNumbers(
+        let answer = AccessibilityInspector.minimizedWindowNumbers(
             of: Set(candidates.lazy.filter { !$0.isOnScreen }.map(\.pid)))
+        let minimized = answer.minimized.union(candidates.lazy
+            .filter { answer.unanswered.contains($0.pid) && knownMinimized.contains($0.id) }.map(\.id))
         let spaces = SpaceDirectory.snapshot(for: candidates.map(\.id))
         let placements = spaces?.placements
         let records = WindowFilter.resolving(candidates, located: placements.map { Set($0.keys) },
