@@ -86,8 +86,10 @@ public enum SwitcherKeys {
         guard !key.otherModifier else { return .swallow }
 
         if key.special == .space { return .handle(.confirm) }
+        // ⌘F, the macOS "Find" shortcut (⌘ is already down); "/" also works.
         if key.character == "/" { return .handle(.beginSearch) }
         switch key.baseCharacter?.lowercased() {
+        case "f": return .handle(.beginSearch)
         case "q": return .handle(.quitApp)
         case "h": return .handle(.hideApp)
         case "w": return .handle(.closeWindow)

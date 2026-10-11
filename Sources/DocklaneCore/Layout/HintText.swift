@@ -1,6 +1,6 @@
 import Foundation
 
-/// Keyboard hint lines such as "Tab next  ·  / search  ·  Esc cancel".
+/// Keyboard hint lines such as "Tab next  ·  F search  ·  Esc cancel".
 public enum HintText {
     /// When the line wraps, it breaks only between items: each "key action" pair is held
     /// together with no-break spaces and the "·" stays at the end of its line.

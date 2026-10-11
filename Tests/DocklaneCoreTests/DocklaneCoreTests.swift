@@ -638,6 +638,13 @@ final class SwitcherKeysTests: XCTestCase {
                        .handle(.quitApp))
     }
 
+    func testCommandFStartsSearchOnAnyLayout() {
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "f"), isOpen: true, isSearching: false), .handle(.beginSearch))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "F", base: "f", shift: true), isOpen: true, isSearching: false),
+                       .handle(.beginSearch))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "f", held: false), isOpen: true, isSearching: false), .releaseAndPass)
+    }
+
     func testSearchTypesTextWithoutTheModifier() {
         XCTAssertEqual(SwitcherKeys.decide(press(nil, "q", text: "й", held: false), isOpen: true, isSearching: true),
                        .handle(.character("й")))

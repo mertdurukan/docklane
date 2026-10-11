@@ -20,7 +20,7 @@ final class SwitcherModel {
 }
 
 /// ⌘Tab for windows: every window on every desktop, most recently used first. Hold the
-/// modifier and press Tab to move, release to switch. "/" searches; Esc cancels;
+/// modifier and press Tab to move, release to switch. F (⌘F) searches; Esc cancels;
 /// Q/H/W/M quit, hide, close or minimize the selected item.
 @MainActor
 final class WindowSwitcher {
@@ -288,7 +288,7 @@ struct SwitcherLayout {
     static func hint(searching: Bool) -> String {
         HintText.wrappingBetweenItems(searching
             ? String(localized: "Return switch  ·  Esc clear / close  ·  ← → move")
-            : String(localized: "Tab next  ·  / search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel"))
+            : String(localized: "Tab next  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel"))
     }
 
     /// Height of the hint wrapped to `width`, at most `footerMaxLines` lines.

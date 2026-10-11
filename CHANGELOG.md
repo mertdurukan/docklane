@@ -8,6 +8,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- Search in the window switcher is now ⌘F (press F while holding ⌘), the macOS Find
+  shortcut, on every keyboard layout; "/" still works
 - The window switcher is only as wide as its cards, centred, with no empty columns
 - The switcher's keyboard hint wraps to up to three lines, breaking only between shortcuts
 - v0.1.0 is now signed with a Developer ID and notarized; no Open Anyway step
@@ -23,8 +25,8 @@ All notable changes to Docklane are listed here. The format follows
   key itself while open
 - Q/H/W/M in the switcher only act while ⌘ is held; a key typed after a missed release
   switches and goes to the app instead of quitting or closing something
-- Switcher shortcuts follow the keyboard layout: "/" search works on Turkish Q (⇧7), and
-  Q/H/W/M are the real letters on AZERTY, Turkish F, Dvorak and while a Cyrillic layout is on
+- Switcher shortcuts follow the keyboard layout: Q/H/W/M are the real letters on AZERTY,
+  Turkish F, Dvorak and while a Cyrillic layout is on
 - Clicking another app while searching closes the switcher instead of keeping the keyboard
 - Focusing and quitting from the switcher run after the key event is released to the system
 - One ⌘Tab press now selects the next app; the window you are in is always first and is
