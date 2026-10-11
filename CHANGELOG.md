@@ -87,6 +87,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- Window switcher in long languages: the hint may take a fourth line (Russian lost its last key
+  with a single window), the search placeholder stays on one line, and in Arabic every key stays
+  next to its label
 - Several displays: moving the pointer across the edge two displays share no longer reveals the
   panel on that edge, and the large preview no longer closes on every pointer move because the
   other display's panel is hidden

@@ -300,7 +300,8 @@ struct SwitcherLayout {
     static let searchHeight: CGFloat = 56
     static let footerFontSize: CGFloat = 11
     static let footerPadding: CGFloat = 8
-    static let footerMaxLines = 3
+    /// Narrow (one card) panels in long languages need a fourth line (Russian did not fit).
+    static let footerMaxLines = 4
 
     let columns: Int
     let rows: Int
@@ -371,11 +372,18 @@ struct SwitcherView: View {
             if model.isSearching {
                 HStack(spacing: 8) {
                     Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                    if model.query.isEmpty {
-                        Text("Type to search windows").foregroundStyle(.secondary)
-                    } else {
-                        Text(verbatim: model.query)
+                    // One line even in a one-card panel: long placeholders shrink a little, then
+                    // truncate, instead of growing the search row.
+                    Group {
+                        if model.query.isEmpty {
+                            Text("Type to search windows").foregroundStyle(.secondary)
+                        } else {
+                            Text(verbatim: model.query)
+                        }
                     }
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .truncationMode(.tail)
                     Rectangle().fill(Color.accentColor).frame(width: 2, height: 18)
                     Spacer()
                     Text(verbatim: "\(model.items.count)").foregroundStyle(.secondary).monospacedDigit()
@@ -445,6 +453,11 @@ struct SwitcherHint: View {
         var result = AttributedString()
         let items = hint.components(separatedBy: "·").map { $0.trimmingCharacters(in: .whitespaces) }
         for (index, item) in items.enumerated() where !item.isEmpty {
+            // Each item in its own left-to-right isolate, so the key always comes first: a
+            // right-to-left label (Arabic) next to arrows and dots otherwise gets reordered.
+            result += AttributedString("\u{2066}")
+            defer { if index < items.count - 1 { result += AttributedString("   ") } }
+            defer { result += AttributedString("\u{2069}") }
             let parts = item.split(separator: "\u{00A0}", maxSplits: 1).map(String.init)
             var key = AttributedString(parts[0])
             key.font = .system(size: SwitcherLayout.footerFontSize, weight: .semibold)
@@ -455,7 +468,6 @@ struct SwitcherHint: View {
                 label.foregroundColor = .white.opacity(0.5)
                 result += label
             }
-            if index < items.count - 1 { result += AttributedString("   ") }
         }
         return result
     }
