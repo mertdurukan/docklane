@@ -6,6 +6,7 @@
 #   INSTALL=0 Scripts/build-app.sh        only produce dist/Docklane.app
 #   ZIP=1 INSTALL=0 Scripts/build-app.sh  also produce dist/Docklane.zip (for releases)
 #   SIGN_IDENTITY="My Cert" ...           code-signing identity (see README)
+#   ADHOC=1 ...                           allow an ad-hoc signature when installing
 #   NOTARIZE=1 ...                        notarize and staple (needs a Developer ID Application
 #                                         identity and a notarytool keychain profile, see README)
 #   VERSION=0.2.0 BUILD=3 ...             version numbers
@@ -20,6 +21,7 @@ INSTALL="${INSTALL:-1}"
 ZIP="${ZIP:-0}"
 SIGN_IDENTITY="${SIGN_IDENTITY:-Docklane Self-Signed}"
 NOTARIZE="${NOTARIZE:-0}"
+ADHOC="${ADHOC:-0}"
 NOTARY_PROFILE="${NOTARY_PROFILE:-docklane}"
 
 if [ "$UNIVERSAL" = "1" ]; then
@@ -59,6 +61,12 @@ if security find-identity -v -p codesigning | grep -qF "\"$SIGN_IDENTITY"; then
     echo "Signed with \"$SIGN_IDENTITY\""
 else
     [ "$NOTARIZE" = "1" ] && { echo "NOTARIZE=1 needs the \"$SIGN_IDENTITY\" identity" >&2; exit 1; }
+    # Installing over a stably signed copy with an ad-hoc one silently breaks its permissions.
+    if [ "$INSTALL" = "1" ] && [ "$ADHOC" != "1" ]; then
+        echo "No \"$SIGN_IDENTITY\" code-signing identity. Set SIGN_IDENTITY, create the certificate" >&2
+        echo "(see README, Keep permissions across rebuilds) or run with ADHOC=1." >&2
+        exit 1
+    fi
     codesign --force --sign - "$BUNDLE"
     echo "Ad-hoc signed (permissions must be granted again after each rebuild)"
 fi

@@ -144,6 +144,7 @@ The script builds a release binary, assembles `Docklane.app`, signs it, copies i
 | `ZIP=1` | Also write `dist/Docklane.zip` |
 | `UNIVERSAL=1` | Apple Silicon + Intel binary |
 | `SIGN_IDENTITY="…"` | Code-signing identity (default `Docklane Self-Signed`) |
+| `ADHOC=1` | Install with an ad-hoc signature when the identity is missing (permissions reset on every rebuild) |
 | `VERSION=…`, `BUILD=…` | Version numbers |
 
 ### Keep permissions across rebuilds
