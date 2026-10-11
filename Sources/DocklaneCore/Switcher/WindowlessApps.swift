@@ -30,13 +30,16 @@ public enum WindowlessApps {
         }
     }
 
+    /// Finder always runs (it draws the desktop), so without a window it is not listed.
+    public static let alwaysRunning: Set<String> = ["com.apple.finder"]
+
     /// Stand-ins for `apps` that own none of `windows`, most recently activated first
     /// (`recentPIDs`), the rest by name.
     public static func standIns(apps: [App], windows: [DockWindow], recentPIDs: [pid_t]) -> [DockWindow] {
         let withWindows = Set(windows.map(\.pid))
         let rank = Dictionary(recentPIDs.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
         return apps
-            .filter { !withWindows.contains($0.pid) }
+            .filter { !withWindows.contains($0.pid) && !alwaysRunning.contains($0.bundleID) }
             .sorted { lhs, rhs in
                 let l = rank[lhs.pid] ?? Int.max, r = rank[rhs.pid] ?? Int.max
                 return l != r ? l < r : lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending

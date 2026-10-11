@@ -1206,6 +1206,12 @@ final class WindowlessAppsTests: XCTestCase {
         XCTAssertFalse(window(10, pid: 1).isAppWithoutWindows)
     }
 
+    func testFinderWithoutWindowsIsNotListed() {
+        let apps = [WindowlessApps.App(pid: 1, bundleID: "com.apple.finder", name: "Finder"),
+                    WindowlessApps.App(pid: 2, bundleID: "com.apple.dt.Xcode", name: "Xcode")]
+        XCTAssertEqual(WindowlessApps.standIns(apps: apps, windows: [], recentPIDs: [1, 2]).map(\.appName), ["Xcode"])
+    }
+
     func testAnAppWithOnlyMinimizedWindowsIsNotAStandIn() {
         let apps = [WindowlessApps.App(pid: 1, bundleID: "a", name: "Notes")]
         XCTAssertTrue(WindowlessApps.standIns(apps: apps, windows: [window(5, pid: 1, minimized: true)], recentPIDs: []).isEmpty)
