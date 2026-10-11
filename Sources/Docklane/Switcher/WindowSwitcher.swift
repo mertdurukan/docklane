@@ -266,13 +266,16 @@ final class WindowSwitcher {
 
 /// Grid geometry for the switcher.
 struct SwitcherLayout {
-    static let cardWidth: CGFloat = 220
-    /// Box the window image is fitted into on a card.
-    static let thumbnailSize = CGSize(width: 200, height: 126)
-    static let cardHeight: CGFloat = 178
-    static let spacing: CGFloat = 10
-    static let padding: CGFloat = 18
-    static let searchHeight: CGFloat = 44
+    /// The window image fills this card (cropped at the edges, never letterboxed).
+    static let thumbnailSize = CGSize(width: 216, height: 135)
+    static let cardWidth: CGFloat = thumbnailSize.width
+    /// The card plus the app icon hanging below its corner.
+    static let cardHeight: CGFloat = thumbnailSize.height + 10
+    /// Room between cards for the selection ring and the overhanging icon.
+    static let spacing: CGFloat = 24
+    static let padding: CGFloat = 26
+    static let cornerRadius: CGFloat = 28
+    static let searchHeight: CGFloat = 56
     static let footerFontSize: CGFloat = 11
     static let footerPadding: CGFloat = 8
     static let footerMaxLines = 3
@@ -296,13 +299,13 @@ struct SwitcherLayout {
 
     /// Height of the hint wrapped to `width`, at most `footerMaxLines` lines.
     static func footerHeight(for hint: String, width: CGFloat) -> CGFloat {
-        let font = NSFont.systemFont(ofSize: footerFontSize)
+        let font = NSFont.systemFont(ofSize: footerFontSize, weight: .semibold)
         let lineHeight = ceil(font.ascender - font.descender + font.leading)
         let text = NSAttributedString(string: hint, attributes: [.font: font])
         let height = text.boundingRect(with: CGSize(width: max(width, 1), height: .greatestFiniteMagnitude),
                                        options: [.usesLineFragmentOrigin, .usesFontLeading]).height
         let lines = min(max(Int((height / lineHeight).rounded(.up)), 1), footerMaxLines)
-        return CGFloat(lines) * lineHeight + 2 * footerPadding
+        return CGFloat(lines) * lineHeight + 2 * footerPadding + 6
     }
 
     var panelSize: CGSize {
@@ -321,7 +324,8 @@ final class SwitcherPanel: NSPanel {
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient, .ignoresCycle]
         backgroundColor = .clear
         isOpaque = false
-        hasShadow = false
+        // The window server's shadow follows the rounded glass shape.
+        hasShadow = true
         hidesOnDeactivate = false
         animationBehavior = .none
         setAccessibilitySubrole(.floatingWindow)
@@ -355,9 +359,11 @@ struct SwitcherView: View {
                     Text(verbatim: "\(model.items.count)").foregroundStyle(.secondary).monospacedDigit()
                 }
                 .font(.system(size: 15))
-                .padding(.horizontal, SwitcherLayout.padding + 4)
-                .frame(height: SwitcherLayout.searchHeight)
-                Divider().opacity(0.4)
+                .padding(.horizontal, 12)
+                .frame(height: SwitcherLayout.searchHeight - 12)
+                .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .padding(.horizontal, SwitcherLayout.padding)
+                .padding(.top, 12)
             }
 
             if model.items.isEmpty {
@@ -365,41 +371,95 @@ struct SwitcherView: View {
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ScrollView(.vertical, showsIndicators: false) {
-                    LazyVGrid(columns: columns, spacing: SwitcherLayout.spacing) {
-                        ForEach(Array(model.items.enumerated()), id: \.element.id) { index, window in
-                            SwitcherCard(
-                                window: window,
-                                image: engine.thumbnails[window.id],
-                                label: engine.label(for: window),
-                                isSelected: index == model.selection,
-                                isPlayingAudio: carriers.contains(window.id) && engine.isPlayingAudio(window)
-                            )
-                            .onHover { if $0 { model.selection = index } }
-                            .onTapGesture { onChoose(index) }
+                ScrollViewReader { proxy in
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVGrid(columns: columns, spacing: SwitcherLayout.spacing) {
+                            ForEach(Array(model.items.enumerated()), id: \.element.id) { index, window in
+                                SwitcherCard(
+                                    window: window,
+                                    image: engine.thumbnails[window.id],
+                                    label: engine.label(for: window),
+                                    isSelected: index == model.selection,
+                                    isPlayingAudio: carriers.contains(window.id) && engine.isPlayingAudio(window)
+                                )
+                                .id(window.id)
+                                .onHover { if $0 { model.selection = index } }
+                                .onTapGesture { onChoose(index) }
+                            }
                         }
+                        .padding(SwitcherLayout.padding)
                     }
-                    .padding(SwitcherLayout.padding)
+                    .onChange(of: model.selection) { _, selection in
+                        // Keep the selection visible when there are more rows than fit.
+                        if model.items.indices.contains(selection) { proxy.scrollTo(model.items[selection].id) }
+                    }
                 }
             }
 
-            Text(verbatim: SwitcherLayout.hint(searching: model.isSearching))
-                .font(.system(size: SwitcherLayout.footerFontSize))
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .lineLimit(SwitcherLayout.footerMaxLines)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, SwitcherLayout.padding)
-                .padding(.vertical, SwitcherLayout.footerPadding)
-                .frame(maxWidth: .infinity)
+            SwitcherHint(text: SwitcherLayout.hint(searching: model.isSearching))
         }
-        .background(VisualEffectView(material: .hudWindow))
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(.white.opacity(0.18), lineWidth: 0.5))
-        .environment(\.colorScheme, .dark)
+        .switcherBackground()
     }
 }
 
+/// Keyboard hint: the keys bright, what they do dimmed; wraps only between items.
+struct SwitcherHint: View {
+    let text: String
+
+    var body: some View {
+        Text(Self.styled(text))
+            .font(.system(size: SwitcherLayout.footerFontSize))
+            .multilineTextAlignment(.center)
+            .lineLimit(SwitcherLayout.footerMaxLines)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.horizontal, SwitcherLayout.padding)
+            .padding(.top, 2)
+            .padding(.bottom, SwitcherLayout.footerPadding + 4)
+            .frame(maxWidth: .infinity)
+    }
+
+    /// "Tab next · F search" → **Tab** next   **F** search (items are separated by "·").
+    static func styled(_ hint: String) -> AttributedString {
+        var result = AttributedString()
+        let items = hint.components(separatedBy: "·").map { $0.trimmingCharacters(in: .whitespaces) }
+        for (index, item) in items.enumerated() where !item.isEmpty {
+            let parts = item.split(separator: "\u{00A0}", maxSplits: 1).map(String.init)
+            var key = AttributedString(parts[0])
+            key.font = .system(size: SwitcherLayout.footerFontSize, weight: .semibold)
+            key.foregroundColor = .white.opacity(0.9)
+            result += key
+            if parts.count > 1 {
+                var label = AttributedString("\u{00A0}" + parts[1])
+                label.foregroundColor = .white.opacity(0.5)
+                result += label
+            }
+            if index < items.count - 1 { result += AttributedString("   ") }
+        }
+        return result
+    }
+}
+
+extension View {
+    /// The switchers' container: Liquid Glass on macOS 26, a dark frosted panel before.
+    @ViewBuilder
+    func switcherBackground() -> some View {
+        let shape = RoundedRectangle(cornerRadius: SwitcherLayout.cornerRadius, style: .continuous)
+        if #available(macOS 26, *) {
+            self
+                .glassEffect(.regular, in: shape)
+                .environment(\.colorScheme, .dark)
+        } else {
+            self
+                .background(VisualEffectView(material: .hudWindow))
+                .clipShape(shape)
+                .overlay(shape.strokeBorder(.white.opacity(0.18), lineWidth: 0.5))
+                .environment(\.colorScheme, .dark)
+        }
+    }
+}
+
+/// One window, drawn like a panel tile: the live thumbnail filling a rounded card, the app
+/// icon on its corner and the title in a pill on the image. The selection is a glowing ring.
 private struct SwitcherCard: View {
     let window: DockWindow
     let image: NSImage?
@@ -409,57 +469,66 @@ private struct SwitcherCard: View {
 
     private var icon: NSImage? { NSRunningApplication(processIdentifier: window.pid)?.icon }
     private var isPrivate: Bool { AppSettings.shared.isPrivate(window.bundleID) }
-    private let thumbnailSize = SwitcherLayout.thumbnailSize
+    private let size = SwitcherLayout.thumbnailSize
+    private let corner: CGFloat = 12
+    private let iconSize: CGFloat = 34
 
     var body: some View {
-        VStack(spacing: 8) {
-            ZStack {
-                if let image {
-                    Image(nsImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .blur(radius: isPrivate ? 12 : 0)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        .shadow(color: .black.opacity(0.4), radius: 6, y: 3)
-                    if isPrivate {
-                        Image(systemName: "lock.fill").font(.system(size: 24)).foregroundStyle(.white.opacity(0.85))
-                    }
-                } else if let icon {
-                    Image(nsImage: icon).resizable().frame(width: 64, height: 64)
+        let shape = RoundedRectangle(cornerRadius: corner, style: .continuous)
+        ZStack {
+            if let image {
+                // Fill the card, keeping the top of the window (title bar, tabs) in view.
+                Image(nsImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: size.width, height: size.height, alignment: .top)
+                    .blur(radius: isPrivate ? 12 : 0)
+                if isPrivate {
+                    Image(systemName: "lock.fill").font(.system(size: 24)).foregroundStyle(.white.opacity(0.85))
                 }
+            } else {
+                VisualEffectView(material: .hudWindow)
+                if let icon { Image(nsImage: icon).resizable().frame(width: 56, height: 56) }
             }
-            .frame(width: thumbnailSize.width, height: thumbnailSize.height)
-            .overlay(alignment: .topLeading) {
-                HStack(spacing: 4) {
-                    if let chip = SpaceChip.label(for: window.space) {
-                        SpaceChip(text: chip.text, systemImage: chip.symbol)
-                    }
-                    if isPlayingAudio { AudioChip() }
-                }
-                .padding(6)
-            }
-            .saturation(window.isMinimized ? 0 : 1)
-            .opacity(window.isMinimized ? 0.55 : 1)
-
-            HStack(spacing: 6) {
-                if let icon { Image(nsImage: icon).resizable().frame(width: 18, height: 18) }
-                Text(verbatim: label ?? window.displayTitle)
-                    .font(.system(size: 12, weight: isSelected ? .semibold : .regular))
-                    .foregroundStyle(.white.opacity(isSelected ? 1 : 0.8))
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-            }
-            .frame(width: thumbnailSize.width)
         }
-        .padding(10)
-        .background {
+        .frame(width: size.width, height: size.height)
+        .clipShape(shape)
+        .overlay(shape.strokeBorder(.white.opacity(0.16), lineWidth: 0.5))
+        .overlay(alignment: .topLeading) {
+            HStack(spacing: 4) {
+                if let chip = SpaceChip.label(for: window.space) {
+                    SpaceChip(text: chip.text, systemImage: chip.symbol)
+                }
+                if isPlayingAudio { AudioChip() }
+            }
+            .padding(6)
+        }
+        .overlay(alignment: .bottom) {
+            TitlePill(text: label ?? window.displayTitle, highlighted: label != nil, fontSize: 12)
+                .padding(.leading, iconSize * 0.55)
+                .padding([.horizontal, .bottom], 8)
+        }
+        .shadow(color: .black.opacity(isSelected ? 0.55 : 0.4), radius: isSelected ? 14 : 9, y: 4)
+        .overlay {
             if isSelected {
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.accentColor.opacity(0.35))
-                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(Color.accentColor, lineWidth: 2))
+                RoundedRectangle(cornerRadius: corner + 4, style: .continuous)
+                    .strokeBorder(Color.accentColor, lineWidth: 3)
+                    .padding(-5)
+                    .shadow(color: Color.accentColor.opacity(0.7), radius: 8)
             }
         }
+        .overlay(alignment: .bottomLeading) {
+            if let icon {
+                Image(nsImage: icon)
+                    .resizable()
+                    .frame(width: iconSize, height: iconSize)
+                    .shadow(color: .black.opacity(0.5), radius: 3, y: 1)
+                    .offset(x: -iconSize * 0.25, y: iconSize * 0.25)
+            }
+        }
+        .saturation(window.isMinimized ? 0 : 1)
+        .opacity(window.isMinimized ? 0.55 : 1)
+        .frame(width: SwitcherLayout.cardWidth, height: SwitcherLayout.cardHeight, alignment: .top)
         .contentShape(Rectangle())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(verbatim: "\(window.appName), \(label ?? window.displayTitle)"))

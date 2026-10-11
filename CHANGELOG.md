@@ -18,6 +18,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- The window and desktop switchers look like the panel: Liquid Glass on macOS 26 (frosted
+  before), cards filled by the live thumbnail with the app icon on the corner and the title in a
+  pill, a glowing ring for the selection, and a quieter key hint with the keys in bold
 - Tiles sit 4 pt from the screen edge, like the Dock (was 16 pt); the far side keeps room
   for shadows, and the app icon's overhang is kept clear on the left and bottom edges
 - In a full-screen space, where the menu bar is hidden, a top panel sits at the very top of

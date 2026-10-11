@@ -567,26 +567,26 @@ final class SwitcherStartTests: XCTestCase {
 }
 
 final class ThumbnailSizeTests: XCTestCase {
-    private let switcher = CGSize(width: 200, height: 126)
+    private let card = CGSize(width: 216, height: 135)
 
     func testTypicalWindowIsCapturedAtTileSizeNotMore() {
         let metrics = PanelMetrics(size: 0.4)  // tiles 216 pt wide
         let size = metrics.thumbnailPixelSize(for: CGSize(width: 1400, height: 1000), edge: .left,
-                                              scale: 1, otherImage: switcher)
+                                              scale: 1, otherImage: card)
         XCTAssertEqual(size, CGSize(width: 216, height: 155))
     }
 
-    func testSmallTilesStillCoverTheSwitcherCard() {
+    func testSmallTilesStillFillTheSwitcherCard() {
         let metrics = PanelMetrics(size: 0)  // tiles 120 pt wide
         let size = metrics.thumbnailPixelSize(for: CGSize(width: 1600, height: 1000), edge: .left,
-                                              scale: 1, otherImage: switcher)
-        XCTAssertEqual(size, CGSize(width: 200, height: 125))
+                                              scale: 1, otherImage: card)
+        XCTAssertEqual(size, CGSize(width: 216, height: 135))
     }
 
     func testRetinaDoublesThePixels() {
         let metrics = PanelMetrics(size: 0.4)
         let size = metrics.thumbnailPixelSize(for: CGSize(width: 1400, height: 1000), edge: .left,
-                                              scale: 2, otherImage: switcher)
+                                              scale: 2, otherImage: card)
         XCTAssertEqual(size, CGSize(width: 432, height: 309))
     }
 
@@ -596,12 +596,12 @@ final class ThumbnailSizeTests: XCTestCase {
             for edge in PanelEdge.allCases {
                 for ratio in [0.15, 0.4, 0.6, 1.0, 1.1, 2.5] {
                     let source = CGSize(width: 3000, height: 3000 * ratio)
-                    let pixels = metrics.thumbnailPixelSize(for: source, edge: edge, scale: 1, otherImage: switcher)
+                    let pixels = metrics.thumbnailPixelSize(for: source, edge: edge, scale: 1, otherImage: card)
                     let tile = metrics.tileSize(imageSize: source, edge: edge)
                     XCTAssertGreaterThanOrEqual(pixels.width, tile.width, "\(edge) \(step) \(ratio)")
                     XCTAssertGreaterThanOrEqual(pixels.height, tile.height, "\(edge) \(step) \(ratio)")
-                    let card = WindowCapturer.fittedSize(for: source, within: switcher)
-                    XCTAssertGreaterThanOrEqual(pixels.width + 0.5, card.width, "\(edge) \(step) \(ratio)")
+                    XCTAssertGreaterThanOrEqual(pixels.width, card.width, "\(edge) \(step) \(ratio)")
+                    XCTAssertGreaterThanOrEqual(pixels.height, card.height, "\(edge) \(step) \(ratio)")
                 }
             }
         }

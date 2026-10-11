@@ -247,20 +247,9 @@ struct DesktopSwitcherView: View {
             }
             .padding(SwitcherLayout.padding)
 
-            Text(verbatim: DesktopLayout.hint)
-                .font(.system(size: SwitcherLayout.footerFontSize))
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .lineLimit(SwitcherLayout.footerMaxLines)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, SwitcherLayout.padding)
-                .padding(.vertical, SwitcherLayout.footerPadding)
-                .frame(maxWidth: .infinity)
+            SwitcherHint(text: DesktopLayout.hint)
         }
-        .background(VisualEffectView(material: .hudWindow))
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(.white.opacity(0.18), lineWidth: 0.5))
-        .environment(\.colorScheme, .dark)
+        .switcherBackground()
     }
 }
 
@@ -279,10 +268,18 @@ private struct DesktopCard: View {
         VStack(spacing: 8) {
             miniature(size)
                 .frame(width: size.width, height: size.height)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .strokeBorder(.white.opacity(space.isShown ? 0.5 : 0.15), lineWidth: space.isShown ? 1.5 : 0.5))
-                .shadow(color: .black.opacity(0.4), radius: 6, y: 3)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .strokeBorder(.white.opacity(0.16), lineWidth: 0.5))
+                .shadow(color: .black.opacity(isSelected ? 0.55 : 0.4), radius: isSelected ? 14 : 9, y: 4)
+                .overlay {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .strokeBorder(Color.accentColor, lineWidth: 3)
+                            .padding(-5)
+                            .shadow(color: Color.accentColor.opacity(0.7), radius: 8)
+                    }
+                }
 
             HStack(spacing: 6) {
                 Text(verbatim: "\(number)")
@@ -304,14 +301,6 @@ private struct DesktopCard: View {
             .frame(width: size.width, height: DesktopLayout.labelHeight - 8)
         }
         .padding(DesktopLayout.cardPadding)
-        .background {
-            if isSelected {
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.accentColor.opacity(0.35))
-                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(Color.accentColor, lineWidth: 2))
-            }
-        }
         .contentShape(Rectangle())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(verbatim: "\(number), \(title.text)"))

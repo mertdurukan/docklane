@@ -32,16 +32,16 @@ public struct PanelMetrics: Equatable, Sendable {
     public static let maximumAspect: CGFloat = 1.1
 
     /// Pixel size to capture a window of `source` size (points) at, so that neither its
-    /// panel tile (which fills, cropping extreme shapes) nor `otherImage` (the window
-    /// switcher's box, which fits) shows it larger than captured, at backing `scale`.
+    /// panel tile nor `otherImage` (the window switcher's card) — both fill, cropping the
+    /// edges — shows it larger than captured, at backing `scale`.
     /// Capturing more only costs memory.
     public func thumbnailPixelSize(for source: CGSize, edge: PanelEdge, scale: CGFloat,
                                    otherImage: CGSize) -> CGSize {
         guard source.width > 0, source.height > 0 else { return CGSize(width: 1, height: 1) }
         let tile = tileSize(imageSize: source, edge: edge)
         let fill = max(tile.width / source.width, tile.height / source.height)
-        let fit = min(otherImage.width / source.width, otherImage.height / source.height)
-        let factor = max(fill, fit) * scale
+        let card = max(otherImage.width / source.width, otherImage.height / source.height)
+        let factor = max(fill, card) * scale
         return CGSize(width: (source.width * factor).rounded(.up), height: (source.height * factor).rounded(.up))
     }
 
