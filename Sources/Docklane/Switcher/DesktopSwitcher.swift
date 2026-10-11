@@ -47,6 +47,13 @@ final class DesktopSwitcher {
         }
     }
 
+    func stopKeyTap() {
+        if isActive { cancel() }
+        keyTap.stop()
+    }
+
+    func startKeyTap() { startTap() }
+
     private func startTap() {
         let settings = AppSettings.shared
         keyTap.start(trigger: settings.desktopSwitcherEnabled ? settings.switcherShortcut.desktopTrigger : nil)

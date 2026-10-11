@@ -284,7 +284,8 @@ final class WindowEngine {
     }
 
     func refreshThumbnails(_ targets: [DockWindow]) {
-        guard !isPaused, !targets.isEmpty else { return }
+        // Without Screen Recording every capture fails; don't keep asking.
+        guard !isPaused, !targets.isEmpty, PermissionMonitor.shared.state.screenRecording else { return }
         let bounds = thumbnailPixelSizes(targets)
         Task { [weak self, capturer] in
             let images = await capturer.capture(targets, within: bounds)
@@ -416,6 +417,13 @@ final class WindowEngine {
         distributed.addObserver(forName: Notification.Name("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.resume() }
         }
+    }
+
+    /// Accessibility came back: observers made without it never fire, so subscribe again.
+    func accessibilityRestored() {
+        watcher?.unwatchAll()
+        watcher?.sync()
+        refresh()
     }
 
     private func resume() {

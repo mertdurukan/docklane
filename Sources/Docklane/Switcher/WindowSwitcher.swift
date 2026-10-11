@@ -57,6 +57,16 @@ final class WindowSwitcher {
         }
     }
 
+    /// Without Accessibility the switcher can't act, so the system's ⌘Tab takes over.
+    func stopKeyTap() {
+        if isActive { cancel() }
+        keyTap.stop()
+    }
+
+    func startKeyTap() {
+        keyTap.start(trigger: AppSettings.shared.switcherShortcut.trigger)
+    }
+
     private func observeSettings() {
         withObservationTracking {
             _ = AppSettings.shared.switcherShortcut

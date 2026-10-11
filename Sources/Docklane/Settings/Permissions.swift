@@ -1,4 +1,5 @@
 import AppKit
+import Observation
 import DocklaneCore
 import SwiftUI
 
@@ -41,6 +42,104 @@ enum Permissions {
     private static func openPrivacyPane(_ anchor: String) {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?\(anchor)") {
             NSWorkspace.shared.open(url)
+        }
+    }
+}
+
+/// Watches the permissions while Docklane runs: they can be turned off in System Settings or
+/// reset by a macOS update. Accessibility changes arrive as a system notification; Screen
+/// Recording is checked on wake and once a minute (a cheap local call).
+@MainActor
+@Observable
+final class PermissionMonitor {
+    static let shared = PermissionMonitor()
+
+    private(set) var state = PermissionState(accessibility: Permissions.accessibility,
+                                             screenRecording: Permissions.screenRecording)
+    /// Screen Recording came back while Docklane was running; it takes effect after a restart.
+    private(set) var restartSuggested = false
+    @ObservationIgnored var onChange: ((PermissionState.Reaction) -> Void)?
+    @ObservationIgnored private var timer: Timer?
+
+    private init() {}
+
+    func start() {
+        guard timer == nil else { return }
+        DistributedNotificationCenter.default().addObserver(
+            forName: Notification.Name("com.apple.accessibility.api"), object: nil, queue: .main
+        ) { [weak self] _ in
+            // The trust value updates a moment after the notification.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                MainActor.assumeIsolated { self?.check() }
+            }
+        }
+        let center = NSWorkspace.shared.notificationCenter
+        for name in [NSWorkspace.screensDidWakeNotification, NSWorkspace.sessionDidBecomeActiveNotification] {
+            center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.check() }
+            }
+        }
+        let timer = Timer(timeInterval: 60, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.check() }
+        }
+        timer.tolerance = 15
+        RunLoop.main.add(timer, forMode: .common)
+        self.timer = timer
+    }
+
+    func check() {
+        let new = PermissionState(accessibility: Permissions.accessibility, screenRecording: Permissions.screenRecording)
+        guard new != state else { return }
+        let reaction = PermissionState.reaction(from: state, to: new)
+        state = new
+        if reaction.suggestRestart { restartSuggested = true }
+        onChange?(reaction)
+    }
+}
+
+/// What is off and what that means, with a way to fix it; shown in the menu bar popover.
+struct PermissionWarning: View {
+    private var monitor: PermissionMonitor { .shared }
+
+    var body: some View {
+        let state = monitor.state
+        if !state.allGranted || monitor.restartSuggested {
+            VStack(alignment: .leading, spacing: 8) {
+                if !state.allGranted {
+                    Label("A permission Docklane needs is off", systemImage: "exclamationmark.triangle.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.orange)
+                }
+                if !state.accessibility {
+                    row("Without Accessibility, Docklane can't switch to or arrange windows, and ⌘Tab goes back to the macOS switcher.",
+                        action: Permissions.requestAccessibility)
+                }
+                if !state.screenRecording {
+                    row("Without Screen Recording, previews and window titles stop updating and windows on other desktops can't be shown.",
+                        action: Permissions.requestScreenRecording)
+                }
+                if state.screenRecording && monitor.restartSuggested {
+                    HStack {
+                        Text("Restart Docklane to finish turning on Screen Recording.")
+                            .font(.callout)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                        Button("Restart Docklane", action: Relauncher.relaunch)
+                    }
+                }
+            }
+            .padding(10)
+            .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.orange.opacity(0.12)))
+        }
+    }
+
+    private func row(_ text: LocalizedStringKey, action: @escaping () -> Void) -> some View {
+        HStack(alignment: .top) {
+            Text(text)
+                .font(.callout)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 8)
+            Button("Open Settings", action: action)
         }
     }
 }

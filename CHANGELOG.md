@@ -87,6 +87,12 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- A permission turned off while Docklane runs (in System Settings or by a macOS update) no
+  longer fails silently: the menu bar icon gets a dot, the menu bar popover says which
+  permission is off and what stops working, with a button to System Settings. Without
+  Accessibility the ⌘Tab / ⌥Tab taps are removed so the system switcher works; without Screen
+  Recording no captures are attempted. When a permission comes back Docklane picks up again
+  (and offers a restart for Screen Recording). Settings → General shows the live state
 - Saved data is never lost to a read error: layouts, display layouts, app rules and the panel
   order that can't be read (damaged, or written by a newer Docklane) are kept as a dated backup
   in Docklane's settings before it starts over, and one damaged layout or rule no longer drops

@@ -3,7 +3,11 @@ import AppKit
 /// The menu bar glyph: the app icon's three window cards stepping forward, as a template
 /// image so macOS tints it for light, dark and highlighted menu bars.
 enum MenuBarIcon {
-    static let image: NSImage = {
+    static let image: NSImage = draw(attention: false)
+    /// With a dot in the corner: a permission Docklane needs is off.
+    static let attentionImage: NSImage = draw(attention: true)
+
+    private static func draw(attention: Bool) -> NSImage {
         let image = NSImage(size: NSSize(width: 18, height: 18), flipped: false) { _ in
             guard let ctx = NSGraphicsContext.current?.cgContext else { return false }
             // Back to front; each card cuts a thin gap into the ones behind it.
@@ -26,10 +30,17 @@ enum MenuBarIcon {
             for index in 0..<3 {
                 ctx.fillEllipse(in: CGRect(x: 8.4 + CGFloat(index) * 2.1, y: 11.4, width: 1.5, height: 1.5))
             }
+            if attention {
+                // A ring cut around the dot keeps it readable over the cards.
+                ctx.fillEllipse(in: CGRect(x: 11.5, y: 0, width: 7, height: 7))
+                ctx.setBlendMode(.normal)
+                ctx.setFillColor(NSColor.black.cgColor)
+                ctx.fillEllipse(in: CGRect(x: 12.5, y: 1, width: 5, height: 5))
+            }
             return true
         }
         image.isTemplate = true
         image.accessibilityDescription = "Docklane"
         return image
-    }()
+    }
 }

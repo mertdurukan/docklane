@@ -391,8 +391,7 @@ private struct GeneralSettings: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var language = AppLanguage.current
     @State private var languageChanged = false
-    @State private var accessibility = Permissions.accessibility
-    @State private var screenRecording = Permissions.screenRecording
+    private var permissions: PermissionState { PermissionMonitor.shared.state }
 
     var body: some View {
         Form {
@@ -422,9 +421,9 @@ private struct GeneralSettings: View {
             }
             Section {
                 permission("Accessibility", detail: Permissions.accessibilityPurpose,
-                           granted: accessibility, action: Permissions.requestAccessibility)
+                           granted: permissions.accessibility, action: Permissions.requestAccessibility)
                 permission("Screen & System Audio Recording", detail: Permissions.screenRecordingPurpose,
-                           granted: screenRecording, action: Permissions.requestScreenRecording)
+                           granted: permissions.screenRecording, action: Permissions.requestScreenRecording)
             } header: {
                 Text("System permissions")
             } footer: {
@@ -432,10 +431,7 @@ private struct GeneralSettings: View {
             }
         }
         .formStyle(.grouped)
-        .onAppear {
-            accessibility = Permissions.accessibility
-            screenRecording = Permissions.screenRecording
-        }
+        .onAppear { PermissionMonitor.shared.check() }
     }
 
     private func permission(_ title: LocalizedStringKey, detail: LocalizedStringKey, granted: Bool,

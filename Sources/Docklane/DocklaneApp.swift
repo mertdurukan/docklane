@@ -10,13 +10,25 @@ struct DocklaneApp: App {
         MenuBarExtra {
             QuickControls()
         } label: {
-            Image(nsImage: MenuBarIcon.image)
-                .accessibilityLabel(Text(verbatim: "Docklane"))
+            MenuBarLabel()
         }
         .menuBarExtraStyle(.window)
 
         Settings {
             SettingsView()
+        }
+    }
+}
+
+/// The menu bar icon; it carries a dot while a permission Docklane needs is off.
+private struct MenuBarLabel: View {
+    var body: some View {
+        if PermissionMonitor.shared.state.allGranted {
+            Image(nsImage: MenuBarIcon.image)
+                .accessibilityLabel(Text(verbatim: "Docklane"))
+        } else {
+            Image(nsImage: MenuBarIcon.attentionImage)
+                .accessibilityLabel(Text("Docklane – a permission is off"))
         }
     }
 }
@@ -44,6 +56,8 @@ private struct QuickControls: View {
                 .help(settings.autoHide ? "Keep the panel always visible" : "Hide the panel until the pointer reaches the screen edge")
                 .controlSize(.regular)
             }
+
+            PermissionWarning()
 
             VStack(alignment: .leading, spacing: 6) {
                 Text("Panel size").font(.subheadline.weight(.medium))
@@ -160,6 +174,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func start() {
         let engine = WindowEngine.shared
         let panels = PanelController.shared
+        let monitor = PermissionMonitor.shared
+        monitor.onChange = { reaction in
+            if reaction.stopKeyTaps {
+                WindowSwitcher.shared.stopKeyTap()
+                DesktopSwitcher.shared.stopKeyTap()
+            }
+            if reaction.restartAccessibilityWork {
+                WindowSwitcher.shared.startKeyTap()
+                DesktopSwitcher.shared.startKeyTap()
+                engine.accessibilityRestored()
+            }
+            if reaction.resumeCaptures { engine.viewerAppeared() }
+        }
+        monitor.start()
         engine.onWindowsChanged = { [weak self] in
             self?.clearance.enforce(engine.windows)
             WorkspaceManager.shared.windowsChanged()

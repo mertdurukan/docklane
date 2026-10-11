@@ -240,6 +240,70 @@
         }
       }
     },
+    "A permission Docklane needs is off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أحد الأذونات التي يحتاجها Docklane متوقف"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane-এর দরকারি একটি অনুমতি বন্ধ আছে"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un permiso que Docklane necesita está desactivado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une autorisation nécessaire à Docklane est désactivée"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane के लिए ज़रूरी एक अनुमति बंद है"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izin yang dibutuhkan Docklane nonaktif"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uma permissão de que o Docklane precisa está desativada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отключено разрешение, нужное Docklane"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane'in ihtiyaç duyduğu bir izin kapalı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane 所需的一项权限已关闭"
+          }
+        }
+      }
+    },
     "About": {
       "localizations": {
         "ar": {
@@ -2156,6 +2220,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "Docklane 需要两项权限。请在“系统设置”→“隐私与安全性”中授予；两项都开启后，Docklane 会自动启动。"
+          }
+        }
+      }
+    },
+    "Docklane – a permission is off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – أحد الأذونات متوقف"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – একটি অনুমতি বন্ধ"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane: un permiso está desactivado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – une autorisation est désactivée"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – एक अनुमति बंद है"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – satu izin nonaktif"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – uma permissão está desativada"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane — разрешение отключено"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – bir izin kapalı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane – 有一项权限已关闭"
           }
         }
       }
@@ -6832,6 +6960,70 @@
         }
       }
     },
+    "Restart Docklane to finish turning on Screen Recording.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أعد تشغيل Docklane لإكمال تفعيل تسجيل الشاشة."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Recording চালু করা শেষ করতে Docklane আবার চালু করুন।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reinicia Docklane para terminar de activar Grabación de pantalla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redémarrez Docklane pour finir d’activer l’Enregistrement de l’écran."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Recording पूरी तरह चालू करने के लिए Docklane को फिर से शुरू करें।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mulai ulang Docklane untuk menyelesaikan pengaktifan Perekaman Layar."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reinicie o Docklane para terminar de ativar a Gravação de Tela."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезапустите Docklane, чтобы Запись экрана заработала."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı'nın açılmasını tamamlamak için Docklane'i yeniden başlat."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新启动 Docklane 以完成开启“录屏”权限。"
+          }
+        }
+      }
+    },
     "Restore": {
       "localizations": {
         "ar": {
@@ -10732,6 +10924,134 @@
           "stringUnit": {
             "state": "translated",
             "value": "你拖移过的窗口会恢复为按应用分组的默认顺序。此操作无法撤销。"
+          }
+        }
+      }
+    },
+    "Without Accessibility, Docklane can't switch to or arrange windows, and ⌘Tab goes back to the macOS switcher.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدون إذن تسهيلات الاستخدام لا يمكن لـ Docklane الانتقال إلى النوافذ أو ترتيبها، ويعود ⌘Tab إلى مبدّل macOS."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility ছাড়া Docklane উইন্ডোতে যেতে বা সেগুলো সাজাতে পারে না, আর ⌘Tab আবার macOS-এর সুইচারে ফিরে যায়।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin Accesibilidad, Docklane no puede cambiar a las ventanas ni colocarlas, y ⌘Tab vuelve al selector de macOS."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans Accessibilité, Docklane ne peut ni afficher ni disposer les fenêtres, et ⌘Tab revient au sélecteur de macOS."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility के बिना Docklane विंडो पर नहीं जा सकता और उन्हें व्यवस्थित नहीं कर सकता, और ⌘Tab फिर से macOS स्विचर बन जाता है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanpa Aksesibilitas, Docklane tidak dapat beralih ke jendela atau menatanya, dan ⌘Tab kembali ke pengalih macOS."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem Acessibilidade, o Docklane não consegue alternar para as janelas nem organizá-las, e o ⌘Tab volta para o alternador do macOS."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без Универсального доступа Docklane не может переключаться на окна и размещать их, а ⌘Tab снова открывает переключатель macOS."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik izni olmadan Docklane pencerelere geçemez ve onları yerleştiremez; ⌘Tab da macOS'un değiştiricisine döner."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有“辅助功能”权限，Docklane 无法切换到窗口或排列窗口，⌘Tab 也会恢复为 macOS 的切换器。"
+          }
+        }
+      }
+    },
+    "Without Screen Recording, previews and window titles stop updating and windows on other desktops can't be shown.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدون إذن تسجيل الشاشة تتوقف المعاينات وعناوين النوافذ عن التحديث، ولا يمكن عرض نوافذ أسطح المكتب الأخرى."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Recording ছাড়া প্রিভিউ ও উইন্ডোর শিরোনাম আর হালনাগাদ হয় না, আর অন্য ডেস্কটপের উইন্ডো দেখানো যায় না।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin Grabación de pantalla, las vistas previas y los títulos dejan de actualizarse y no se pueden mostrar las ventanas de otros escritorios."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans Enregistrement de l’écran, les aperçus et les titres ne se mettent plus à jour et les fenêtres des autres bureaux ne peuvent pas être affichées."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screen Recording के बिना प्रीव्यू और विंडो टाइटल अपडेट नहीं होते और दूसरे डेस्कटॉप की विंडो नहीं दिख सकतीं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tanpa Perekaman Layar, pratinjau dan judul jendela berhenti diperbarui dan jendela di desktop lain tidak dapat ditampilkan."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem Gravação de Tela, as pré-visualizações e os títulos param de atualizar e as janelas de outras mesas não podem ser mostradas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без Записи экрана превью и заголовки окон перестают обновляться, а окна с других рабочих столов нельзя показать."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı izni olmadan önizlemeler ve pencere başlıkları güncellenmez, diğer masaüstlerindeki pencereler gösterilemez."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有“录屏”权限，预览和窗口标题将不再更新，也无法显示其他桌面上的窗口。"
           }
         }
       }

@@ -1027,3 +1027,32 @@ final class StoredDataRecoveryTests: XCTestCase {
         XCTAssertFalse(LoginSession.current.hasSuffix("--1"))
     }
 }
+
+final class PermissionStateTests: XCTestCase {
+    private let both = PermissionState(accessibility: true, screenRecording: true)
+
+    func testNoChangeNoReaction() {
+        XCTAssertEqual(PermissionState.reaction(from: both, to: both), PermissionState.Reaction())
+    }
+
+    func testLosingAccessibilityStopsTheKeyTapsOnly() {
+        let reaction = PermissionState.reaction(from: both, to: PermissionState(accessibility: false, screenRecording: true))
+        XCTAssertTrue(reaction.stopKeyTaps)
+        XCTAssertFalse(reaction.stopCaptures)
+        XCTAssertFalse(reaction.restartAccessibilityWork)
+    }
+
+    func testRegainingAccessibilityRestartsItsWork() {
+        let reaction = PermissionState.reaction(from: PermissionState(accessibility: false, screenRecording: true), to: both)
+        XCTAssertTrue(reaction.restartAccessibilityWork)
+        XCTAssertFalse(reaction.stopKeyTaps)
+    }
+
+    func testScreenRecordingLossStopsCapturesAndReturnSuggestsRestart() {
+        let without = PermissionState(accessibility: true, screenRecording: false)
+        XCTAssertTrue(PermissionState.reaction(from: both, to: without).stopCaptures)
+        let back = PermissionState.reaction(from: without, to: both)
+        XCTAssertTrue(back.resumeCaptures)
+        XCTAssertTrue(back.suggestRestart)
+    }
+}
