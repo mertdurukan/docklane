@@ -24,11 +24,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Commits are authored by the maintainer alone: no AI co-author or "generated with"
-      # lines anywhere in the history (the same rule as the local commit-msg hook).
+      # Commits are authored by the maintainer alone: no AI co-author trailer or tool
+      # attribution link anywhere in the history (the same rule as the local commit-msg hook).
+      # Matches only real trailers, not commit messages that talk about the rule.
       - name: Attribution
         run: |
-          if git log --format=%B | grep -inE '^(co-authored-by|signed-off-by):.*(claude|anthropic)|generated with .*claude'; then
+          if git log --format=%B | grep -inE '^(co-authored-by|signed-off-by):.*(claude|anthropic)|generated with \[claude code\]'; then
             echo "Remove the attribution lines above from the commit messages." >&2
             exit 1
           fi
