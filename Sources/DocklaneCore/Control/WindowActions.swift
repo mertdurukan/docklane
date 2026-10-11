@@ -4,9 +4,46 @@ import ApplicationServices
 /// Everything the window menu can do to a window or its app.
 @MainActor
 public enum WindowActions {
+    /// macOS won't minimize a full-screen window (⌘M does nothing there), so such a window
+    /// first leaves full screen, then goes to the Dock once that animation is over.
     public static func minimize(_ window: DockWindow) {
         guard let element = AccessibilityInspector.element(for: window.id, pid: window.pid) else { return }
-        AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, kCFBooleanTrue)
+        guard isFullScreen(element) else {
+            AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, kCFBooleanTrue)
+            return
+        }
+        let screenSize = size(of: element)
+        AXUIElementSetAttributeValue(element, fullScreenAttribute, kCFBooleanFalse)
+        Task { @MainActor in
+            // The attribute flips at once but the animation takes a moment, and a minimize
+            // request during it is ignored: wait until the window has left the screen-sized
+            // frame and stopped changing size.
+            var last = screenSize
+            for _ in 0..<30 {
+                try? await Task.sleep(for: .milliseconds(150))
+                let current = size(of: element)
+                if current != screenSize && current == last { break }
+                last = current
+            }
+            for _ in 0..<3 where !AccessibilityInspector.isMinimized(element) {
+                AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, kCFBooleanTrue)
+                try? await Task.sleep(for: .milliseconds(400))
+            }
+        }
+    }
+
+    private static func size(of element: AXUIElement) -> CGSize? {
+        guard let value = AccessibilityInspector.copyValue(element, kAXSizeAttribute),
+              CFGetTypeID(value) == AXValueGetTypeID() else { return nil }
+        var size = CGSize.zero
+        AXValueGetValue(value as! AXValue, .cgSize, &size)
+        return size
+    }
+
+    private static let fullScreenAttribute = "AXFullScreen" as CFString
+
+    private static func isFullScreen(_ element: AXUIElement) -> Bool {
+        (AccessibilityInspector.copyValue(element, "AXFullScreen") as? Bool) == true
     }
 
     /// Presses the window's close button, so the app can still ask to save.

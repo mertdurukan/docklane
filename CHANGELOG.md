@@ -33,6 +33,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- M in the window switcher (and Minimize in the panel menu) works on full-screen windows:
+  they leave full screen first, then go to the Dock (macOS won't minimize them directly)
 - A panel on the top edge opens every time the pointer is pushed to the top: the topmost
   pixels above the panel count too (the thin strip below the menu bar was easy to skip),
   after a 0.15 s pause so menus stay usable
