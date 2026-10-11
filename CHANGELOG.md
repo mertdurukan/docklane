@@ -8,6 +8,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- 3D perspective (on by default, Settings → Appearance): panel tiles lean into the screen like
+  Stage Manager, the side away from the edge receding; the tile under the pointer turns flat
 - Live pins: Pin Live Preview (panel menu) keeps a live, always-on-top copy of a window on every
   desktop (10 frames a second; once a second for a window on another desktop), up to four
 - App rules (Settings → Workspaces): new windows of an app are placed as soon as they open

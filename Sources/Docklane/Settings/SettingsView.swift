@@ -48,6 +48,7 @@ private struct AppearanceSettings: View {
             }
             Section {
                 Toggle("Show background", isOn: $settings.showBackground)
+                Toggle("3D perspective", isOn: $settings.perspectiveTiles)
                 Toggle("Always show window titles", isOn: $settings.alwaysShowTitles)
                 Toggle("Label windows on other desktops", isOn: $settings.labelOtherDesktops)
                 Toggle("Show a speaker on apps playing sound", isOn: $settings.showAudioIndicator)
