@@ -113,12 +113,9 @@ public struct DisplayLayoutStore: Codable, Equatable, Sendable {
 
     public init() {}
 
-    public static func load(from defaults: UserDefaults, key: String) -> DisplayLayoutStore {
-        guard let data = defaults.data(forKey: key),
-              let store = try? JSONDecoder().decode(DisplayLayoutStore.self, from: data),
-              store.version <= currentVersion
-        else { return DisplayLayoutStore() }
-        return store
+    public static func load(from defaults: UserDefaults, key: String, now: Date = Date()) -> DisplayLayoutStore {
+        StoredJSON.load(DisplayLayoutStore.self, from: defaults, key: key, now: now,
+                        isAcceptable: { $0.version <= currentVersion }).value ?? DisplayLayoutStore()
     }
 
     public func save(to defaults: UserDefaults, key: String) {

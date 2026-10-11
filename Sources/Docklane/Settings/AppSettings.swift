@@ -58,6 +58,16 @@ final class AppSettings {
 
     private let defaults = UserDefaults.standard
 
+    /// A damaged rule is skipped, not the whole list; unreadable data is backed up first.
+    private static func loadRules(from defaults: UserDefaults) -> [WindowRule] {
+        guard let rules = StoredJSON.load([Lenient<WindowRule>].self, from: defaults, key: "windowRules").value else { return [] }
+        let readable = rules.compactMap(\.value)
+        if readable.count < rules.count, let data = defaults.data(forKey: "windowRules") {
+            StoredJSON.keepBackup(of: data, in: defaults, key: "windowRules")
+        }
+        return readable
+    }
+
     private init() {
         defaults.register(defaults: [
             "size": 0.25,
@@ -98,7 +108,7 @@ final class AppSettings {
         desktopSwitcherEnabled = defaults.bool(forKey: "desktopSwitcherEnabled")
         rememberDisplayLayouts = defaults.bool(forKey: "rememberDisplayLayouts")
         keyboardPlacement = defaults.bool(forKey: "keyboardPlacement")
-        windowRules = defaults.data(forKey: "windowRules").flatMap { try? JSONDecoder().decode([WindowRule].self, from: $0) } ?? []
+        windowRules = Self.loadRules(from: defaults)
         privateApps = defaults.stringArray(forKey: "privateApps") ?? []
         peekEnabled = defaults.bool(forKey: "peekEnabled")
         peekDelay = defaults.double(forKey: "peekDelay")

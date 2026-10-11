@@ -355,12 +355,15 @@ final class LayoutMemoryTests: XCTestCase {
         memory.setLabel("Notes", for: window(9, "notes"))
         memory.move(9, before: nil, currentOrder: [4])
         memory.save(to: defaults, key: "layout")
-        XCTAssertEqual(LayoutMemory.load(from: defaults, key: "layout"), memory)
+        let loaded = LayoutMemory.load(from: defaults, key: "layout")
+        XCTAssertEqual(loaded.manualOrder, memory.manualOrder)
+        XCTAssertEqual(loaded.labels, memory.labels)
 
         var future = memory
         future.version = LayoutMemory.currentVersion + 1
         future.save(to: defaults, key: "layout")
-        XCTAssertEqual(LayoutMemory.load(from: defaults, key: "layout"), LayoutMemory(), "unknown format → start fresh")
+        let fresh = LayoutMemory.load(from: defaults, key: "layout")
+        XCTAssertTrue(fresh.manualOrder.isEmpty && fresh.labels.isEmpty, "unknown format → start fresh")
     }
 }
 
@@ -932,5 +935,95 @@ final class RestoreReportTests: XCTestCase {
         let layout = [saved("a", "Safari"), saved("a", "Safari")]
         let report = RestoreReport(saved: layout, missingBundleIDs: [], placedBundleIDs: ["a"], placedWindows: 1)
         XCTAssertTrue(report.isComplete)
+    }
+}
+
+final class StoredDataRecoveryTests: XCTestCase {
+    private var defaults: UserDefaults!
+    private let suite = "docklane.tests.recovery"
+    private let now = Date(timeIntervalSince1970: 1_800_000_000)
+
+    override func setUp() {
+        UserDefaults().removePersistentDomain(forName: suite)
+        defaults = UserDefaults(suiteName: suite)
+    }
+
+    override func tearDown() {
+        UserDefaults().removePersistentDomain(forName: suite)
+    }
+
+    private func backups(of key: String) -> [String] {
+        defaults.dictionaryRepresentation().keys.filter { $0.hasPrefix("\(key).backup.") }.sorted()
+    }
+
+    func testDamagedLibraryIsBackedUpBeforeStartingOver() {
+        let damaged = Data("{\"version\":1,\"profiles\":[".utf8)
+        defaults.set(damaged, forKey: "workspaces")
+        XCTAssertTrue(WorkspaceLibrary.load(from: defaults, key: "workspaces", now: now).profiles.isEmpty)
+        let kept = backups(of: "workspaces")
+        XCTAssertEqual(kept.count, 1)
+        XCTAssertEqual(defaults.data(forKey: kept[0]), damaged)
+        // Saving afterwards replaces the key, not the backup.
+        WorkspaceLibrary().save(to: defaults, key: "workspaces")
+        XCTAssertEqual(defaults.data(forKey: kept[0]), damaged)
+    }
+
+    func testLibraryFromANewerVersionIsKept() {
+        let newer = Data("{\"version\":9,\"profiles\":[]}".utf8)
+        defaults.set(newer, forKey: "workspaces")
+        _ = WorkspaceLibrary.load(from: defaults, key: "workspaces", now: now)
+        XCTAssertEqual(backups(of: "workspaces").count, 1)
+    }
+
+    func testOneDamagedProfileDoesNotDropTheOthers() throws {
+        var library = WorkspaceLibrary()
+        library.profiles = [WorkspaceProfile(name: "Work", windows: []), WorkspaceProfile(name: "Home", windows: [])]
+        var json = try XCTUnwrap(String(data: JSONEncoder().encode(library), encoding: .utf8))
+        json = json.replacingOccurrences(of: "\"name\":\"Home\"", with: "\"name\":42")
+        defaults.set(Data(json.utf8), forKey: "workspaces")
+        let loaded = WorkspaceLibrary.load(from: defaults, key: "workspaces", now: now)
+        XCTAssertEqual(loaded.profiles.map(\.name), ["Work"])
+        XCTAssertEqual(backups(of: "workspaces").count, 1)
+    }
+
+    func testReadableDataMakesNoBackup() {
+        var library = WorkspaceLibrary()
+        library.profiles = [WorkspaceProfile(name: "Work", windows: [])]
+        library.save(to: defaults, key: "workspaces")
+        XCTAssertEqual(WorkspaceLibrary.load(from: defaults, key: "workspaces", now: now), library)
+        XCTAssertTrue(backups(of: "workspaces").isEmpty)
+    }
+
+    func testManualOrderAndLabelsAreDroppedInANewLoginSession() {
+        let window = DockWindow(id: 7, pid: 1, bundleID: "a", appName: "A", title: "", bounds: .zero,
+                                isOnScreen: true, isMinimized: false)
+        var memory = LayoutMemory.load(from: defaults, key: "memory", session: "boot1-1")
+        memory.move(7, before: nil, currentOrder: [3, 7])
+        memory.setLabel("Mine", for: window)
+        memory.save(to: defaults, key: "memory")
+
+        let same = LayoutMemory.load(from: defaults, key: "memory", session: "boot1-1")
+        XCTAssertEqual(same.manualOrder, [3, 7])
+        XCTAssertEqual(same.label(for: window), "Mine")
+
+        let next = LayoutMemory.load(from: defaults, key: "memory", session: "boot2-5")
+        XCTAssertTrue(next.manualOrder.isEmpty)
+        XCTAssertNil(next.label(for: window))
+    }
+
+    func testMemoryWithoutASessionIsAdoptedNotCleared() throws {
+        let window = DockWindow(id: 7, pid: 1, bundleID: "a", appName: "A", title: "", bounds: .zero,
+                                isOnScreen: true, isMinimized: false)
+        var memory = LayoutMemory()
+        memory.setLabel("Mine", for: window)
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(memory)) as? [String: Any])
+        json["session"] = nil
+        defaults.set(try JSONSerialization.data(withJSONObject: json), forKey: "memory")
+        XCTAssertEqual(LayoutMemory.load(from: defaults, key: "memory", session: "boot1-1").label(for: window), "Mine")
+    }
+
+    func testLoginSessionIsStableWithinAProcess() {
+        XCTAssertEqual(LoginSession.current, LoginSession.current)
+        XCTAssertFalse(LoginSession.current.hasSuffix("--1"))
     }
 }

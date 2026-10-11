@@ -94,11 +94,21 @@ public struct WorkspaceLibrary: Codable, Equatable, Sendable {
 
     public init() {}
 
-    public static func load(from defaults: UserDefaults, key: String) -> WorkspaceLibrary {
-        guard let data = defaults.data(forKey: key),
-              let library = try? JSONDecoder().decode(WorkspaceLibrary.self, from: data),
-              library.version <= currentVersion
+    /// Unreadable data is kept as a backup (see `StoredJSON`); a damaged profile is skipped
+    /// (and the data backed up) instead of losing every profile.
+    public static func load(from defaults: UserDefaults, key: String, now: Date = Date()) -> WorkspaceLibrary {
+        struct Stored: Decodable {
+            let version: Int
+            let profiles: [Lenient<WorkspaceProfile>]
+        }
+        guard let stored = StoredJSON.load(Stored.self, from: defaults, key: key, now: now,
+                                           isAcceptable: { $0.version <= currentVersion }).value
         else { return WorkspaceLibrary() }
+        var library = WorkspaceLibrary()
+        library.profiles = stored.profiles.compactMap(\.value)
+        if library.profiles.count < stored.profiles.count, let data = defaults.data(forKey: key) {
+            StoredJSON.keepBackup(of: data, in: defaults, key: key, now: now)
+        }
         return library
     }
 

@@ -87,6 +87,11 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- Saved data is never lost to a read error: layouts, display layouts, app rules and the panel
+  order that can't be read (damaged, or written by a newer Docklane) are kept as a dated backup
+  in Docklane's settings before it starts over, and one damaged layout or rule no longer drops
+  the others. The manual panel order and window names are cleared after a restart or new login,
+  when window numbers point at other windows
 - M in the window switcher (and Minimize in the panel menu) works on full-screen windows:
   they leave full screen first, then go to the Dock (macOS won't minimize them directly)
 - A panel on the top edge opens every time the pointer is pushed to the top: the topmost

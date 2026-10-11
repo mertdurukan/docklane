@@ -17,6 +17,9 @@ public struct LayoutMemory: Codable, Equatable, Sendable {
     public var version = LayoutMemory.currentVersion
     public private(set) var manualOrder: [WindowNumber] = []
     public private(set) var labels: [Label] = []
+    /// Login session the window numbers belong to (`LoginSession.current`); nil in data saved
+    /// before this was recorded.
+    public private(set) var session: String?
 
     public init() {}
 
@@ -60,11 +63,17 @@ public struct LayoutMemory: Codable, Equatable, Sendable {
 
     // MARK: - Storage
 
-    public static func load(from defaults: UserDefaults, key: String) -> LayoutMemory {
-        guard let data = defaults.data(forKey: key),
-              let memory = try? JSONDecoder().decode(LayoutMemory.self, from: data),
-              memory.version <= currentVersion
-        else { return LayoutMemory() }
+    /// Window numbers from another login session point at other windows now, so the order
+    /// and labels of an earlier session are dropped. Unreadable data is backed up.
+    public static func load(from defaults: UserDefaults, key: String,
+                            session: String = LoginSession.current, now: Date = Date()) -> LayoutMemory {
+        var memory = StoredJSON.load(LayoutMemory.self, from: defaults, key: key, now: now,
+                                     isAcceptable: { $0.version <= currentVersion }).value ?? LayoutMemory()
+        if let saved = memory.session, saved != session {
+            memory.manualOrder = []
+            memory.labels = []
+        }
+        memory.session = session
         return memory
     }
 
