@@ -18,13 +18,11 @@ final class SwitcherKeyTap {
     private var port: CFMachPort?
     private var source: CFRunLoopSource?
 
-    func start(_ shortcut: SwitcherShortcut) {
+    /// Starts listening for `trigger`+Tab (e.g. ⌘, ⌥, or ⌃⌥ together); nil stops.
+    func start(trigger: CGEventFlags?) {
         stop()
-        switch shortcut {
-        case .off: return
-        case .commandTab: trigger = .maskCommand
-        case .optionTab: trigger = .maskAlternate
-        }
+        guard let trigger else { return }
+        self.trigger = trigger
 
         let mask = (1 << CGEventType.keyDown.rawValue) | (1 << CGEventType.flagsChanged.rawValue)
         let refcon = Unmanaged.passUnretained(self).toOpaque()

@@ -153,10 +153,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let engine = WindowEngine.shared
         let panels = PanelController.shared
         engine.onWindowsChanged = { [weak self] in self?.clearance.enforce(engine.windows) }
-        engine.isAnyoneLooking = { panels.isAnyPanelVisible || WindowSwitcher.shared.isOpen }
+        engine.isAnyoneLooking = { panels.isAnyPanelVisible || WindowSwitcher.shared.isOpen || DesktopSwitcher.shared.isOpen }
         panels.onLayoutChanged = { [weak self] in self?.clearance.enforce(engine.windows) }
         engine.start()
         panels.start()
         WindowSwitcher.shared.start()
+        DesktopSwitcher.shared.start()
     }
 }

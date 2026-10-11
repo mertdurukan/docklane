@@ -25,6 +25,7 @@ final class AppSettings {
     var hotKey: HotKeyChoice { didSet { store(hotKey.rawValue, "hotKey") } }
     /// Shortcut for the window switcher (replaces the app switcher when it is ⌘Tab).
     var switcherShortcut: SwitcherShortcut { didSet { store(switcherShortcut.rawValue, "switcherShortcut") } }
+    var desktopSwitcherEnabled: Bool { didSet { store(desktopSwitcherEnabled, "desktopSwitcherEnabled") } }
 
     /// Apps whose previews are blurred everywhere (password managers, banking, chat…).
     var privateApps: [String] { didSet { store(privateApps, "privateApps") } }
@@ -66,6 +67,7 @@ final class AppSettings {
             "pinnedOnAllDisplays": false,
             "hotKey": HotKeyChoice.controlOptionD.rawValue,
             "switcherShortcut": SwitcherShortcut.commandTab.rawValue,
+            "desktopSwitcherEnabled": true,
             "peekEnabled": true,
             "peekDelay": 0.6,
             "showAudioIndicator": true,
@@ -86,6 +88,7 @@ final class AppSettings {
         pinnedOnAllDisplays = defaults.bool(forKey: "pinnedOnAllDisplays")
         hotKey = HotKeyChoice(rawValue: defaults.string(forKey: "hotKey") ?? "") ?? .controlOptionD
         switcherShortcut = SwitcherShortcut(rawValue: defaults.string(forKey: "switcherShortcut") ?? "") ?? .commandTab
+        desktopSwitcherEnabled = defaults.bool(forKey: "desktopSwitcherEnabled")
         privateApps = defaults.stringArray(forKey: "privateApps") ?? []
         peekEnabled = defaults.bool(forKey: "peekEnabled")
         peekDelay = defaults.double(forKey: "peekDelay")
@@ -150,6 +153,22 @@ enum SwitcherShortcut: String, CaseIterable, Identifiable {
         case .off: return String(localized: "Off")
         }
     }
+
+    /// Modifier held with Tab.
+    var trigger: CGEventFlags? {
+        switch self {
+        case .commandTab: .maskCommand
+        case .optionTab: .maskAlternate
+        case .off: nil
+        }
+    }
+
+    /// The desktop switcher's modifier: ⌥, or ⌃⌥ when the window switcher already uses ⌥Tab.
+    var desktopTrigger: CGEventFlags {
+        self == .optionTab ? [.maskControl, .maskAlternate] : .maskAlternate
+    }
+
+    var desktopTitle: String { self == .optionTab ? "⌃⌥Tab" : "⌥Tab" }
 }
 
 /// Per-app interface language, stored as this app's AppleLanguages and applied on relaunch.

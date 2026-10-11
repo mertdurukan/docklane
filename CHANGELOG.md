@@ -8,10 +8,12 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
-- Go to any desktop or full-screen space from the window switcher: hold ⌘, press 1–9.
-  A numbered strip at the top shows the spaces in Mission Control order. Docklane lands on
-  the window last used there; for an empty desktop it uses your own Mission Control
-  shortcut (⌃1… or ⌃←/⌃→)
+- Desktop switcher on ⌥Tab: every desktop and full-screen space as a miniature (wallpaper
+  with its windows where they are, or the full-screen app), in Mission Control order. Hold ⌥,
+  Tab to move, release to go; 1–9 jump straight to one. The first press selects the desktop
+  used last, so a quick ⌥Tab toggles between two. Docklane lands on the window last used
+  there; an empty desktop is reached with your own Mission Control shortcut (⌃1… or ⌃←/⌃→).
+  ⌃⌥Tab when the window switcher uses ⌥Tab; can be turned off in Settings
 - ⌘` / ⌘⇧` move through the switcher and ⌘. cancels it, as in the system switcher
 
 ### Changed

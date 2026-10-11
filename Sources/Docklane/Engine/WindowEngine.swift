@@ -19,6 +19,8 @@ final class WindowEngine {
     private(set) var focusedWindow: WindowNumber?
     /// Every desktop and full-screen space, in Mission Control order.
     private(set) var spaces: [SpaceInfo] = []
+    /// Space ids, most recently shown first (for the desktop switcher).
+    @ObservationIgnored private(set) var recentSpaces: [UInt64] = []
     private(set) var badges: [String: String] = [:]
     /// Bundle identifiers of processes playing sound (helpers included).
     private(set) var audioBundles: Set<String> = []
@@ -103,7 +105,11 @@ final class WindowEngine {
         guard !isPaused else { return }
         let catalog = WindowCatalog.snapshot()
         let snapshot = catalog.windows
-        if catalog.spaces != spaces { spaces = catalog.spaces }
+        if catalog.spaces != spaces {
+            spaces = catalog.spaces
+            let shown = catalog.spaces.filter(\.isShown).map(\.id)
+            recentSpaces = shown + recentSpaces.filter { !shown.contains($0) }
+        }
         let previous = windows
         let merged = Self.merge(previous: previous, snapshot: snapshot)
 

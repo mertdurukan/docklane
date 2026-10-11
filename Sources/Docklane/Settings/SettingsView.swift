@@ -103,10 +103,11 @@ private struct BehaviorSettings: View {
                 }
                 Toggle("Only show windows from the current desktop", isOn: $settings.switcherCurrentDesktopOnly)
                     .disabled(settings.switcherShortcut == .off)
+                Toggle("Desktop switcher (\(settings.switcherShortcut.desktopTitle))", isOn: $settings.desktopSwitcherEnabled)
             } header: {
                 Text("Window switcher")
             } footer: {
-                Text("Hold the key and press Tab to move between windows; release to switch. Press / to search. Esc cancels; Q, H, W and M quit, hide, close or minimize.")
+                Text("Hold the key and press Tab to move between windows; release to switch. Press F to search. Esc cancels; Q, H, W and M quit, hide, close or minimize.")
             }
             Section {
                 Picker("Show / hide panel", selection: $settings.hotKey) {

@@ -757,3 +757,28 @@ final class SpaceNavigationTests: XCTestCase {
         XCTAssertEqual(SpaceDirectory.spaces(displays: displays, activeSpace: 652), spaces)
     }
 }
+
+final class DesktopStartTests: XCTestCase {
+    private func space(_ id: UInt64, shown: Bool = false) -> SpaceInfo {
+        SpaceInfo(id: id, isFullScreen: false, desktopNumber: Int(id), display: "A", isShown: shown)
+    }
+
+    func testFirstPressGoesBackToTheLastDesktop() {
+        let spaces = [space(1), space(2, shown: true), space(3)]
+        XCTAssertEqual(DesktopStart.selection(spaces: spaces, recent: [2, 3, 1], reverse: false), 2)
+    }
+
+    func testWithoutHistoryTheNextOneToTheRight() {
+        let spaces = [space(1), space(2), space(3, shown: true)]
+        XCTAssertEqual(DesktopStart.selection(spaces: spaces, recent: [], reverse: false), 0, "wraps around")
+    }
+
+    func testShiftSelectsTheLeftNeighbour() {
+        let spaces = [space(1, shown: true), space(2), space(3)]
+        XCTAssertEqual(DesktopStart.selection(spaces: spaces, recent: [1, 3], reverse: true), 2)
+    }
+
+    func testOneSpace() {
+        XCTAssertEqual(DesktopStart.selection(spaces: [space(1, shown: true)], recent: [], reverse: false), 0)
+    }
+}

@@ -82,3 +82,20 @@ public enum SpaceNavigation {
         return .press(shortcut, times: abs(to - from))
     }
 }
+
+/// What the desktop switcher selects when it opens. Pure, unit tested.
+public enum DesktopStart {
+    /// Spaces stay in Mission Control order (stable, spatial); the first press selects the
+    /// space used most recently before this one, so one ⌥Tab goes back and forth between two
+    /// desktops the way ⌘Tab does between two apps. Shift selects the neighbour to the left.
+    /// - Parameter recent: space ids, most recently shown first.
+    public static func selection(spaces: [SpaceInfo], recent: [UInt64], reverse: Bool) -> Int {
+        guard spaces.count > 1 else { return 0 }
+        let current = spaces.firstIndex(where: \.isShown) ?? 0
+        if reverse { return (current - 1 + spaces.count) % spaces.count }
+        for id in recent {
+            if let index = spaces.firstIndex(where: { $0.id == id && !$0.isShown }) { return index }
+        }
+        return (current + 1) % spaces.count
+    }
+}

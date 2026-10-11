@@ -17,19 +17,8 @@ final class SwitcherModel {
     var columns = 1
     var isSearching = false
     var query = ""
-    /// Desktops and full-screen spaces, numbered for the 1–9 keys; empty with one space.
-    var spaces: [SpaceStripItem] = []
-    var showsSpaceStrip: Bool { !spaces.isEmpty && !isSearching }
 }
 
-/// One space in the switcher's desktop strip.
-struct SpaceStripItem: Identifiable {
-    let number: Int
-    let space: SpaceInfo
-    let title: String
-    let pid: pid_t?
-    var id: UInt64 { space.id }
-}
 
 /// ⌘Tab for windows: every window on every desktop, most recently used first. Hold the
 /// modifier and press Tab to move, release to switch. F (⌘F) searches; Esc cancels;
@@ -55,7 +44,7 @@ final class WindowSwitcher {
         keyTap.isSwitching = { [weak self] in self?.isActive ?? false }
         keyTap.isSearching = { [weak self] in self?.model.isSearching ?? false }
         keyTap.onKey = { [weak self] key in self?.handle(key) ?? false }
-        keyTap.start(AppSettings.shared.switcherShortcut)
+        keyTap.start(trigger: AppSettings.shared.switcherShortcut.trigger)
         observeSettings()
         // Clicking another app (e.g. while typing a search) closes the switcher, so the
         // keyboard never stays captured by a switcher nobody is looking at.
@@ -74,7 +63,7 @@ final class WindowSwitcher {
         } onChange: { [weak self] in
             Task { @MainActor in
                 guard let self else { return }
-                self.keyTap.start(AppSettings.shared.switcherShortcut)
+                self.keyTap.start(trigger: AppSettings.shared.switcherShortcut.trigger)
                 self.observeSettings()
             }
         }
@@ -105,8 +94,8 @@ final class WindowSwitcher {
                 cancel()
             }
             return true
-        case .goToSpace(let number):
-            return goToSpace(number)
+        case .goToSpace:
+            return true  // desktops have their own switcher (⌥Tab)
         case .beginSearch:
             model.isSearching = true
             model.query = ""
@@ -187,7 +176,6 @@ final class WindowSwitcher {
         model.isSearching = false
         model.query = ""
         model.selection = selection
-        model.spaces = Self.strip(WindowEngine.shared.spaces, windows: WindowEngine.shared.windows)
         previousApp = front
 
         let panel = self.panel ?? makePanel()
@@ -206,12 +194,10 @@ final class WindowSwitcher {
 
     private func makePanel() -> SwitcherPanel {
         let panel = SwitcherPanel()
-        panel.contentView = NSHostingView(rootView: SwitcherView(model: model, onChoose: { [weak self] index in
+        panel.contentView = NSHostingView(rootView: SwitcherView(model: model) { [weak self] index in
             self?.model.selection = index
             self?.commit()
-        }, onSpace: { [weak self] number in
-            _ = self?.goToSpace(number)
-        })
+        }
         // Arrow keys move through items in screen order, so the row stays left-to-right.
         .environment(\.layoutDirection, .leftToRight))
         return panel
@@ -226,14 +212,9 @@ final class WindowSwitcher {
         let layout = SwitcherLayout(count: model.allItems.count, maxWidth: area.width * 0.9)
         model.columns = layout.columns
         var size = layout.panelSize
-        let showsStrip = model.showsSpaceStrip
-        if showsStrip {
-            size.width = min(max(size.width, SwitcherLayout.stripWidth(model.spaces)), area.width * 0.9)
-        }
-        let hint = SwitcherLayout.hint(searching: model.isSearching, desktops: showsStrip)
-        let footer = SwitcherLayout.footerHeight(for: hint, width: size.width - 2 * SwitcherLayout.padding)
+        let footer = SwitcherLayout.footerHeight(for: SwitcherLayout.hint(searching: model.isSearching),
+                                                 width: size.width - 2 * SwitcherLayout.padding)
         size.height += footer + (model.isSearching ? SwitcherLayout.searchHeight : 0)
-            + (showsStrip ? SwitcherLayout.stripHeight : 0)
         size.height = min(size.height, area.height * 0.9)
         panel.setFrame(NSRect(x: area.midX - size.width / 2, y: area.midY - size.height / 2,
                               width: size.width, height: size.height), display: true)
@@ -275,28 +256,6 @@ final class WindowSwitcher {
         }
     }
 
-    private static func strip(_ spaces: [SpaceInfo], windows: [DockWindow]) -> [SpaceStripItem] {
-        guard spaces.count > 1 else { return [] }
-        return spaces.prefix(9).enumerated().map { index, space in
-            let title = SpaceSwitcher.title(for: space, windows: windows)
-            return SpaceStripItem(number: index + 1, space: space, title: title.text, pid: title.pid)
-        }
-    }
-
-    private func goToSpace(_ number: Int) -> Bool {
-        guard isActive else { return false }
-        guard let item = model.spaces.first(where: { $0.number == number }) else { return true }
-        hide()
-        let previousApp = previousApp
-        DispatchQueue.main.async {
-            if SpaceSwitcher.go(to: item.space) { return }
-            if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
-                previousApp?.activate()
-            }
-        }
-        return true
-    }
-
     private func cancel() {
         hide()
         if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
@@ -329,27 +288,10 @@ struct SwitcherLayout {
     }
 
     /// The keyboard hint under the cards, localized; wraps only between its items.
-    static func hint(searching: Bool, desktops: Bool) -> String {
+    static func hint(searching: Bool) -> String {
         HintText.wrappingBetweenItems(searching
             ? String(localized: "Return switch  ·  Esc clear / close  ·  ← → move")
-            : desktops
-            ? String(localized: "Tab next  ·  1–9 desktop  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel")
             : String(localized: "Tab next  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel"))
-    }
-
-    static let stripHeight: CGFloat = 48
-    static let stripFontSize: CGFloat = 12
-    static let stripTitleMaxWidth: CGFloat = 130
-    static let stripSpacing: CGFloat = 8
-
-    /// Width the desktop strip needs (chips side by side plus the panel padding).
-    static func stripWidth(_ items: [SpaceStripItem]) -> CGFloat {
-        let font = NSFont.systemFont(ofSize: stripFontSize, weight: .medium)
-        let chips = items.map { item -> CGFloat in
-            let title = min(ceil((item.title as NSString).size(withAttributes: [.font: font]).width), stripTitleMaxWidth)
-            return SpaceStripChip.fixedWidth + title
-        }
-        return chips.reduce(0, +) + CGFloat(max(items.count - 1, 0)) * stripSpacing + 2 * padding
     }
 
     /// Height of the hint wrapped to `width`, at most `footerMaxLines` lines.
@@ -392,7 +334,6 @@ final class SwitcherPanel: NSPanel {
 struct SwitcherView: View {
     let model: SwitcherModel
     let onChoose: (Int) -> Void
-    let onSpace: (Int) -> Void
 
     var body: some View {
         let columns = Array(repeating: GridItem(.fixed(SwitcherLayout.cardWidth), spacing: SwitcherLayout.spacing),
@@ -401,17 +342,6 @@ struct SwitcherView: View {
         let carriers = DockOrdering.badgeCarriers(model.items)
 
         VStack(spacing: 0) {
-            if model.showsSpaceStrip {
-                HStack(spacing: SwitcherLayout.stripSpacing) {
-                    ForEach(model.spaces) { item in
-                        SpaceStripChip(item: item).onTapGesture { onSpace(item.number) }
-                    }
-                }
-                .padding(.horizontal, SwitcherLayout.padding)
-                .frame(maxWidth: .infinity)
-                .frame(height: SwitcherLayout.stripHeight)
-                Divider().opacity(0.4)
-            }
             if model.isSearching {
                 HStack(spacing: 8) {
                     Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
@@ -453,7 +383,7 @@ struct SwitcherView: View {
                 }
             }
 
-            Text(verbatim: SwitcherLayout.hint(searching: model.isSearching, desktops: model.showsSpaceStrip))
+            Text(verbatim: SwitcherLayout.hint(searching: model.isSearching))
                 .font(.system(size: SwitcherLayout.footerFontSize))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -467,54 +397,6 @@ struct SwitcherView: View {
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(.white.opacity(0.18), lineWidth: 0.5))
         .environment(\.colorScheme, .dark)
-    }
-}
-
-/// "[2] 🖥 Desktop 2" chip in the desktop strip; the shown space is highlighted.
-struct SpaceStripChip: View {
-    let item: SpaceStripItem
-
-    /// Everything but the title: padding, number key, icon and gaps.
-    nonisolated static let fixedWidth: CGFloat = 10 + 18 + 6 + 16 + 5 + 10
-
-    private var icon: NSImage? { item.pid.flatMap { NSRunningApplication(processIdentifier: $0)?.icon } }
-
-    var body: some View {
-        HStack(spacing: 0) {
-            Text(verbatim: "\(item.number)")
-                .font(.system(size: 11, weight: .semibold).monospacedDigit())
-                .frame(width: 18, height: 18)
-                .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(.white.opacity(0.16)))
-                .padding(.trailing, 6)
-            Group {
-                if let icon {
-                    Image(nsImage: icon).resizable()
-                } else {
-                    Image(systemName: item.space.isFullScreen ? "arrow.up.left.and.arrow.down.right" : "menubar.dock.rectangle")
-                        .resizable().aspectRatio(contentMode: .fit).foregroundStyle(.secondary)
-                }
-            }
-            .frame(width: 16, height: 16)
-            .padding(.trailing, 5)
-            Text(verbatim: item.title)
-                .font(.system(size: SwitcherLayout.stripFontSize, weight: .medium))
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .frame(maxWidth: SwitcherLayout.stripTitleMaxWidth)
-                .fixedSize()
-        }
-        .padding(.horizontal, 10)
-        .frame(height: 30)
-        .background {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(item.space.isShown ? Color.accentColor.opacity(0.35) : .white.opacity(0.06))
-                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .strokeBorder(item.space.isShown ? Color.accentColor : .white.opacity(0.12), lineWidth: 1))
-        }
-        .contentShape(Rectangle())
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(verbatim: "\(item.number), \(item.title)"))
-        .accessibilityAddTraits(item.space.isShown ? [.isButton, .isSelected] : .isButton)
     }
 }
 
