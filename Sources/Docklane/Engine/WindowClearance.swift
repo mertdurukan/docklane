@@ -17,7 +17,7 @@ final class WindowClearance {
 
         let now = Date()
         lastAdjusted = lastAdjusted.filter { now.timeIntervalSince($0.value) < cooldown }
-        let thickness = settings.metrics.thickness(for: settings.edge)
+        let thickness = settings.metrics.thickness(for: settings.edge, background: settings.showBackground)
 
         for window in windows where window.isOnScreen && !window.isMinimized && window.space == .current {
             if let onlyPID, window.pid != onlyPID { continue }

@@ -80,7 +80,9 @@ struct WindowTile: View {
             .opacity(window.isMinimized ? 0.55 : 1)
             .scaleEffect(isHovered && !reduceMotion ? 1.03 : 1)
             .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: isHovered)
-            .padding(PanelMetrics.tileInset)
+            // No margin toward the screen edge (the panel's minimal edge gap is the distance),
+            // except inside a background, so tiles don't touch its border.
+            .padding(edge.insets(PanelMetrics.tileInset, edgeSide: settings.showBackground ? PanelMetrics.tileInset : 0))
             .contentShape(Rectangle())
             .onHover { hovering in
                 isHovered = hovering

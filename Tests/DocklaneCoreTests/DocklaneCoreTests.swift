@@ -283,9 +283,17 @@ final class PanelMetricsTests: XCTestCase {
 
     func testThicknessIncludesInsets() {
         let metrics = PanelMetrics(size: 0)
-        let insets = 2 * (PanelMetrics.edgeInset + PanelMetrics.tileInset)
-        XCTAssertEqual(metrics.thickness(for: .left), metrics.tileWidth + insets)
-        XCTAssertEqual(metrics.thickness(for: .bottom), metrics.tileHeight + insets)
+        let far = PanelMetrics.edgeInset + PanelMetrics.tileInset
+        XCTAssertEqual(metrics.thickness(for: .top), metrics.tileHeight + PanelMetrics.edgeGap + far)
+        XCTAssertEqual(metrics.thickness(for: .right), metrics.tileWidth + PanelMetrics.edgeGap + far)
+        // The app icon overhangs the bottom-left corner, which faces the left and bottom edges.
+        XCTAssertEqual(metrics.thickness(for: .left), metrics.tileWidth + PanelMetrics.edgeGap + metrics.iconOverhang + far)
+        XCTAssertEqual(metrics.thickness(for: .bottom, background: true),
+                       metrics.tileHeight + PanelMetrics.edgeGap + metrics.iconOverhang + PanelMetrics.tileInset + far)
+    }
+
+    func testEdgeGapIsMinimal() {
+        XCTAssertEqual(PanelMetrics(size: 0.3).edgeSideInset(for: .top), 4, "like the Dock")
     }
 
     func testTileKeepsAspectRatioWithinBounds() {

@@ -190,7 +190,7 @@ final class PanelController {
     private func frame(for screen: NSScreen) -> NSRect {
         PanelLayout.frames(
             edge: settings.edge,
-            thickness: settings.metrics.thickness(for: settings.edge),
+            thickness: settings.metrics.thickness(for: settings.edge, background: settings.showBackground),
             visibleFrame: screen.visibleFrame,
             autoHide: settings.autoHide,
             contentLength: screen.displayID.flatMap { contentLengths[$0] }

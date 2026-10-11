@@ -46,7 +46,8 @@ struct DockView: View {
                 }
             }
         }
-        .padding(PanelMetrics.edgeInset)
+        .padding(edge.insets(PanelMetrics.edgeInset,
+                             edgeSide: metrics.edgeSideInset(for: edge)))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
@@ -135,7 +136,7 @@ struct DockView: View {
     private var usableFrame: CGRect {
         let screen = NSScreen.screens.first { $0.frame == screenFrame } ?? NSScreen.main
         let visible = screen?.visibleFrame ?? screenFrame
-        return PanelLayout.frames(edge: settings.edge, thickness: settings.metrics.thickness(for: settings.edge),
+        return PanelLayout.frames(edge: settings.edge, thickness: settings.metrics.thickness(for: settings.edge, background: settings.showBackground),
                                   visibleFrame: visible, autoHide: settings.autoHide).usable
     }
 }
@@ -208,5 +209,15 @@ enum FileDrop {
                 continuation.resume(returning: url)
             }
         }
+    }
+}
+
+extension PanelEdge {
+    /// `value` on every side except the one facing the screen edge, which gets `edgeSide`.
+    func insets(_ value: CGFloat, edgeSide: CGFloat) -> EdgeInsets {
+        EdgeInsets(top: self == .top ? edgeSide : value,
+                   leading: self == .left ? edgeSide : value,
+                   bottom: self == .bottom ? edgeSide : value,
+                   trailing: self == .right ? edgeSide : value)
     }
 }

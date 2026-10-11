@@ -45,10 +45,24 @@ public struct PanelMetrics: Equatable, Sendable {
         return CGSize(width: (source.width * factor).rounded(.up), height: (source.height * factor).rounded(.up))
     }
 
-    /// Panel depth perpendicular to its edge.
-    public func thickness(for edge: PanelEdge) -> CGFloat {
+    /// Gap between the screen edge and the tiles: minimal, like the Dock's.
+    public static let edgeGap: CGFloat = 4
+
+    /// How far the app icon overhangs a tile's bottom-left corner.
+    public var iconOverhang: CGFloat { (iconSize * 0.25).rounded(.up) }
+
+    /// Space between the screen edge and the tiles: the minimal gap, plus the icon's overhang
+    /// where that corner faces the edge (left, bottom), plus the tile margin inside a
+    /// background so tiles don't touch its border.
+    public func edgeSideInset(for edge: PanelEdge, background: Bool = false) -> CGFloat {
+        Self.edgeGap + (edge == .left || edge == .bottom ? iconOverhang : 0) + (background ? Self.tileInset : 0)
+    }
+
+    /// Panel depth perpendicular to its edge: the edge side is minimal, the far side keeps
+    /// room for shadows and the hover lift.
+    public func thickness(for edge: PanelEdge, background: Bool = false) -> CGFloat {
         let tile = edge.isVertical ? tileWidth : tileHeight
-        return tile + 2 * (Self.edgeInset + Self.tileInset)
+        return tile + edgeSideInset(for: edge, background: background) + Self.edgeInset + Self.tileInset
     }
 
     /// Tile size for an image of the given aspect ratio: vertical panels fix the width,
