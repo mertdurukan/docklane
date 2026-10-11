@@ -163,6 +163,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         engine.onWindowsChanged = { [weak self] in
             self?.clearance.enforce(engine.windows)
             WorkspaceManager.shared.windowsChanged()
+            LivePins.shared.windowsChanged(engine.windows)
         }
         engine.isAnyoneLooking = { panels.isAnyPanelVisible || WindowSwitcher.shared.isOpen || DesktopSwitcher.shared.isOpen }
         panels.onLayoutChanged = { [weak self] in self?.clearance.enforce(engine.windows) }

@@ -100,6 +100,8 @@ one click away.
 - **Keyboard arrangement:** ⌃⌥←/→/↑/↓ put the front window in a half (press again: a third,
   then two thirds), ⌃⌥↩ fills the screen, ⌃⌥C centers, ⌃⌥⌘←/→ move it to the other display
 - **App rules:** new windows of an app go straight to their place ("Chrome: left half")
+- **Live pins:** right-click a window → Pin Live Preview keeps a small live copy of it on top of
+  everything, on every desktop; drag to move, resize from an edge, click to switch to it
 - **Privacy blur:** hide the previews of chosen apps (password managers, banking, chat…)
   everywhere
 - Launch at login, VoiceOver labels, a warning when the macOS Dock sits on the same edge

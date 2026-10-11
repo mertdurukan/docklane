@@ -155,6 +155,9 @@ struct WindowTile: View {
                 }
             }
         }
+        Button(LivePins.shared.isPinned(window) ? "Unpin Live Preview" : "Pin Live Preview") {
+            LivePins.shared.toggle(window)
+        }
         if !window.bundleID.isEmpty {
             Button(isPrivate ? "Show Preview" : "Hide Preview") { settings.togglePrivate(window.bundleID) }
         }

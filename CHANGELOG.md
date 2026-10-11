@@ -8,6 +8,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Live pins: Pin Live Preview (panel menu) keeps a live, always-on-top copy of a window on every
+  desktop (10 frames a second; once a second for a window on another desktop), up to four
 - App rules (Settings → Workspaces): new windows of an app are placed as soon as they open
   (left / right / top / bottom half, center, fill); windows open when Docklane starts are left alone
 - Arrange the front window from the keyboard: ⌃⌥←/→/↑/↓ halves, pressing again cycles to a
