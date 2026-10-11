@@ -111,7 +111,7 @@ one click away.
 - Launch at login, VoiceOver labels, a warning when the macOS Dock sits on the same edge
 - 11 languages with an in-app language choice
 
-<p align="center"><img src="docs/screenshots/settings.png" width="760" alt="Docklane's settings: Appearance, Behavior, Apps and About"></p>
+<p align="center"><img src="docs/screenshots/settings.png" width="760" alt="Docklane's settings: Appearance, Apps, Window Layouts and About"></p>
 
 ## Permissions
 
