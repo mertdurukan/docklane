@@ -192,7 +192,7 @@ final class WindowSwitcher {
         isActive = true
         startReleaseWatch()
         switcherLog.debug("shown items=\(items.count, privacy: .public) docklaneActive=\(NSApp.isActive, privacy: .public)")
-        WindowEngine.shared.refreshThumbnails(Array(items.prefix(12)))
+        WindowEngine.shared.refreshStaleThumbnails(among: items)
         WindowEngine.shared.refreshIndicators()
         return true
     }

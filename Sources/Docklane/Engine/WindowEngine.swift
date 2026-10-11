@@ -42,6 +42,8 @@ final class WindowEngine {
     @ObservationIgnored private var recentWindows: [WindowNumber] = []
     @ObservationIgnored private let capturer = WindowCapturer()
     @ObservationIgnored private var fingerprints: [WindowNumber: UInt64] = [:]
+    /// When each thumbnail was last taken.
+    @ObservationIgnored private var captureDates: [WindowNumber: Date] = [:]
     @ObservationIgnored private var watcher: AppEventWatcher?
     @ObservationIgnored private var timers: [Timer] = []
     @ObservationIgnored private var scanTicks = 0
@@ -53,7 +55,10 @@ final class WindowEngine {
     private static let memoryKey = "layoutMemory"
     private static let scanInterval: TimeInterval = 2
     private static let badgeInterval: TimeInterval = 5
-    private static let thumbnailInterval: TimeInterval = 10
+    /// While something shows thumbnails, those older than this are taken again; nothing is
+    /// captured while nobody looks.
+    static let thumbnailMaxAge: TimeInterval = 30
+    private static let thumbnailInterval: TimeInterval = 30
 
     private init() {
         memory = LayoutMemory.load(from: .standard, key: Self.memoryKey)
@@ -69,8 +74,7 @@ final class WindowEngine {
 
         observeWorkspace()
         refresh()
-        refreshBadges()
-        refreshThumbnails(windows)
+        // No thumbnails yet: they are taken when the panel or a switcher first appears.
 
         timers = [
             // Changes arrive as events; the scan is a safety net, every 2 s while someone looks
@@ -86,7 +90,7 @@ final class WindowEngine {
             },
             repeating(Self.thumbnailInterval) { engine in
                 guard engine.isAnyoneLooking() else { return }
-                engine.refreshAllThumbnails()
+                engine.refreshStaleThumbnails()
             },
         ]
     }
@@ -132,6 +136,7 @@ final class WindowEngine {
         for window in vanished {
             thumbnails[window.id] = nil
             fingerprints[window.id] = nil
+            captureDates[window.id] = nil
         }
         if !vanished.isEmpty { scheduleMemoryRelief() }
         // Windows that vanished while their app keeps running were closed: forget their
@@ -147,7 +152,7 @@ final class WindowEngine {
             let known = Set(previous.map(\.id))
             let added = merged.filter { !known.contains($0.id) }
             if hasScanned && !added.isEmpty { onWindowsAdded?(added) }
-            if !added.isEmpty { refreshThumbnails(added) }
+            if !added.isEmpty && isAnyoneLooking() { refreshThumbnails(added) }
             onWindowsChanged?()
         }
         hasScanned = true
@@ -158,7 +163,7 @@ final class WindowEngine {
 
     /// The panel or a switcher just appeared: bring what it shows up to date.
     func viewerAppeared() {
-        refreshThumbnailsIfStale()
+        refreshStaleThumbnails()
         refreshIndicators()
     }
 
@@ -255,10 +260,14 @@ final class WindowEngine {
         refreshThumbnails(windows)
     }
 
-    /// Called when the panel appears: refresh unless that happened moments ago.
-    func refreshThumbnailsIfStale(maxAge: TimeInterval = 3) {
-        guard Date().timeIntervalSince(lastFullRefresh) > maxAge else { return }
-        refreshAllThumbnails()
+    /// Takes again only the thumbnails that are missing or older than `thumbnailMaxAge`.
+    func refreshStaleThumbnails(among targets: [DockWindow]? = nil) {
+        let now = Date()
+        let stale = (targets ?? windows).filter { window in
+            guard let taken = captureDates[window.id] else { return true }
+            return now.timeIntervalSince(taken) > Self.thumbnailMaxAge
+        }
+        refreshThumbnails(stale)
     }
 
     func refreshThumbnails(_ targets: [DockWindow]) {
@@ -283,6 +292,8 @@ final class WindowEngine {
 
     private func apply(_ images: [WindowNumber: WindowImage]) {
         let live = Set(windows.map(\.id))
+        let now = Date()
+        for id in images.keys where live.contains(id) { captureDates[id] = now }
         for (id, image) in images where live.contains(id)
             && (fingerprints[id] != image.fingerprint || thumbnails[id]?.size != image.size) {
             fingerprints[id] = image.fingerprint
@@ -360,7 +371,7 @@ final class WindowEngine {
             MainActor.assumeIsolated {
                 guard let self else { return }
                 self.refresh()
-                self.refreshThumbnails(self.windows.filter(\.isOnScreen))
+                if self.isAnyoneLooking() { self.refreshThumbnails(self.windows.filter(\.isOnScreen)) }
             }
         }
 
@@ -388,7 +399,6 @@ final class WindowEngine {
     private func resume() {
         isPaused = false
         refresh()
-        refreshThumbnails(windows)
     }
 
     private func repeating(_ interval: TimeInterval, _ action: @escaping @MainActor (WindowEngine) -> Void) -> Timer {

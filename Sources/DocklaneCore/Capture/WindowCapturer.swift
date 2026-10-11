@@ -18,9 +18,8 @@ public struct WindowImage: @unchecked Sendable {
 
 /// Captures window images at the window's own aspect ratio.
 ///
-/// On-screen windows go through ScreenCaptureKit. Windows on another Space or in full screen
-/// (which ScreenCaptureKit refuses with "Failed to start stream") go through the private
-/// `CGSHWCaptureWindowList`. Each path falls back to the other.
+/// Single frames come from the private `CGSHWCaptureWindowList`, which works for windows on
+/// any Space and doesn't count as screen recording; ScreenCaptureKit is the fallback.
 public actor WindowCapturer {
     private let maxPixelSize: CGSize
     private var shareableContent: SCShareableContent?
@@ -34,10 +33,9 @@ public actor WindowCapturer {
     /// `within` overrides the capturer's maximum pixel size for this call.
     public func capture(_ window: DockWindow, within bounds: CGSize? = nil) async -> WindowImage? {
         let bounds = bounds ?? maxPixelSize
-        if window.isOnScreen {
-            if let image = await captureWithScreenCaptureKit(window, within: bounds) { return WindowImage(image) }
-            return windowServerCapture(window.id, within: bounds).map(WindowImage.init)
-        }
+        // The WindowServer's single-frame capture first: it doesn't start a screen recording
+        // (no purple indicator in the menu bar) and needs no shareable-content query.
+        // ScreenCaptureKit only if that fails.
         if let image = windowServerCapture(window.id, within: bounds) { return WindowImage(image) }
         return await captureWithScreenCaptureKit(window, within: bounds).map(WindowImage.init)
     }

@@ -118,7 +118,7 @@ final class DesktopSwitcher {
         panel.orderFrontRegardless()
         isActive = true
         startReleaseWatch()
-        engine.refreshThumbnailsIfStale()
+        engine.refreshStaleThumbnails()
         return true
     }
 

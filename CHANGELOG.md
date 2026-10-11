@@ -33,6 +33,11 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- Thumbnails are taken only when needed: never while nobody looks (not at start, not for new
+  windows, focus or desktop changes); when the panel or a switcher appears, only those older
+  than 30 s are taken again, and every 30 s while it stays open. Single frames come from the
+  WindowServer (half the CPU of ScreenCaptureKit, measured). macOS shows the purple screen
+  recording indicator for any capture; it now lights only for ~6 s after you use the panel
 - No animation anywhere: hovering a tile enlarges it instantly (it used to ease in over 0.12 s)
 - Lower background load: audio and Dock badges are read only while the panel or a switcher is
   on screen, the safety-net scan runs every 6 s instead of 2 s when nobody looks, focus changes
