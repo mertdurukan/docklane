@@ -892,3 +892,18 @@ final class PlacementCycleTests: XCTestCase {
         XCTAssertEqual(PlacementCycle.move(leftHalf, from: laptop, to: monitor), CGRect(x: 1440, y: 0, width: 1280, height: 1415))
     }
 }
+
+final class WindowRuleTests: XCTestCase {
+    func testOnlyNewVisibleWindowsOfRuledAppsArePlaced() {
+        let rules = [WindowRule(bundleID: "chrome", appName: "Chrome", placement: .leftHalf)]
+        let added = [window(1, "chrome"), window(2, "notes"), window(3, "chrome", minimized: true)]
+        let result = WindowRule.placements(for: added, rules: rules)
+        XCTAssertEqual(result.map(\.window.id), [1])
+        XCTAssertEqual(result.first?.placement, .leftHalf)
+    }
+
+    func testRulesRoundTripThroughJSON() throws {
+        let rules = [WindowRule(bundleID: "a", appName: "A", placement: .fill)]
+        XCTAssertEqual(try JSONDecoder().decode([WindowRule].self, from: JSONEncoder().encode(rules)), rules)
+    }
+}

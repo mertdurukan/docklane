@@ -1,7 +1,7 @@
 import CoreGraphics
 
 /// Quick window placements from the window menu. Pure geometry (Cocoa coordinates).
-public enum PlacementPreset: String, CaseIterable, Sendable {
+public enum PlacementPreset: String, CaseIterable, Codable, Sendable {
     case leftHalf, rightHalf, topHalf, bottomHalf, center, fill
 
     /// Gap kept between a placed window and the edges of the usable area.
@@ -78,5 +78,28 @@ public enum PlacementCycle {
         let moved = CGRect(x: to.minX + relative.minX * to.width, y: to.minY + relative.minY * to.height,
                            width: relative.width * to.width, height: relative.height * to.height)
         return WindowLayoutMath.clamp(moved, into: to)
+    }
+}
+
+/// "Put new windows of this app here." Stored as JSON in the settings.
+public struct WindowRule: Codable, Equatable, Identifiable, Sendable {
+    public var id: String { bundleID }
+    public let bundleID: String
+    public let appName: String
+    public var placement: PlacementPreset
+
+    public init(bundleID: String, appName: String, placement: PlacementPreset) {
+        self.bundleID = bundleID
+        self.appName = appName
+        self.placement = placement
+    }
+
+    /// Windows that just appeared and have a rule (minimized ones are left alone). Pure, tested.
+    public static func placements(for added: [DockWindow], rules: [WindowRule]) -> [(window: DockWindow, placement: PlacementPreset)] {
+        let byApp = Dictionary(rules.map { ($0.bundleID, $0.placement) }, uniquingKeysWith: { first, _ in first })
+        return added.compactMap { window in
+            guard !window.isMinimized, let placement = byApp[window.bundleID] else { return nil }
+            return (window, placement)
+        }
     }
 }

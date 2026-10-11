@@ -172,5 +172,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DesktopSwitcher.shared.start()
         WorkspaceManager.shared.start()
         KeyboardPlacer.start()
+        WindowRules.start()
     }
 }

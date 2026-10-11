@@ -28,6 +28,9 @@ final class AppSettings {
     var desktopSwitcherEnabled: Bool { didSet { store(desktopSwitcherEnabled, "desktopSwitcherEnabled") } }
     var rememberDisplayLayouts: Bool { didSet { store(rememberDisplayLayouts, "rememberDisplayLayouts") } }
     var keyboardPlacement: Bool { didSet { store(keyboardPlacement, "keyboardPlacement") } }
+    var windowRules: [WindowRule] {
+        didSet { if let data = try? JSONEncoder().encode(windowRules) { store(data, "windowRules") } }
+    }
 
     /// Apps whose previews are blurred everywhere (password managers, banking, chat…).
     var privateApps: [String] { didSet { store(privateApps, "privateApps") } }
@@ -95,6 +98,7 @@ final class AppSettings {
         desktopSwitcherEnabled = defaults.bool(forKey: "desktopSwitcherEnabled")
         rememberDisplayLayouts = defaults.bool(forKey: "rememberDisplayLayouts")
         keyboardPlacement = defaults.bool(forKey: "keyboardPlacement")
+        windowRules = defaults.data(forKey: "windowRules").flatMap { try? JSONDecoder().decode([WindowRule].self, from: $0) } ?? []
         privateApps = defaults.stringArray(forKey: "privateApps") ?? []
         peekEnabled = defaults.bool(forKey: "peekEnabled")
         peekDelay = defaults.double(forKey: "peekDelay")

@@ -220,6 +220,45 @@ private struct WorkspacesSettings: View {
                 Text("Saves which apps are open and where each window is. Restoring opens missing apps and moves the windows back.")
             }
             Section {
+                if settings.windowRules.isEmpty {
+                    Text("No rules yet.").foregroundStyle(.secondary)
+                }
+                ForEach($settings.windowRules) { $rule in
+                    HStack {
+                        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: rule.bundleID) {
+                            Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().frame(width: 18, height: 18)
+                        }
+                        Text(verbatim: rule.appName)
+                        Spacer()
+                        Picker("", selection: $rule.placement) {
+                            ForEach(PlacementPreset.allCases, id: \.self) { Text($0.title).tag($0) }
+                        }
+                        .labelsHidden()
+                        .fixedSize()
+                        Button {
+                            settings.windowRules.removeAll { $0.bundleID == rule.bundleID }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .buttonStyle(.borderless)
+                        .help("Delete")
+                    }
+                }
+                Menu("Add Rule") {
+                    ForEach(ruleCandidates, id: \.bundleID) { app in
+                        Button(app.name) {
+                            settings.windowRules.append(WindowRule(bundleID: app.bundleID, appName: app.name, placement: .leftHalf))
+                        }
+                    }
+                }
+                .fixedSize()
+                .disabled(ruleCandidates.isEmpty)
+            } header: {
+                Text("App rules")
+            } footer: {
+                Text("New windows of these apps are put in place as soon as they open.")
+            }
+            Section {
                 Toggle("Arrange windows with ⌃⌥ and the arrow keys", isOn: $settings.keyboardPlacement)
             } footer: {
                 Text("⌃⌥← → ↑ ↓ put the front window in a half; press again for a third, then two thirds. ⌃⌥↩ fills the screen, ⌃⌥C centers the window, ⌃⌥⌘← → move it to the other display.")
@@ -281,6 +320,19 @@ private struct WorkspacesSettings: View {
     private func save() {
         workspaces.saveCurrentLayout(named: newName)
         newName = ""
+    }
+
+    /// Running apps without a rule yet, by name.
+    private var ruleCandidates: [(bundleID: String, name: String)] {
+        let ruled = Set(settings.windowRules.map(\.bundleID))
+        var seen = Set<String>()
+        return NSWorkspace.shared.runningApplications
+            .filter { $0.activationPolicy == .regular && $0.processIdentifier != getpid() }
+            .compactMap { app -> (bundleID: String, name: String)? in
+                guard let id = app.bundleIdentifier, !ruled.contains(id), seen.insert(id).inserted else { return nil }
+                return (id, app.localizedName ?? id)
+            }
+            .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }
 }
 

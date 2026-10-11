@@ -8,6 +8,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- App rules (Settings → Workspaces): new windows of an app are placed as soon as they open
+  (left / right / top / bottom half, center, fill); windows open when Docklane starts are left alone
 - Arrange the front window from the keyboard: ⌃⌥←/→/↑/↓ halves, pressing again cycles to a
   third and two thirds; ⌃⌥↩ fill, ⌃⌥C center, ⌃⌥⌘←/→ to the other display (same place, scaled).
   Respects the strip a pinned panel keeps clear; ⌃⌥Z undoes; can be turned off

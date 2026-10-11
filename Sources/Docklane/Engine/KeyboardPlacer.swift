@@ -81,7 +81,7 @@ enum KeyboardPlacer {
     }
 
     /// The screen minus the strip a pinned (not auto-hiding) panel keeps clear.
-    private static func usableArea(on screen: NSScreen) -> CGRect {
+    static func usableArea(on screen: NSScreen) -> CGRect {
         let settings = AppSettings.shared
         return PanelLayout.frames(edge: settings.edge,
                                   thickness: settings.metrics.thickness(for: settings.edge, background: settings.showBackground),
@@ -92,4 +92,31 @@ enum KeyboardPlacer {
         let area = screen.frame.intersection(frame)
         return area.isNull ? 0 : area.width * area.height
     }
+}
+
+/// Places new windows of apps that have a rule ("Chrome: left half"), once, as they appear.
+@MainActor
+enum WindowRules {
+    static func start() {
+        WindowEngine.shared.onWindowsAdded = { added in
+            let pending = WindowRule.placements(for: added, rules: AppSettings.shared.windowRules)
+            guard !pending.isEmpty else { return }
+            // Let the app finish opening and sizing the window first.
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(350))
+                for (window, placement) in pending { place(window, placement) }
+                WindowEngine.shared.scheduleRefresh(after: .milliseconds(300))
+            }
+        }
+    }
+
+    private static func place(_ window: DockWindow, _ placement: PlacementPreset) {
+        let current = WindowActions.cocoaFrame(of: window)
+        let screen = NSScreen.screens.max { area($0.frame.intersection(current)) < area($1.frame.intersection(current)) }
+            ?? NSScreen.main
+        guard let screen else { return }
+        WindowActions.fill(window, frame: placement.frame(in: KeyboardPlacer.usableArea(on: screen), current: current))
+    }
+
+    private static func area(_ rect: CGRect) -> CGFloat { rect.isNull ? 0 : rect.width * rect.height }
 }

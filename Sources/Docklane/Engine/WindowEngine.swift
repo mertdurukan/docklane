@@ -28,6 +28,9 @@ final class WindowEngine {
 
     /// Called after the window list changed (used to keep windows clear of the panel).
     @ObservationIgnored var onWindowsChanged: (() -> Void)?
+    /// Windows that appeared since the last scan (not the ones found when Docklane started).
+    @ObservationIgnored var onWindowsAdded: (([DockWindow]) -> Void)?
+    @ObservationIgnored private var hasScanned = false
     /// Called when a window of `pid` moved or was resized.
     @ObservationIgnored var onGeometryChanged: ((pid_t) -> Void)?
     /// Whether any thumbnail is on screen (panel visible or switcher open). Periodic captures
@@ -133,9 +136,11 @@ final class WindowEngine {
             windows = merged
             let known = Set(previous.map(\.id))
             let added = merged.filter { !known.contains($0.id) }
+            if hasScanned && !added.isEmpty { onWindowsAdded?(added) }
             if !added.isEmpty { refreshThumbnails(added) }
             onWindowsChanged?()
         }
+        hasScanned = true
         updateFocus()
         refreshAudio()
     }
