@@ -549,7 +549,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pencere adlarını her zaman göster"
+            "value": "Pencere başlıklarını her zaman göster"
           }
         },
         "zh-Hans": {
@@ -560,66 +560,66 @@
         }
       }
     },
-    "App rules": {
+    "App language": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "قواعد التطبيقات"
+            "value": "لغة التطبيق"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "অ্যাপের নিয়ম"
+            "value": "অ্যাপের ভাষা"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reglas de apps"
+            "value": "Idioma de la app"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Règles des apps"
+            "value": "Langue de l’app"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "ऐप नियम"
+            "value": "ऐप की भाषा"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aturan app"
+            "value": "Bahasa app"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Regras de apps"
+            "value": "Idioma do app"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Правила приложений"
+            "value": "Язык приложения"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uygulama kuralları"
+            "value": "Uygulama dili"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "应用规则"
+            "value": "应用语言"
           }
         }
       }
@@ -752,66 +752,66 @@
         }
       }
     },
-    "Arrange windows with ⌃⌥ and the arrow keys": {
+    "Automatic window placement": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "رتّب النوافذ باستخدام ⌃⌥ ومفاتيح الأسهم"
+            "value": "وضع النوافذ تلقائيًا"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥ ও তীর কী দিয়ে উইন্ডো সাজান"
+            "value": "স্বয়ংক্রিয় উইন্ডো স্থাপন"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Organizar ventanas con ⌃⌥ y las flechas"
+            "value": "Colocación automática de ventanas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Disposer les fenêtres avec ⌃⌥ et les flèches"
+            "value": "Placement automatique des fenêtres"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥ और तीर कुंजियों से विंडो व्यवस्थित करें"
+            "value": "विंडो की अपने-आप जगह तय करना"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Atur jendela dengan ⌃⌥ dan tombol panah"
+            "value": "Penempatan jendela otomatis"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Organizar janelas com ⌃⌥ e as setas"
+            "value": "Posicionamento automático de janelas"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Расставлять окна с помощью ⌃⌥ и стрелок"
+            "value": "Автоматическое размещение окон"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pencereleri ⌃⌥ ve ok tuşlarıyla yerleştir"
+            "value": "Otomatik pencere yerleştirme"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "用 ⌃⌥ 和方向键排列窗口"
+            "value": "自动放置窗口"
           }
         }
       }
@@ -944,6 +944,134 @@
         }
       }
     },
+    "Blur This App's Previews": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه معاينات هذا التطبيق"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "এই অ্যাপের প্রিভিউ ঝাপসা করুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desenfocar las vistas previas de esta app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flouter les aperçus de cette app"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इस ऐप के प्रीव्यू धुंधले करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buramkan Pratinjau App Ini"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desfocar pré-visualizações deste app"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размывать превью этого приложения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu uygulamanın önizlemelerini bulanıklaştır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模糊此应用的预览"
+          }
+        }
+      }
+    },
+    "Blurred previews": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المعاينات المموّهة"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ঝাপসা প্রিভিউ"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vistas previas desenfocadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçus floutés"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "धुंधले प्रीव्यू"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pratinjau buram"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pré-visualizações desfocadas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размытые превью"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulanık önizlemeler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模糊的预览"
+          }
+        }
+      }
+    },
     "Bottom": {
       "localizations": {
         "ar": {
@@ -1068,70 +1196,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "下半部分"
-          }
-        }
-      }
-    },
-    "Brings the window you click to the front and keeps windows clear of the panel.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يُحضر النافذة التي تنقر عليها إلى الأمام ويُبعد النوافذ عن اللوحة."
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "আপনি যে উইন্ডোতে ক্লিক করেন সেটিকে সামনে আনে এবং উইন্ডোগুলোকে প্যানেল থেকে দূরে রাখে।"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lleva al frente la ventana en la que haces clic y mantiene las ventanas fuera del panel."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Met au premier plan la fenêtre sur laquelle vous cliquez et éloigne les fenêtres du panneau."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "आप जिस विंडो पर क्लिक करते हैं उसे सामने लाता है और विंडो को पैनल से दूर रखता है।"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Membawa jendela yang Anda klik ke depan dan menjauhkan jendela dari panel."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Traz para a frente a janela em que você clica e mantém as janelas longe do painel."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выводит на передний план окно, по которому вы щёлкнули, и не даёт окнам заходить под панель."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tıkladığın pencereyi öne getirir ve pencereleri panelin önünden uzak tutar."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "将你点按的窗口置于最前，并让窗口避开面板。"
           }
         }
       }
@@ -1264,66 +1328,130 @@
         }
       }
     },
-    "Click the front window's tile to minimize it": {
+    "Choose where new windows of an app open.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تصغير النافذة الأمامية عند النقر على مربعها"
+            "value": "اختر أين تُفتح النوافذ الجديدة لتطبيق ما."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "সামনের উইন্ডোর টাইলে ক্লিক করলে সেটি ছোট করুন"
+            "value": "কোনো অ্যাপের নতুন উইন্ডো কোথায় খুলবে তা বেছে নিন।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Minimizar la ventana del frente al hacer clic en su miniatura"
+            "value": "Elige dónde se abren las ventanas nuevas de una app."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Réduire la fenêtre au premier plan en cliquant sur sa vignette"
+            "value": "Choisissez où s’ouvrent les nouvelles fenêtres d’une app."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "सामने वाली विंडो की टाइल पर क्लिक करने पर उसे छोटा करें"
+            "value": "चुनें कि किसी ऐप की नई विंडो कहाँ खुलें।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Klik kotak jendela terdepan untuk meminimalkannya"
+            "value": "Pilih tempat jendela baru dari suatu app dibuka."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Minimizar a janela da frente ao clicar na miniatura dela"
+            "value": "Escolha onde as novas janelas de um app abrem."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сворачивать переднее окно при щелчке по его миниатюре"
+            "value": "Выберите, где открываются новые окна приложения."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Öndeki pencerenin kutusuna tıklayınca küçült"
+            "value": "Bir uygulamanın yeni pencerelerinin nerede açılacağını belirle."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "点按最前方窗口的缩略图时将其最小化"
+            "value": "选择某个应用的新窗口在哪里打开。"
+          }
+        }
+      }
+    },
+    "Click the front window's preview to minimize it": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصغير النافذة الأمامية عند النقر على معاينتها"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "সামনের উইন্ডোর প্রিভিউতে ক্লিক করলে সেটি ছোট করুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al hacer clic en la vista previa de la ventana activa, minimizarla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cliquer sur l’aperçu de la fenêtre active la place dans le Dock"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सबसे आगे वाली विंडो के प्रीव्यू पर क्लिक करके उसे छोटा करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klik pratinjau jendela terdepan untuk meminimalkannya"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clicar na pré-visualização da janela da frente a minimiza"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Щелчок по превью активного окна сворачивает его"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öndeki pencerenin önizlemesine tıklayınca küçült"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点按最前面窗口的预览可将其最小化"
           }
         }
       }
@@ -1584,6 +1712,134 @@
         }
       }
     },
+    "Display changes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّر الشاشات"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ডিসপ্লে পরিবর্তন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambios de pantalla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changements d’écran"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डिस्प्ले में बदलाव"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perubahan layar"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mudanças de tela"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смена дисплеев"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran değişiklikleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示器变化"
+          }
+        }
+      }
+    },
+    "Docklane doesn't connect to the internet. Previews are kept in memory only and never saved to a file. Saved layouts (app names, window titles and positions) stay in Docklane's settings on this Mac.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يتصل Docklane بالإنترنت. تُحفظ المعاينات في الذاكرة فقط ولا تُحفظ في ملف أبدًا. تبقى التخطيطات المحفوظة (أسماء التطبيقات وعناوين النوافذ ومواضعها) في إعدادات Docklane على هذا الـ Mac."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane ইন্টারনেটে যুক্ত হয় না। প্রিভিউ শুধু মেমরিতে থাকে, কখনো ফাইলে সংরক্ষিত হয় না। সংরক্ষিত লেআউট (অ্যাপের নাম, উইন্ডোর শিরোনাম ও অবস্থান) এই Mac-এ Docklane-এর সেটিংসে থাকে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane no se conecta a internet. Las vistas previas solo se guardan en memoria, nunca en un archivo. Las disposiciones guardadas (nombres de apps, títulos y posiciones de ventanas) se quedan en los ajustes de Docklane en este Mac."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane ne se connecte pas à internet. Les aperçus restent en mémoire et ne sont jamais enregistrés dans un fichier. Les dispositions enregistrées (noms d’apps, titres et positions des fenêtres) restent dans les réglages de Docklane sur ce Mac."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane इंटरनेट से नहीं जुड़ता। प्रीव्यू सिर्फ़ मेमोरी में रहते हैं, किसी फ़ाइल में नहीं सहेजे जाते। सहेजे गए लेआउट (ऐप के नाम, विंडो के टाइटल और जगह) इसी Mac पर Docklane की सेटिंग्स में रहते हैं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane tidak terhubung ke internet. Pratinjau hanya disimpan di memori dan tidak pernah disimpan ke file. Tata letak tersimpan (nama app, judul dan posisi jendela) tetap di pengaturan Docklane di Mac ini."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Docklane não se conecta à internet. As pré-visualizações ficam só na memória e nunca são salvas em arquivo. Os layouts salvos (nomes de apps, títulos e posições das janelas) ficam nos ajustes do Docklane neste Mac."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane не подключается к интернету. Превью хранятся только в памяти и никогда не сохраняются в файл. Сохранённые раскладки (названия приложений, заголовки и положение окон) остаются в настройках Docklane на этом Mac."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane internete bağlanmaz. Önizlemeler yalnızca bellekte tutulur, hiçbir dosyaya kaydedilmez. Kaydedilen düzenler (uygulama adları, pencere başlıkları ve konumları) bu Mac'te, Docklane ayarlarında kalır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane 不连接互联网。预览只保存在内存中，从不写入文件。存储的布局（应用名称、窗口标题和位置）保留在这台 Mac 上的 Docklane 设置中。"
+          }
+        }
+      }
+    },
     "Docklane needs two permissions. Grant them in System Settings → Privacy & Security; Docklane starts on its own once both are on.": {
       "localizations": {
         "ar": {
@@ -1776,6 +2032,70 @@
         }
       }
     },
+    "Finds your windows, brings the one you choose to the front and arranges them. The ⌘Tab window switcher also needs it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعثر على نوافذك ويُحضر النافذة التي تختارها إلى المقدمة ويرتّبها. يحتاجه أيضًا مبدّل النوافذ ⌘Tab."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "আপনার উইন্ডো খুঁজে পেতে, বেছে নেওয়াটি সামনে আনতে ও সাজাতে লাগে। ⌘Tab উইন্ডো সুইচারেরও এটি দরকার।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encuentra tus ventanas, trae al frente la que elijas y las coloca. El selector de ventanas ⌘Tab también lo necesita."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouve vos fenêtres, met au premier plan celle que vous choisissez et les dispose. Le sélecteur de fenêtres ⌘Tab en a aussi besoin."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आपकी विंडो ढूँढने, चुनी गई विंडो को आगे लाने और उन्हें व्यवस्थित करने के लिए। ⌘Tab विंडो स्विचर को भी इसकी ज़रूरत है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menemukan jendela Anda, membawa jendela pilihan ke depan, dan menatanya. Pengalih jendela ⌘Tab juga memerlukannya."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encontra suas janelas, traz para a frente a que você escolher e as organiza. O alternador de janelas ⌘Tab também precisa dela."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Находит ваши окна, выводит выбранное на передний план и размещает окна. Переключателю окон ⌘Tab оно тоже нужно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencerelerini bulmak, seçtiğini öne getirmek ve yerleştirmek için kullanılır. ⌘Tab pencere değiştiricisi de bu izinle çalışır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于查找窗口、把你选择的窗口移到最前面并排列窗口。⌘Tab 窗口切换器也需要它。"
+          }
+        }
+      }
+    },
     "Full Screen": {
       "localizations": {
         "ar": {
@@ -1957,77 +2277,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Verildi"
+            "value": "İzin verildi"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "已授权"
-          }
-        }
-      }
-    },
-    "Hidden previews": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "المعاينات المخفية"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "লুকানো প্রিভিউ"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vistas previas ocultas"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aperçus masqués"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "छिपे हुए प्रीव्यू"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pratinjau tersembunyi"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pré-visualizações ocultas"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скрытые превью"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gizli önizlemeler"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隐藏的预览"
           }
         }
       }
@@ -2156,70 +2412,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐藏面板"
-          }
-        }
-      }
-    },
-    "Hide Preview": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إخفاء المعاينة"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "প্রিভিউ লুকান"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar vista previa"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Masquer l’aperçu"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "प्रीव्यू छिपाएँ"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sembunyikan Pratinjau"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar pré-visualização"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скрыть превью"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Önizlemeyi gizle"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隐藏预览"
           }
         }
       }
@@ -2480,70 +2672,6 @@
         }
       }
     },
-    "Keep in Dock": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الإبقاء في Dock"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock-এ রাখুন"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantener en el Dock"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Garder dans le Dock"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock में रखें"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simpan di Dock"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Manter no Dock"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Оставить в Dock"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock'ta tut"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在程序坞中保留"
-          }
-        }
-      }
-    },
     "Keep the panel always visible": {
       "localizations": {
         "ar": {
@@ -2736,134 +2864,6 @@
         }
       }
     },
-    "Label windows on other desktops": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تمييز النوافذ الموجودة على أسطح مكتب أخرى"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "অন্য ডেস্কটপের উইন্ডোতে লেবেল দেখান"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Etiquetar las ventanas de otros escritorios"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Étiqueter les fenêtres des autres bureaux"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "दूसरे डेस्कटॉप की विंडो पर लेबल लगाएँ"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beri label jendela di desktop lain"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Identificar janelas de outras mesas"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Помечать окна на других рабочих столах"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Başka masaüstündeki pencereleri etiketle"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "标记其他桌面上的窗口"
-          }
-        }
-      }
-    },
-    "Language": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اللغة"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ভাষা"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Idioma"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Langue"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "भाषा"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bahasa"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Idioma"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Язык"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dil"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "语言"
-          }
-        }
-      }
-    },
     "Large": {
       "localizations": {
         "ar": {
@@ -2924,6 +2924,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "大"
+          }
+        }
+      }
+    },
+    "Layout name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسم التخطيط"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "লেআউটের নাম"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre de la disposición"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom de la disposition"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "लेआउट का नाम"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nama tata letak"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome do layout"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Название раскладки"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzen adı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "布局名称"
           }
         }
       }
@@ -3248,66 +3312,130 @@
         }
       }
     },
-    "Name": {
+    "Move and resize windows with the keyboard": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الاسم"
+            "value": "نقل النوافذ وتغيير حجمها باستخدام لوحة المفاتيح"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "নাম"
+            "value": "কীবোর্ড দিয়ে উইন্ডো সরান ও আকার বদলান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nombre"
+            "value": "Mover y redimensionar ventanas con el teclado"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nom"
+            "value": "Déplacer et redimensionner les fenêtres au clavier"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "नाम"
+            "value": "कीबोर्ड से विंडो को हिलाएँ और आकार बदलें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nama"
+            "value": "Pindahkan dan ubah ukuran jendela dengan papan ketik"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nome"
+            "value": "Mover e redimensionar janelas pelo teclado"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Имя"
+            "value": "Перемещать окна и менять их размер с клавиатуры"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ad"
+            "value": "Pencereleri klavyeyle taşı ve boyutlandır"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "名称"
+            "value": "用键盘移动窗口和调整大小"
+          }
+        }
+      }
+    },
+    "Move to the other display": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النقل إلى الشاشة الأخرى"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "অন্য ডিসপ্লেতে সরান"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover a la otra pantalla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer vers l’autre écran"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दूसरे डिस्प्ले पर ले जाएँ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pindahkan ke layar lain"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover para a outra tela"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переместить на другой дисплей"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer ekrana taşı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移到另一台显示器"
           }
         }
       }
@@ -3440,66 +3568,66 @@
         }
       }
     },
-    "New windows of these apps are put in place as soon as they open.": {
+    "New windows of these apps are moved to the chosen place as soon as they open. Windows that are already open stay where they are.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "توضع النوافذ الجديدة لهذه التطبيقات في مكانها فور فتحها."
+            "value": "تُنقل النوافذ الجديدة لهذه التطبيقات إلى المكان المختار فور فتحها. تبقى النوافذ المفتوحة مسبقًا في مكانها."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "এই অ্যাপগুলোর নতুন উইন্ডো খোলার সঙ্গে সঙ্গে নির্ধারিত জায়গায় বসে যায়।"
+            "value": "এই অ্যাপগুলোর নতুন উইন্ডো খোলার সঙ্গে সঙ্গে বেছে নেওয়া জায়গায় চলে যায়। আগে থেকে খোলা উইন্ডো সরে না।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las ventanas nuevas de estas apps se colocan en su sitio en cuanto se abren."
+            "value": "Las ventanas nuevas de estas apps se mueven al lugar elegido en cuanto se abren. Las que ya están abiertas no se mueven."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les nouvelles fenêtres de ces apps se placent dès leur ouverture."
+            "value": "Les nouvelles fenêtres de ces apps vont à l’emplacement choisi dès leur ouverture. Les fenêtres déjà ouvertes ne bougent pas."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "इन ऐप्स की नई विंडो खुलते ही अपनी जगह पर रख दी जाती हैं।"
+            "value": "इन ऐप्स की नई विंडो खुलते ही चुनी गई जगह पर चली जाती हैं। पहले से खुली विंडो वहीं रहती हैं।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Jendela baru dari app ini langsung ditempatkan begitu terbuka."
+            "value": "Jendela baru dari app ini dipindahkan ke tempat yang dipilih begitu dibuka. Jendela yang sudah terbuka tetap di tempatnya."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "As novas janelas desses apps são posicionadas assim que abrem."
+            "value": "As novas janelas destes apps vão para o lugar escolhido assim que abrem. As janelas já abertas ficam onde estão."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Новые окна этих приложений встают на место сразу при открытии."
+            "value": "Новые окна этих приложений сразу после открытия перемещаются в выбранное место. Уже открытые окна остаются на месте."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu uygulamaların yeni pencereleri açılır açılmaz yerine yerleşir."
+            "value": "Bu uygulamaların yeni pencereleri açılır açılmaz seçilen yere taşınır. Zaten açık olan pencereler yerinde kalır."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "这些应用的新窗口一打开就会放到指定位置。"
+            "value": "这些应用的新窗口一打开就会被移到所选位置。已经打开的窗口保持不动。"
           }
         }
       }
@@ -3568,130 +3696,66 @@
         }
       }
     },
-    "No rules yet.": {
+    "No saved layouts yet.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لا توجد قواعد بعد."
+            "value": "لا توجد تخطيطات محفوظة بعد."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "এখনো কোনো নিয়ম নেই।"
+            "value": "এখনো কোনো সংরক্ষিত লেআউট নেই।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aún no hay reglas."
+            "value": "Aún no hay disposiciones guardadas."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aucune règle pour l’instant."
+            "value": "Aucune disposition enregistrée pour l’instant."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "अभी कोई नियम नहीं।"
+            "value": "अभी कोई सहेजा गया लेआउट नहीं है।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Belum ada aturan."
+            "value": "Belum ada tata letak tersimpan."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ainda não há regras."
+            "value": "Ainda não há layouts salvos."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Правил пока нет."
+            "value": "Сохранённых раскладок пока нет."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Henüz kural yok."
+            "value": "Henüz kaydedilmiş düzen yok."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "还没有规则。"
-          }
-        }
-      }
-    },
-    "No saved workspaces yet.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد مساحات عمل محفوظة بعد."
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "এখনও কোনো সংরক্ষিত ওয়ার্কস্পেস নেই।"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay espacios de trabajo guardados."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aucun espace de travail enregistré pour l’instant."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अभी तक कोई सहेजा गया वर्कस्पेस नहीं है।"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Belum ada ruang kerja yang disimpan."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ainda não há espaços de trabalho salvos."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сохранённых рабочих пространств пока нет."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Henüz kayıtlı çalışma alanı yok."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "还没有存储的工作区。"
+            "value": "还没有存储的布局。"
           }
         }
       }
@@ -4016,6 +4080,70 @@
         }
       }
     },
+    "Open": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "খুলুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खोलें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开"
+          }
+        }
+      }
+    },
     "Open Settings": {
       "localizations": {
         "ar": {
@@ -4133,7 +4261,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Girişte aç"
+            "value": "Mac'e giriş yaptığında başlat"
           }
         },
         "zh-Hans": {
@@ -4208,66 +4336,130 @@
         }
       }
     },
-    "Permissions": {
+    "Panel position": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الأذونات"
+            "value": "موضع اللوحة"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "অনুমতি"
+            "value": "প্যানেলের অবস্থান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permisos"
+            "value": "Posición del panel"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Autorisations"
+            "value": "Position du panneau"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "अनुमतियाँ"
+            "value": "पैनल की जगह"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Izin"
+            "value": "Posisi panel"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permissões"
+            "value": "Posição do painel"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешения"
+            "value": "Положение панели"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İzinler"
+            "value": "Panelin konumu"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "权限"
+            "value": "面板位置"
+          }
+        }
+      }
+    },
+    "Panel size": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم اللوحة"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "প্যানেলের আকার"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamaño del panel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taille du panneau"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पैनल का आकार"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukuran panel"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamanho do painel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер панели"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel boyutu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "面板大小"
           }
         }
       }
@@ -4336,6 +4528,70 @@
         }
       }
     },
+    "Pin to Panel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تثبيت في اللوحة"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "প্যানেলে পিন করুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fijar en el panel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Épingler au panneau"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पैनल में पिन करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sematkan ke Panel"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixar no painel"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрепить на панели"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panele sabitle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定到面板"
+          }
+        }
+      }
+    },
     "Pinned apps": {
       "localizations": {
         "ar": {
@@ -4400,66 +4656,66 @@
         }
       }
     },
-    "Pinned apps come first and stay in the panel even without windows. Drag to reorder.": {
+    "Pinned apps appear at the start of the panel and stay there even without open windows. Drag to reorder.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تظهر التطبيقات المثبتة أولًا وتبقى في اللوحة حتى من دون نوافذ. اسحب لإعادة الترتيب."
+            "value": "تظهر التطبيقات المثبتة في بداية اللوحة وتبقى فيها حتى بدون نوافذ مفتوحة. اسحب لإعادة الترتيب."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "পিন করা অ্যাপগুলো সবার আগে আসে এবং কোনো উইন্ডো না থাকলেও প্যানেলে থাকে। ক্রম বদলাতে টেনে আনুন।"
+            "value": "পিন করা অ্যাপ প্যানেলের শুরুতে থাকে এবং কোনো উইন্ডো খোলা না থাকলেও সেখানে থাকে। ক্রম বদলাতে টেনে আনুন।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las apps fijadas aparecen primero y permanecen en el panel aunque no tengan ventanas. Arrastra para reordenar."
+            "value": "Las apps fijadas aparecen al principio del panel y permanecen aunque no tengan ventanas abiertas. Arrastra para reordenarlas."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les apps épinglées apparaissent en premier et restent dans le panneau même sans fenêtre. Faites glisser pour réorganiser."
+            "value": "Les apps épinglées apparaissent au début du panneau et y restent même sans fenêtre ouverte. Faites glisser pour les réordonner."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "पिन किए गए ऐप्स सबसे पहले आते हैं और विंडो न होने पर भी पैनल में रहते हैं। क्रम बदलने के लिए ड्रैग करें।"
+            "value": "पिन किए गए ऐप्स पैनल की शुरुआत में दिखते हैं और कोई विंडो खुली न हो तब भी वहीं रहते हैं। क्रम बदलने के लिए खींचें।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "App yang disematkan tampil paling depan dan tetap di panel meski tanpa jendela. Seret untuk mengurutkan ulang."
+            "value": "App yang disematkan muncul di awal panel dan tetap ada meski tidak ada jendela yang terbuka. Seret untuk mengurutkan."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Os apps fixados aparecem primeiro e permanecem no painel mesmo sem janelas. Arraste para reordenar."
+            "value": "Os apps fixados aparecem no início do painel e ficam lá mesmo sem janelas abertas. Arraste para reordenar."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Закреплённые приложения идут первыми и остаются на панели даже без окон. Перетащите, чтобы изменить порядок."
+            "value": "Закреплённые приложения стоят в начале панели и остаются на ней даже без открытых окон. Перетащите, чтобы изменить порядок."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sabitlenmiş uygulamalar en başta gelir ve penceresi olmasa da panelde kalır. Sıralamak için sürükle."
+            "value": "Sabitlenen uygulamalar panelin başında görünür; açık penceresi olmasa da panelde kalır. Sıralamak için sürükle."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "固定的应用排在最前，即使没有窗口也会留在面板中。拖移以重新排序。"
+            "value": "固定的应用显示在面板开头，即使没有打开的窗口也会保留。拖移可调整顺序。"
           }
         }
       }
@@ -4528,130 +4784,130 @@
         }
       }
     },
-    "Position on screen": {
+    "Press again for a third, then two thirds": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الموضع على الشاشة"
+            "value": "اضغط مجددًا للثلث، ثم للثلثين"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "স্ক্রিনে অবস্থান"
+            "value": "আবার চাপুন: এক-তৃতীয়াংশ, তারপর দুই-তৃতীয়াংশ"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Posición en la pantalla"
+            "value": "Pulsa otra vez: un tercio y luego dos tercios"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Position à l’écran"
+            "value": "Appuyez encore : un tiers, puis deux tiers"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "स्क्रीन पर स्थिति"
+            "value": "फिर दबाएँ: एक-तिहाई, फिर दो-तिहाई"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Posisi di layar"
+            "value": "Tekan lagi: sepertiga, lalu dua pertiga"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Posição na tela"
+            "value": "Pressione de novo: um terço, depois dois terços"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Положение на экране"
+            "value": "Нажмите ещё раз: треть, затем две трети"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ekrandaki konum"
+            "value": "Tekrar bas: üçte bir, sonra üçte iki"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "屏幕上的位置"
+            "value": "再按一次为三分之一，再按为三分之二"
           }
         }
       }
     },
-    "Press ⌃⌥⌘ and a workspace's number to restore it from anywhere; ⌃⌥Z undoes the last layout change.": {
+    "Press ⌃⌥⌘ and a layout's number to open it from anywhere. ⌃⌥Z undoes the last arrangement.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اضغط ⌃⌥⌘ ورقم مساحة العمل لاستعادتها من أي مكان؛ ويتراجع ⌃⌥Z عن آخر تغيير في الترتيب."
+            "value": "اضغط ⌃⌥⌘ ورقم التخطيط لفتحه من أي مكان. يتراجع ⌃⌥Z عن آخر ترتيب."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "যেকোনো জায়গা থেকে কোনো ওয়ার্কস্পেস ফেরাতে ⌃⌥⌘ ও তার নম্বর চাপুন; ⌃⌥Z শেষ বিন্যাস পরিবর্তন পূর্বাবস্থায় ফেরায়।"
+            "value": "যেকোনো জায়গা থেকে লেআউট খুলতে ⌃⌥⌘ ও তার নম্বর চাপুন। ⌃⌥Z শেষ বিন্যাস পূর্বাবস্থায় ফেরায়।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pulsa ⌃⌥⌘ y el número de un espacio de trabajo para restaurarlo desde cualquier lugar; ⌃⌥Z deshace el último cambio de disposición."
+            "value": "Pulsa ⌃⌥⌘ y el número de una disposición para abrirla desde cualquier lugar. ⌃⌥Z deshace la última colocación."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Appuyez sur ⌃⌥⌘ et le numéro d’un espace de travail pour le restaurer depuis n’importe où ; ⌃⌥Z annule le dernier changement de disposition."
+            "value": "Appuyez sur ⌃⌥⌘ et le numéro d’une disposition pour l’ouvrir depuis n’importe où. ⌃⌥Z annule le dernier placement."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "किसी वर्कस्पेस को कहीं से भी वापस लाने के लिए ⌃⌥⌘ और उसका नंबर दबाएँ; ⌃⌥Z पिछला व्यवस्था बदलाव पूर्ववत करता है।"
+            "value": "किसी भी जगह से लेआउट खोलने के लिए ⌃⌥⌘ और उसका नंबर दबाएँ। ⌃⌥Z पिछली व्यवस्था को पहले जैसा करता है।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tekan ⌃⌥⌘ dan nomor ruang kerja untuk memulihkannya dari mana saja; ⌃⌥Z membatalkan perubahan tata letak terakhir."
+            "value": "Tekan ⌃⌥⌘ dan nomor tata letak untuk membukanya dari mana saja. ⌃⌥Z membatalkan penataan terakhir."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pressione ⌃⌥⌘ e o número de um espaço de trabalho para restaurá-lo de qualquer lugar; ⌃⌥Z desfaz a última alteração de disposição."
+            "value": "Pressione ⌃⌥⌘ e o número de um layout para abri-lo de qualquer lugar. ⌃⌥Z desfaz o último posicionamento."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Нажмите ⌃⌥⌘ и номер рабочего пространства, чтобы восстановить его откуда угодно; ⌃⌥Z отменяет последнее изменение расположения."
+            "value": "Нажмите ⌃⌥⌘ и номер раскладки, чтобы открыть её откуда угодно. ⌃⌥Z отменяет последнее размещение."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bir çalışma alanını her yerden geri getirmek için ⌃⌥⌘ ve numarasına bas; ⌃⌥Z son düzen değişikliğini geri alır."
+            "value": "Kaydettiğin bir düzeni her yerden açmak için ⌃⌥⌘ ile düzenin numarasına bas. ⌃⌥Z son yerleştirmeyi geri alır."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "按 ⌃⌥⌘ 加工作区编号，可在任何地方恢复该工作区；⌃⌥Z 撤销上一次布局更改。"
+            "value": "在任何地方按下 ⌃⌥⌘ 和布局编号即可打开它。⌃⌥Z 撤销上一次排列。"
           }
         }
       }
@@ -4784,66 +5040,130 @@
         }
       }
     },
-    "Previews of these apps are blurred in the panel, the switcher and the large preview.": {
+    "Previews of windows on another desktop or in full screen get a “Desktop 2” or “Full Screen” label.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تظهر معاينات هذه التطبيقات مموهة في اللوحة ومبدّل النوافذ والمعاينة الكبيرة."
+            "value": "تظهر على معاينات النوافذ الموجودة على سطح مكتب آخر أو بملء الشاشة عبارة “سطح المكتب 2” أو “شاشة كاملة”."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "এই অ্যাপগুলোর প্রিভিউ প্যানেল, সুইচার ও বড় প্রিভিউতে ঝাপসা দেখায়।"
+            "value": "অন্য ডেস্কটপের বা পূর্ণ স্ক্রিনের উইন্ডোর প্রিভিউতে “ডেস্কটপ 2” বা “পূর্ণ স্ক্রিন” লেখা থাকে।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las vistas previas de estas apps se desenfocan en el panel, el selector y la vista previa grande."
+            "value": "Las vistas previas de ventanas en otro escritorio o a pantalla completa muestran “Escritorio 2” o “Pantalla completa”."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les aperçus de ces apps sont floutés dans le panneau, le sélecteur et le grand aperçu."
+            "value": "Les aperçus des fenêtres d’un autre bureau ou en plein écran affichent « Bureau 2 » ou « Plein écran »."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "इन ऐप्स के प्रीव्यू पैनल, स्विचर और बड़े प्रीव्यू में धुंधले दिखते हैं।"
+            "value": "दूसरे डेस्कटॉप पर या फ़ुल स्क्रीन वाली विंडो के प्रीव्यू पर “डेस्कटॉप 2” या “फ़ुल स्क्रीन” लिखा दिखता है।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pratinjau app ini diburamkan di panel, pengalih, dan pratinjau besar."
+            "value": "Pratinjau jendela di desktop lain atau layar penuh diberi label “Desktop 2” atau “Layar Penuh”."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "As pré-visualizações destes apps ficam desfocadas no painel, no alternador e na pré-visualização grande."
+            "value": "As pré-visualizações de janelas em outra mesa ou em tela cheia mostram “Mesa 2” ou “Tela cheia”."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Превью этих приложений размываются на панели, в переключателе и в большом превью."
+            "value": "На превью окон с другого рабочего стола или в полноэкранном режиме появляется «Рабочий стол 2» или «Полный экран»."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu uygulamaların önizlemeleri panelde, pencere değiştiricide ve büyük önizlemede bulanık görünür."
+            "value": "Başka masaüstündeki ya da tam ekrandaki pencerelerin önizlemesinde “Masaüstü 2” veya “Tam ekran” yazar."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "这些应用的预览在面板、切换器和大预览中会被模糊处理。"
+            "value": "其他桌面上或全屏幕的窗口，其预览上会显示“桌面 2”或“全屏幕”标签。"
+          }
+        }
+      }
+    },
+    "Puts a frosted backdrop behind the previews.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يضع خلفية مصنفرة خلف المعاينات."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "প্রিভিউগুলোর পেছনে ঘষা কাচের মতো পটভূমি দেয়।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca un fondo esmerilado detrás de las vistas previas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place un fond dépoli derrière les aperçus."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "प्रीव्यू के पीछे धुंधली काँच जैसी पृष्ठभूमि लगाता है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menambahkan latar buram di belakang pratinjau."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coloca um fundo fosco atrás das pré-visualizações."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавляет матовую подложку под превью."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önizlemelerin arkasına buzlu bir zemin koyar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在预览后面加上一层磨砂背景。"
           }
         }
       }
@@ -4972,134 +5292,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "退出 Docklane"
-          }
-        }
-      }
-    },
-    "Remember window layouts per display setup": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تذكّر ترتيب النوافذ لكل إعداد شاشات"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "প্রতিটি ডিসপ্লে সেটআপের জন্য উইন্ডোর বিন্যাস মনে রাখুন"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recordar la disposición de ventanas para cada configuración de pantallas"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mémoriser la disposition des fenêtres pour chaque configuration d’écrans"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "हर डिस्प्ले सेटअप के लिए विंडो की व्यवस्था याद रखें"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ingat tata letak jendela untuk setiap susunan layar"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lembrar a disposição das janelas para cada configuração de telas"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Запоминать расположение окон для каждого набора дисплеев"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Her ekran düzeni için pencere yerleşimini hatırla"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "为每种显示器组合记住窗口布局"
-          }
-        }
-      }
-    },
-    "Remove from Dock": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إزالة من Dock"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock থেকে সরান"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quitar del Dock"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retirer du Dock"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock से हटाएँ"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hapus dari Dock"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remover do Dock"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Убрать из Dock"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dock'tan çıkar"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "从程序坞中移除"
           }
         }
       }
@@ -5296,66 +5488,194 @@
         }
       }
     },
-    "Reset tile order": {
+    "Reset Order": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إعادة تعيين ترتيب المربعات"
+            "value": "إعادة تعيين الترتيب"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "টাইলের ক্রম রিসেট করুন"
+            "value": "ক্রম রিসেট করুন"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restablecer el orden de las miniaturas"
+            "value": "Restablecer orden"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Réinitialiser l’ordre des vignettes"
+            "value": "Réinitialiser l’ordre"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "टाइल का क्रम रीसेट करें"
+            "value": "क्रम रीसेट करें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Atur ulang urutan kotak"
+            "value": "Atur Ulang Urutan"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Redefinir a ordem das miniaturas"
+            "value": "Redefinir ordem"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сбросить порядок миниатюр"
+            "value": "Сбросить порядок"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kutu sırasını sıfırla"
+            "value": "Sıralamayı sıfırla"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "重置缩略图顺序"
+            "value": "重置顺序"
+          }
+        }
+      }
+    },
+    "Reset Panel Order…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين ترتيب اللوحة…"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "প্যানেলের ক্রম রিসেট করুন…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restablecer el orden del panel…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser l’ordre du panneau…"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पैनल का क्रम रीसेट करें…"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atur Ulang Urutan Panel…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redefinir a ordem do painel…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить порядок на панели…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel sıralamasını sıfırla…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置面板顺序…"
+          }
+        }
+      }
+    },
+    "Reset the panel order?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد إعادة تعيين ترتيب اللوحة؟"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "প্যানেলের ক্রম রিসেট করবেন?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Restablecer el orden del panel?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser l’ordre du panneau ?"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पैनल का क्रम रीसेट करें?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atur ulang urutan panel?"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redefinir a ordem do painel?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить порядок на панели?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel sıralaması sıfırlansın mı?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要重置面板顺序吗？"
           }
         }
       }
@@ -5552,6 +5872,70 @@
         }
       }
     },
+    "Restore window positions when displays change": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعادة مواضع النوافذ عند تغيّر الشاشات"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ডিসপ্লে বদলালে উইন্ডোর অবস্থান ফিরিয়ে আনুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar la posición de las ventanas al cambiar de pantallas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurer la position des fenêtres quand les écrans changent"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डिस्प्ले बदलने पर विंडो की जगह वापस लाएँ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulihkan posisi jendela saat layar berubah"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar a posição das janelas quando as telas mudam"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстанавливать положение окон при смене дисплеев"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran bağlantıları değişince pencere konumlarını geri yükle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示器变化时恢复窗口位置"
+          }
+        }
+      }
+    },
     "Return switch  ·  Esc clear / close  ·  ← → move": {
       "localizations": {
         "ar": {
@@ -5744,134 +6128,6 @@
         }
       }
     },
-    "Right-click a window and choose Hide Preview to blur that app's previews.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "انقر بزر الماوس الأيمن على نافذة واختر «إخفاء المعاينة» لتمويه معاينات ذلك التطبيق."
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "কোনো উইন্ডোতে রাইট-ক্লিক করে “প্রিভিউ লুকান” বেছে নিলে সেই অ্যাপের প্রিভিউ ঝাপসা হবে।"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Haz clic derecho en una ventana y elige «Ocultar vista previa» para desenfocar las vistas previas de esa app."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cliquez avec le bouton droit sur une fenêtre et choisissez « Masquer l’aperçu » pour flouter les aperçus de cette app."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "किसी विंडो पर राइट-क्लिक करें और उस ऐप के प्रीव्यू धुंधले करने के लिए “प्रीव्यू छिपाएँ” चुनें।"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klik kanan jendela dan pilih “Sembunyikan Pratinjau” untuk memburamkan pratinjau app tersebut."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clique com o botão direito em uma janela e escolha “Ocultar pré-visualização” para desfocar as pré-visualizações desse app."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Щёлкните окно правой кнопкой и выберите «Скрыть превью», чтобы размыть превью этого приложения."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bir pencereye sağ tıklayıp \"Önizlemeyi gizle\" ile o uygulamanın önizlemelerini bulanıklaştırabilirsin."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "右键点按窗口并选择“隐藏预览”，即可模糊该应用的预览。"
-          }
-        }
-      }
-    },
-    "Right-click a window and choose Keep in Dock to pin its app.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "انقر بزر الماوس الأيمن على نافذة واختر «الإبقاء في Dock» لتثبيت تطبيقها."
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "কোনো উইন্ডোতে রাইট-ক্লিক করে “Dock-এ রাখুন” বেছে নিলে তার অ্যাপ পিন হবে।"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Haz clic derecho en una ventana y elige «Mantener en el Dock» para fijar su app."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cliquez avec le bouton droit sur une fenêtre et choisissez « Garder dans le Dock » pour épingler son app."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "किसी विंडो पर राइट-क्लिक करें और उसके ऐप को पिन करने के लिए “Dock में रखें” चुनें।"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klik kanan jendela dan pilih “Simpan di Dock” untuk menyematkan app-nya."
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clique com o botão direito em uma janela e escolha “Manter no Dock” para fixar o app dela."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Щёлкните окно правой кнопкой и выберите «Оставить в Dock», чтобы закрепить его приложение."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bir pencereye sağ tıklayıp \"Dock'ta tut\" ile uygulamasını sabitleyebilirsin."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "右键点按窗口并选择“在程序坞中保留”，即可固定其应用。"
-          }
-        }
-      }
-    },
     "Running": {
       "localizations": {
         "ar": {
@@ -6000,386 +6256,450 @@
         }
       }
     },
-    "Save Current Layout": {
+    "Save Layout": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حفظ التخطيط الحالي"
+            "value": "حفظ التخطيط"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "বর্তমান লেআউট সংরক্ষণ করুন"
+            "value": "লেআউট সংরক্ষণ করুন"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guardar disposición actual"
+            "value": "Guardar disposición"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrer la disposition actuelle"
+            "value": "Enregistrer la disposition"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "मौजूदा लेआउट सहेजें"
+            "value": "लेआउट सहेजें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Simpan Tata Letak Saat Ini"
+            "value": "Simpan Tata Letak"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salvar disposição atual"
+            "value": "Salvar layout"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранить текущую раскладку"
+            "value": "Сохранить раскладку"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mevcut düzeni kaydet"
+            "value": "Düzeni kaydet"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储当前布局"
+            "value": "存储布局"
           }
         }
       }
     },
-    "Save Current Layout…": {
+    "Save Layout…": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حفظ التخطيط الحالي…"
+            "value": "حفظ التخطيط…"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "বর্তমান লেআউট সংরক্ষণ করুন…"
+            "value": "লেআউট সংরক্ষণ করুন…"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guardar disposición actual…"
+            "value": "Guardar disposición…"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrer la disposition actuelle…"
+            "value": "Enregistrer la disposition…"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "मौजूदा लेआउट सहेजें…"
+            "value": "लेआउट सहेजें…"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Simpan Tata Letak Saat Ini…"
+            "value": "Simpan Tata Letak…"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salvar disposição atual…"
+            "value": "Salvar layout…"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранить текущую раскладку…"
+            "value": "Сохранить раскладку…"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mevcut düzeni kaydet…"
+            "value": "Düzeni kaydet…"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储当前布局…"
+            "value": "存储布局…"
           }
         }
       }
     },
-    "Save Workspace": {
+    "Save Window Layout": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حفظ مساحة العمل"
+            "value": "حفظ تخطيط النوافذ"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "ওয়ার্কস্পেস সংরক্ষণ করুন"
+            "value": "উইন্ডো লেআউট সংরক্ষণ করুন"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guardar espacio de trabajo"
+            "value": "Guardar disposición de ventanas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrer l’espace de travail"
+            "value": "Enregistrer la disposition des fenêtres"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "वर्कस्पेस सहेजें"
+            "value": "विंडो लेआउट सहेजें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Simpan Ruang Kerja"
+            "value": "Simpan Tata Letak Jendela"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salvar espaço de trabalho"
+            "value": "Salvar layout de janelas"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранить рабочее пространство"
+            "value": "Сохранить раскладку окон"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Çalışma alanını kaydet"
+            "value": "Pencere düzenini kaydet"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储工作区"
+            "value": "存储窗口布局"
           }
         }
       }
     },
-    "Save the current window layout as:": {
+    "Save a window layout": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "حفظ تخطيط النوافذ الحالي باسم:"
+            "value": "حفظ تخطيط للنوافذ"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "বর্তমান উইন্ডো লেআউট এই নামে সংরক্ষণ করুন:"
+            "value": "উইন্ডো লেআউট সংরক্ষণ"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guardar la disposición actual de ventanas como:"
+            "value": "Guardar una disposición de ventanas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrer la disposition actuelle des fenêtres sous :"
+            "value": "Enregistrer une disposition"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "मौजूदा विंडो लेआउट को इस नाम से सहेजें:"
+            "value": "विंडो लेआउट सहेजें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Simpan tata letak jendela saat ini sebagai:"
+            "value": "Simpan tata letak jendela"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salvar a disposição atual das janelas como:"
+            "value": "Salvar um layout de janelas"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранить текущую раскладку окон как:"
+            "value": "Сохранение раскладки окон"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mevcut pencere düzenini şu adla kaydet:"
+            "value": "Pencere düzeni kaydet"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将当前窗口布局存储为："
+            "value": "存储窗口布局"
           }
         }
       }
     },
-    "Saved workspaces": {
+    "Saved window layouts": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مساحات العمل المحفوظة"
+            "value": "تخطيطات النوافذ المحفوظة"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "সংরক্ষিত ওয়ার্কস্পেস"
+            "value": "সংরক্ষিত উইন্ডো লেআউট"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espacios de trabajo guardados"
+            "value": "Disposiciones guardadas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espaces de travail enregistrés"
+            "value": "Dispositions enregistrées"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "सहेजे गए वर्कस्पेस"
+            "value": "सहेजे गए विंडो लेआउट"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ruang kerja tersimpan"
+            "value": "Tata letak jendela tersimpan"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espaços de trabalho salvos"
+            "value": "Layouts de janelas salvos"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранённые рабочие пространства"
+            "value": "Сохранённые раскладки окон"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kayıtlı çalışma alanları"
+            "value": "Kaydedilen pencere düzenleri"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "已存储的工作区"
+            "value": "已存储的窗口布局"
           }
         }
       }
     },
-    "Saves which apps are open and where each window is. Restoring opens missing apps and moves the windows back.": {
+    "Saves the open apps and where each window is. Layout name:": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يحفظ التطبيقات المفتوحة وموضع كل نافذة. عند الاستعادة يفتح التطبيقات غير المفتوحة ويعيد النوافذ إلى أماكنها."
+            "value": "يحفظ التطبيقات المفتوحة وموضع كل نافذة. اسم التخطيط:"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "কোন অ্যাপগুলো খোলা আছে এবং প্রতিটি উইন্ডো কোথায় আছে তা সংরক্ষণ করে। ফিরিয়ে আনলে বন্ধ অ্যাপগুলো খোলে এবং উইন্ডোগুলো আগের জায়গায় সরিয়ে দেয়।"
+            "value": "খোলা অ্যাপ ও প্রতিটি উইন্ডোর অবস্থান সংরক্ষণ করে। লেআউটের নাম:"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guarda qué apps están abiertas y dónde está cada ventana. Al restaurar, abre las apps que falten y devuelve las ventanas a su sitio."
+            "value": "Guarda las apps abiertas y la posición de cada ventana. Nombre de la disposición:"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistre les apps ouvertes et la position de chaque fenêtre. La restauration ouvre les apps manquantes et remet les fenêtres en place."
+            "value": "Enregistre les apps ouvertes et la position de chaque fenêtre. Nom de la disposition :"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "कौन-से ऐप खुले हैं और हर विंडो कहाँ है, यह सहेजता है। वापस लाने पर यह बंद ऐप्स खोलता है और विंडो को उनकी जगह पर ले जाता है।"
+            "value": "खुले ऐप्स और हर विंडो की जगह सहेजता है। लेआउट का नाम:"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Menyimpan app yang terbuka dan posisi setiap jendela. Memulihkan akan membuka app yang belum terbuka dan mengembalikan jendela ke tempatnya."
+            "value": "Menyimpan app yang terbuka dan posisi setiap jendela. Nama tata letak:"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salva quais apps estão abertos e onde fica cada janela. Ao restaurar, abre os apps que faltam e devolve as janelas aos seus lugares."
+            "value": "Salva os apps abertos e a posição de cada janela. Nome do layout:"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Запоминает, какие приложения открыты и где находится каждое окно. При восстановлении открывает недостающие приложения и возвращает окна на места."
+            "value": "Сохраняет открытые приложения и положение каждого окна. Название раскладки:"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hangi uygulamaların açık olduğunu ve her pencerenin nerede durduğunu kaydeder. Geri getirince kapalı uygulamaları açar ve pencereleri yerlerine taşır."
+            "value": "Açık uygulamaları ve her pencerenin yerini kaydeder. Düzen adı:"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "存储打开了哪些应用以及每个窗口的位置。恢复时会打开缺少的应用并将窗口移回原位。"
+            "value": "存储打开的应用以及每个窗口的位置。布局名称："
+          }
+        }
+      }
+    },
+    "Saves the open apps and where each window is. Opening the layout later starts apps that aren't running and moves the windows back; it doesn't reopen closed documents or tabs.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحفظ التطبيقات المفتوحة وموضع كل نافذة. عند فتح التخطيط لاحقًا يشغّل التطبيقات غير المفتوحة ويعيد النوافذ إلى أماكنها؛ ولا يعيد فتح المستندات أو علامات التبويب المغلقة."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "খোলা অ্যাপ ও প্রতিটি উইন্ডোর অবস্থান সংরক্ষণ করে। পরে লেআউট খুললে বন্ধ অ্যাপ চালু হয় ও উইন্ডো আগের জায়গায় ফেরে; বন্ধ করা ডকুমেন্ট বা ট্যাব আবার খোলে না।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guarda las apps abiertas y la posición de cada ventana. Al abrir la disposición más tarde, inicia las apps que no estén abiertas y devuelve las ventanas a su sitio; no vuelve a abrir documentos ni pestañas cerrados."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistre les apps ouvertes et la position de chaque fenêtre. Ouvrir la disposition plus tard lance les apps fermées et remet les fenêtres en place ; les documents et onglets fermés ne sont pas rouverts."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "खुले ऐप्स और हर विंडो की जगह सहेजता है। बाद में लेआउट खोलने पर बंद ऐप्स शुरू होते हैं और विंडो अपनी जगह लौटती हैं; बंद किए गए दस्तावेज़ या टैब फिर से नहीं खुलते।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menyimpan app yang terbuka dan posisi setiap jendela. Saat tata letak dibuka nanti, app yang belum berjalan akan dimulai dan jendela dikembalikan; dokumen atau tab yang sudah ditutup tidak dibuka ulang."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva os apps abertos e a posição de cada janela. Ao abrir o layout depois, os apps fechados são iniciados e as janelas voltam ao lugar; documentos e abas fechados não são reabertos."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохраняет открытые приложения и положение каждого окна. При открытии раскладки запускает незапущенные приложения и возвращает окна на места; закрытые документы и вкладки не открываются заново."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık uygulamaları ve her pencerenin yerini kaydeder. Düzeni sonra açtığında çalışmayan uygulamaları başlatır ve pencereleri kaydedilen yerlerine taşır; kapatılmış belgeleri ya da sekmeleri yeniden açmaz."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存储打开的应用以及每个窗口的位置。之后打开此布局时，会启动未运行的应用并把窗口移回原位；不会重新打开已关闭的文稿或标签页。"
           }
         }
       }
@@ -6704,6 +7024,70 @@
         }
       }
     },
+    "Shortcuts act on the front window.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعمل الاختصارات على النافذة الأمامية."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "শর্টকাটগুলো সামনের উইন্ডোতে কাজ করে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los atajos actúan sobre la ventana activa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les raccourcis agissent sur la fenêtre au premier plan."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "शॉर्टकट सबसे आगे वाली विंडो पर काम करते हैं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan bekerja pada jendela terdepan."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os atalhos agem na janela da frente."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетания действуют на активное окно."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayollar öndeki pencereye uygulanır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键作用于最前面的窗口。"
+          }
+        }
+      }
+    },
     "Show / hide panel": {
       "localizations": {
         "ar": {
@@ -6764,70 +7148,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示 / 隐藏面板"
-          }
-        }
-      }
-    },
-    "Show / hide shortcut": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختصار الإظهار / الإخفاء"
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "দেখানো / লুকানোর শর্টকাট"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atajo para mostrar / ocultar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raccourci afficher / masquer"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "दिखाएँ / छिपाएँ शॉर्टकट"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pintasan tampilkan / sembunyikan"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atalho para mostrar / ocultar"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сочетание для показа / скрытия"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Göster / gizle kısayolu"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "显示 / 隐藏快捷键"
           }
         }
       }
@@ -6896,258 +7216,258 @@
         }
       }
     },
-    "Show Preview": {
+    "Show Shortcuts": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار المعاينة"
+            "value": "إظهار الاختصارات"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "প্রিভিউ দেখান"
+            "value": "শর্টকাট দেখান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar vista previa"
+            "value": "Mostrar atajos"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Afficher l’aperçu"
+            "value": "Afficher les raccourcis"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "प्रीव्यू दिखाएँ"
+            "value": "शॉर्टकट दिखाएँ"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tampilkan Pratinjau"
+            "value": "Tampilkan Pintasan"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar pré-visualização"
+            "value": "Mostrar atalhos"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать превью"
+            "value": "Показать сочетания клавиш"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Önizlemeyi göster"
+            "value": "Kısayolları göster"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示预览"
+            "value": "显示快捷键"
           }
         }
       }
     },
-    "Show a large preview when hovering a tile": {
+    "Show a large preview when hovering over a window": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار معاينة كبيرة عند تمرير المؤشر فوق مربع"
+            "value": "إظهار معاينة كبيرة عند التمرير فوق نافذة"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "টাইলের ওপর পয়েন্টার রাখলে বড় প্রিভিউ দেখান"
+            "value": "উইন্ডোর ওপর পয়েন্টার রাখলে বড় প্রিভিউ দেখান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar una vista previa grande al pasar el puntero sobre una miniatura"
+            "value": "Mostrar una vista previa grande al pasar sobre una ventana"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Afficher un grand aperçu au survol d’une vignette"
+            "value": "Afficher un grand aperçu au survol d’une fenêtre"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "टाइल पर पॉइंटर ले जाने पर बड़ा प्रीव्यू दिखाएँ"
+            "value": "विंडो पर पॉइंटर रखने पर बड़ा प्रीव्यू दिखाएँ"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tampilkan pratinjau besar saat penunjuk berada di atas kotak"
+            "value": "Tampilkan pratinjau besar saat penunjuk di atas jendela"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar uma pré-visualização grande ao passar o ponteiro sobre uma miniatura"
+            "value": "Mostrar uma pré-visualização grande ao passar sobre uma janela"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать большое превью при наведении на миниатюру"
+            "value": "Показывать большое превью при наведении на окно"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kutunun üzerine gelince büyük önizleme göster"
+            "value": "Bir pencerenin üzerine gelince büyük önizleme göster"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "指针悬停在缩略图上时显示大预览"
+            "value": "将指针悬停在窗口上时显示大预览"
           }
         }
       }
     },
-    "Show a speaker on apps playing sound": {
+    "Show a sound icon on apps playing sound": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار مكبر صوت على التطبيقات التي تشغّل صوتًا"
+            "value": "إظهار رمز صوت على التطبيقات التي تشغّل الصوت"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "যে অ্যাপগুলো শব্দ বাজাচ্ছে সেগুলোতে স্পিকার দেখান"
+            "value": "শব্দ চালাচ্ছে এমন অ্যাপে সাউন্ড আইকন দেখান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar un altavoz en las apps que reproducen sonido"
+            "value": "Mostrar un icono de sonido en las apps que reproducen sonido"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Afficher un haut-parleur sur les apps qui émettent du son"
+            "value": "Afficher une icône de son sur les apps qui en jouent"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "आवाज़ चला रहे ऐप्स पर स्पीकर दिखाएँ"
+            "value": "आवाज़ चला रहे ऐप्स पर साउंड आइकन दिखाएँ"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tampilkan speaker pada app yang memutar suara"
+            "value": "Tampilkan ikon suara pada app yang memutar suara"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar um alto-falante nos apps que reproduzem som"
+            "value": "Mostrar um ícone de som nos apps que estão tocando som"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать динамик у приложений, воспроизводящих звук"
+            "value": "Показывать значок звука у приложений, которые воспроизводят звук"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ses çalan uygulamalarda hoparlör göster"
+            "value": "Ses çalan uygulamalarda ses simgesi göster"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在播放声音的应用上显示扬声器"
+            "value": "在正在播放声音的应用上显示声音图标"
           }
         }
       }
     },
-    "Show background": {
+    "Show panel background": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "إظهار الخلفية"
+            "value": "إظهار خلفية اللوحة"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "ব্যাকগ্রাউন্ড দেখান"
+            "value": "প্যানেলের ব্যাকগ্রাউন্ড দেখান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar fondo"
+            "value": "Mostrar el fondo del panel"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Afficher l’arrière-plan"
+            "value": "Afficher le fond du panneau"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "बैकग्राउंड दिखाएँ"
+            "value": "पैनल का बैकग्राउंड दिखाएँ"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tampilkan latar belakang"
+            "value": "Tampilkan latar belakang panel"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostrar fundo"
+            "value": "Mostrar o fundo do painel"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать фон"
+            "value": "Показывать фон панели"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Arka planı göster"
+            "value": "Panel arka planını göster"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示背景"
+            "value": "显示面板背景"
           }
         }
       }
@@ -7205,7 +7525,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sabitlenmiş uygulamaları bütün ekranlarda göster"
+            "value": "Sabitlenmiş uygulamaları tüm ekranlarda göster"
           }
         },
         "zh-Hans": {
@@ -7216,130 +7536,130 @@
         }
       }
     },
-    "Shows live previews of your windows. Previews never leave your Mac.": {
+    "Show which desktop a window is on": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يعرض معاينات حية لنوافذك. لا تغادر المعاينات جهاز Mac أبدًا."
+            "value": "إظهار سطح المكتب الذي توجد عليه كل نافذة"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "আপনার উইন্ডোগুলোর লাইভ প্রিভিউ দেখায়। প্রিভিউ কখনও আপনার Mac-এর বাইরে যায় না।"
+            "value": "কোন উইন্ডো কোন ডেস্কটপে আছে তা দেখান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Muestra vistas previas en directo de tus ventanas. Las vistas previas nunca salen de tu Mac."
+            "value": "Mostrar en qué escritorio está cada ventana"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Affiche des aperçus en direct de vos fenêtres. Les aperçus ne quittent jamais votre Mac."
+            "value": "Indiquer sur quel bureau se trouve chaque fenêtre"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "आपकी विंडो के लाइव प्रीव्यू दिखाता है। प्रीव्यू कभी आपके Mac से बाहर नहीं जाते।"
+            "value": "दिखाएँ कि विंडो किस डेस्कटॉप पर है"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Menampilkan pratinjau langsung jendela Anda. Pratinjau tidak pernah meninggalkan Mac Anda."
+            "value": "Tampilkan desktop tempat jendela berada"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mostra pré-visualizações ao vivo das suas janelas. As pré-visualizações nunca saem do seu Mac."
+            "value": "Mostrar em qual mesa cada janela está"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывает живые превью ваших окон. Превью никогда не покидают ваш Mac."
+            "value": "Показывать, на каком рабочем столе окно"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pencerelerinin canlı önizlemelerini gösterir. Önizlemeler Mac'inden hiç çıkmaz."
+            "value": "Pencerelerin hangi masaüstünde olduğunu göster"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示窗口的实时预览。预览永远不会离开你的 Mac。"
+            "value": "显示窗口所在的桌面"
           }
         }
       }
     },
-    "Size": {
+    "Shows previews and titles of your windows. Docklane records no sound; previews are never saved or sent anywhere.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الحجم"
+            "value": "يعرض معاينات نوافذك وعناوينها. لا يسجّل Docklane أي صوت، ولا تُحفظ المعاينات أو تُرسل إلى أي مكان."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "আকার"
+            "value": "আপনার উইন্ডোর প্রিভিউ ও শিরোনাম দেখাতে লাগে। Docklane কোনো শব্দ রেকর্ড করে না; প্রিভিউ কখনো সংরক্ষণ বা কোথাও পাঠানো হয় না।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tamaño"
+            "value": "Muestra las vistas previas y los títulos de tus ventanas. Docklane no graba sonido; las vistas previas nunca se guardan ni se envían."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Taille"
+            "value": "Affiche les aperçus et les titres de vos fenêtres. Docklane n’enregistre aucun son ; les aperçus ne sont jamais enregistrés ni envoyés."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "आकार"
+            "value": "आपकी विंडो के प्रीव्यू और टाइटल दिखाने के लिए। Docklane आवाज़ रिकॉर्ड नहीं करता; प्रीव्यू न सहेजे जाते हैं, न कहीं भेजे जाते हैं।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ukuran"
+            "value": "Menampilkan pratinjau dan judul jendela Anda. Docklane tidak merekam suara; pratinjau tidak pernah disimpan atau dikirim ke mana pun."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tamanho"
+            "value": "Mostra pré-visualizações e títulos das suas janelas. O Docklane não grava som; as pré-visualizações nunca são salvas nem enviadas."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Размер"
+            "value": "Показывает превью и заголовки ваших окон. Docklane не записывает звук; превью нигде не сохраняются и никуда не отправляются."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Boyut"
+            "value": "Pencerelerinin önizlemelerini ve başlıklarını göstermek için kullanılır. Docklane ses kaydetmez; önizlemeler kaydedilmez, hiçbir yere gönderilmez."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "大小"
+            "value": "用于显示窗口的预览和标题。Docklane 不录制声音；预览不会被存储或发送到任何地方。"
           }
         }
       }
@@ -7408,6 +7728,70 @@
         }
       }
     },
+    "Stop Blurring This App": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف تمويه هذا التطبيق"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "এই অ্যাপ ঝাপসা করা বন্ধ করুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dejar de desenfocar esta app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne plus flouter cette app"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इस ऐप को धुंधला करना बंद करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berhenti Memburamkan App Ini"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar de desfocar este app"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не размывать это приложение"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu uygulamayı bulanıklaştırmayı bırak"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止模糊此应用"
+          }
+        }
+      }
+    },
     "System": {
       "localizations": {
         "ar": {
@@ -7468,6 +7852,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统"
+          }
+        }
+      }
+    },
+    "System permissions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أذونات النظام"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "সিস্টেম অনুমতি"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permisos del sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisations système"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सिस्टम अनुमतियाँ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izin sistem"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissões do sistema"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системные разрешения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem izinleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统权限"
           }
         }
       }
@@ -7600,6 +8048,70 @@
         }
       }
     },
+    "Thanks: window capture and focus techniques follow the approach of AltTab.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكر: تتبع تقنيات التقاط النوافذ والتركيز عليها نهج AltTab."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কৃতজ্ঞতা: উইন্ডো ক্যাপচার ও ফোকাসের কৌশল AltTab-এর পদ্ধতি অনুসরণ করে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agradecimientos: las técnicas de captura y enfoque de ventanas siguen el enfoque de AltTab."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remerciements : les techniques de capture et d’activation des fenêtres suivent l’approche d’AltTab."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आभार: विंडो कैप्चर और फ़ोकस की तकनीकें AltTab के तरीके पर आधारित हैं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terima kasih: teknik penangkapan dan fokus jendela mengikuti pendekatan AltTab."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agradecimentos: as técnicas de captura e foco de janelas seguem a abordagem do AltTab."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Благодарности: приёмы захвата окон и переключения фокуса следуют подходу AltTab."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teşekkürler: pencere yakalama ve odaklama teknikleri AltTab'ın yaklaşımını izler."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "致谢：窗口捕获和聚焦技术借鉴了 AltTab 的方法。"
+          }
+        }
+      }
+    },
     "The macOS Dock is on the same edge, so both appear together. Move it in System Settings → Desktop & Dock.": {
       "localizations": {
         "ar": {
@@ -7660,6 +8172,134 @@
           "stringUnit": {
             "state": "translated",
             "value": "macOS 程序坞位于同一边缘，因此两者会一起出现。请在“系统设置”→“桌面与程序坞”中移动它。"
+          }
+        }
+      }
+    },
+    "To blur an app's window previews, right-click one of its windows in the panel and choose Blur This App's Previews.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لتمويه معاينات نوافذ تطبيق، انقر بزر الماوس الأيمن على إحدى نوافذه في اللوحة واختر “تمويه معاينات هذا التطبيق”."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কোনো অ্যাপের উইন্ডো প্রিভিউ ঝাপসা করতে প্যানেলে তার একটি উইন্ডোতে রাইট-ক্লিক করে “এই অ্যাপের প্রিভিউ ঝাপসা করুন” বেছে নিন।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para desenfocar las vistas previas de una app, haz clic derecho en una de sus ventanas del panel y elige “Desenfocar las vistas previas de esta app”."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour flouter les aperçus d’une app, cliquez avec le bouton droit sur l’une de ses fenêtres dans le panneau et choisissez « Flouter les aperçus de cette app »."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "किसी ऐप के विंडो प्रीव्यू धुंधले करने के लिए पैनल में उसकी विंडो पर राइट-क्लिक करें और “इस ऐप के प्रीव्यू धुंधले करें” चुनें।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untuk memburamkan pratinjau jendela app, klik kanan salah satu jendelanya di panel lalu pilih “Buramkan Pratinjau App Ini”."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para desfocar as pré-visualizações de um app, clique com o botão direito em uma das janelas dele no painel e escolha “Desfocar pré-visualizações deste app”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтобы размыть превью окон приложения, щёлкните правой кнопкой по его окну на панели и выберите «Размывать превью этого приложения»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir uygulamanın pencere önizlemelerini bulanıklaştırmak için paneldeki penceresine sağ tıkla ve “Bu uygulamanın önizlemelerini bulanıklaştır”ı seç."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要模糊某个应用的窗口预览，请在面板中右键点按它的窗口，然后选择“模糊此应用的预览”。"
+          }
+        }
+      }
+    },
+    "To pin an app, right-click one of its windows in the panel and choose Pin to Panel.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لتثبيت تطبيق، انقر بزر الماوس الأيمن على إحدى نوافذه في اللوحة واختر “تثبيت في اللوحة”."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কোনো অ্যাপ পিন করতে প্যানেলে তার একটি উইন্ডোতে রাইট-ক্লিক করে “প্যানেলে পিন করুন” বেছে নিন।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para fijar una app, haz clic derecho en una de sus ventanas del panel y elige “Fijar en el panel”."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour épingler une app, cliquez avec le bouton droit sur l’une de ses fenêtres dans le panneau et choisissez « Épingler au panneau »."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "किसी ऐप को पिन करने के लिए पैनल में उसकी विंडो पर राइट-क्लिक करें और “पैनल में पिन करें” चुनें।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untuk menyematkan app, klik kanan salah satu jendelanya di panel lalu pilih “Sematkan ke Panel”."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para fixar um app, clique com o botão direito em uma das janelas dele no painel e escolha “Fixar no painel”."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтобы закрепить приложение, щёлкните правой кнопкой по его окну на панели и выберите «Закрепить на панели»."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir uygulamayı sabitlemek için paneldeki penceresine sağ tıkla ve “Panele sabitle”yi seç."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要固定某个应用，请在面板中右键点按它的窗口，然后选择“固定到面板”。"
           }
         }
       }
@@ -7856,66 +8496,66 @@
         }
       }
     },
-    "Undo Layout Change": {
+    "Undo Last Arrangement": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تراجع عن تغيير الترتيب"
+            "value": "التراجع عن آخر ترتيب"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "বিন্যাসের পরিবর্তন পূর্বাবস্থায় ফেরান"
+            "value": "শেষ বিন্যাস পূর্বাবস্থায় ফেরান"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Deshacer cambio de disposición"
+            "value": "Deshacer la última colocación"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Annuler le changement de disposition"
+            "value": "Annuler le dernier placement"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "व्यवस्था का बदलाव पूर्ववत करें"
+            "value": "पिछली व्यवस्था पहले जैसी करें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Batalkan perubahan tata letak"
+            "value": "Batalkan Penataan Terakhir"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Desfazer alteração de disposição"
+            "value": "Desfazer o último posicionamento"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Отменить изменение расположения"
+            "value": "Отменить последнее размещение"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Düzen değişikliğini geri al"
+            "value": "Son yerleştirmeyi geri al"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "撤销布局更改"
+            "value": "撤销上一次排列"
           }
         }
       }
@@ -7984,66 +8624,130 @@
         }
       }
     },
-    "Uses private macOS interfaces to show and switch to windows on other desktops; they may change with macOS updates.": {
+    "Unpin from Panel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يستخدم واجهات macOS خاصة لعرض النوافذ على أسطح المكتب الأخرى والانتقال إليها؛ قد تتغير مع تحديثات macOS."
+            "value": "إلغاء التثبيت من اللوحة"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "অন্য ডেস্কটপের উইন্ডো দেখাতে ও সেগুলোতে যেতে macOS-এর অপ্রকাশিত ইন্টারফেস ব্যবহার করে; macOS আপডেটে এগুলো বদলে যেতে পারে।"
+            "value": "প্যানেল থেকে আনপিন করুন"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Usa interfaces privadas de macOS para mostrar ventanas de otros escritorios y cambiar a ellas; pueden cambiar con las actualizaciones de macOS."
+            "value": "Dejar de fijar en el panel"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Utilise des interfaces privées de macOS pour afficher les fenêtres des autres bureaux et y basculer ; elles peuvent changer avec les mises à jour de macOS."
+            "value": "Détacher du panneau"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "दूसरे डेस्कटॉप की विंडो दिखाने और उन पर जाने के लिए macOS के गैर-सार्वजनिक इंटरफ़ेस का इस्तेमाल करता है; ये macOS अपडेट के साथ बदल सकते हैं।"
+            "value": "पैनल से अनपिन करें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Menggunakan antarmuka privat macOS untuk menampilkan dan beralih ke jendela di desktop lain; antarmuka ini dapat berubah dengan pembaruan macOS."
+            "value": "Lepas sematan dari Panel"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Usa interfaces privadas do macOS para mostrar e alternar para janelas em outras mesas; elas podem mudar com atualizações do macOS."
+            "value": "Desafixar do painel"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Использует закрытые интерфейсы macOS, чтобы показывать окна на других рабочих столах и переключаться на них; они могут измениться с обновлениями macOS."
+            "value": "Открепить от панели"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Başka masaüstlerindeki pencereleri göstermek ve onlara geçmek için macOS'un resmi olmayan arayüzlerini kullanır; bunlar macOS güncellemeleriyle değişebilir."
+            "value": "Panelden sabitlemeyi kaldır"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "使用 macOS 私有接口来显示其他桌面上的窗口并切换到这些窗口；这些接口可能会随 macOS 更新而变化。"
+            "value": "从面板取消固定"
+          }
+        }
+      }
+    },
+    "Uses macOS system interfaces that aren't public to show and switch to windows on other desktops. macOS updates may affect this.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستخدم واجهات نظام macOS غير العامة لعرض النوافذ على أسطح المكتب الأخرى والانتقال إليها. قد تؤثر تحديثات macOS على ذلك."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "অন্য ডেস্কটপের উইন্ডো দেখাতে ও সেগুলোতে যেতে macOS-এর অপ্রকাশ্য সিস্টেম ইন্টারফেস ব্যবহার করে। macOS আপডেট এতে প্রভাব ফেলতে পারে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa interfaces del sistema macOS que no son públicas para mostrar ventanas de otros escritorios y cambiar a ellas. Las actualizaciones de macOS pueden afectar a esto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilise des interfaces système de macOS non publiques pour afficher les fenêtres des autres bureaux et y accéder. Les mises à jour de macOS peuvent l’affecter."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दूसरे डेस्कटॉप की विंडो दिखाने और उन पर जाने के लिए macOS के गैर-सार्वजनिक सिस्टम इंटरफ़ेस इस्तेमाल करता है। macOS अपडेट से इस पर असर पड़ सकता है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memakai antarmuka sistem macOS yang tidak publik untuk menampilkan dan beralih ke jendela di desktop lain. Pembaruan macOS dapat memengaruhinya."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa interfaces do sistema macOS que não são públicas para mostrar janelas de outras mesas e alternar para elas. Atualizações do macOS podem afetar isso."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использует непубличные системные интерфейсы macOS, чтобы показывать окна с других рабочих столов и переключаться на них. Обновления macOS могут на это повлиять."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer masaüstlerindeki pencereleri göstermek ve onlara geçmek için macOS'un herkese açık olmayan sistem arayüzlerini kullanır. Bu, macOS güncellemelerinden etkilenebilir."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 macOS 的非公开系统接口来显示并切换到其他桌面上的窗口。macOS 更新可能会影响此功能。"
           }
         }
       }
@@ -8176,130 +8880,258 @@
         }
       }
     },
-    "When a display is connected or disconnected, windows go back to where they were the last time you used those displays.": {
+    "When a display is connected or disconnected, windows move to where they were the last time you used that combination of displays. Undo puts windows back to where they were before the last arrangement: a move from the panel or the keyboard, an opened layout or a display change.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "عند توصيل شاشة أو فصلها، تعود النوافذ إلى أماكنها في آخر مرة استخدمت فيها هذه الشاشات."
+            "value": "عند توصيل شاشة أو فصلها، تنتقل النوافذ إلى حيث كانت آخر مرة استخدمت فيها هذه المجموعة من الشاشات. يعيد التراجع النوافذ إلى ما كانت عليه قبل آخر ترتيب: نقل من اللوحة أو لوحة المفاتيح، أو تخطيط مفتوح، أو تغيّر في الشاشات."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "কোনো ডিসপ্লে যুক্ত বা বিচ্ছিন্ন করলে উইন্ডোগুলো সেখানে ফিরে যায় যেখানে শেষবার ওই ডিসপ্লেগুলো ব্যবহারের সময় ছিল।"
+            "value": "কোনো ডিসপ্লে যুক্ত বা বিচ্ছিন্ন হলে উইন্ডোগুলো সেখানে যায় যেখানে সেগুলো শেষবার ওই ডিসপ্লে-সমন্বয়ে ছিল। পূর্বাবস্থায় ফেরালে উইন্ডোগুলো শেষ বিন্যাসের আগের জায়গায় ফেরে: প্যানেল বা কীবোর্ড থেকে সরানো, খোলা লেআউট বা ডিসপ্লে পরিবর্তন।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Al conectar o desconectar una pantalla, las ventanas vuelven a donde estaban la última vez que usaste esas pantallas."
+            "value": "Al conectar o desconectar una pantalla, las ventanas vuelven a donde estaban la última vez que usaste esa combinación de pantallas. Deshacer las devuelve a donde estaban antes de la última colocación: un movimiento desde el panel o el teclado, una disposición abierta o un cambio de pantalla."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quand un écran est branché ou débranché, les fenêtres reviennent là où elles étaient la dernière fois que vous avez utilisé ces écrans."
+            "value": "Quand un écran est branché ou débranché, les fenêtres reprennent leur place de la dernière utilisation de cette combinaison d’écrans. Annuler les remet là où elles étaient avant le dernier placement : déplacement depuis le panneau ou le clavier, disposition ouverte ou changement d’écran."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "कोई डिस्प्ले जोड़ने या हटाने पर विंडो वहीं लौट आती हैं जहाँ वे पिछली बार उन डिस्प्ले के साथ थीं।"
+            "value": "डिस्प्ले जोड़ने या हटाने पर विंडो वहाँ चली जाती हैं जहाँ वे पिछली बार डिस्प्ले के उसी मेल के साथ थीं। पहले जैसा करने पर विंडो पिछली व्यवस्था से पहले की जगह लौट आती हैं: पैनल या कीबोर्ड से हिलाना, खोला गया लेआउट या डिस्प्ले बदलाव।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Saat layar disambungkan atau dilepas, jendela kembali ke tempatnya saat terakhir kali Anda memakai layar tersebut."
+            "value": "Saat layar disambungkan atau dilepas, jendela pindah ke tempatnya saat terakhir kali Anda memakai kombinasi layar itu. Batalkan mengembalikan jendela ke posisi sebelum penataan terakhir: pemindahan dari panel atau papan ketik, tata letak yang dibuka, atau perubahan layar."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ao conectar ou desconectar uma tela, as janelas voltam para onde estavam na última vez que você usou essas telas."
+            "value": "Quando uma tela é conectada ou desconectada, as janelas vão para onde estavam na última vez que você usou essa combinação de telas. Desfazer devolve as janelas para onde estavam antes do último posicionamento: um movimento pelo painel ou teclado, um layout aberto ou uma mudança de tela."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "При подключении или отключении дисплея окна возвращаются туда, где были, когда вы в последний раз работали с этими дисплеями."
+            "value": "При подключении или отключении дисплея окна перемещаются туда, где были, когда вы последний раз пользовались этим набором дисплеев. Отмена возвращает окна туда, где они были до последнего размещения: перемещения с панели или клавиатуры, открытия раскладки или смены дисплеев."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bir ekran takılıp çıkarıldığında pencereler, o ekranları son kullandığındaki yerlerine döner."
+            "value": "Bir ekran bağlandığında ya da çıkarıldığında pencereler, o ekran düzenini en son kullandığındaki yerlerine taşınır. Geri al, pencereleri son yerleştirmeden önceki yerlerine döndürür: panelden ya da klavyeyle taşıma, açılan bir düzen veya ekran değişikliği."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "连接或断开显示器时，窗口会回到你上次使用这些显示器时的位置。"
+            "value": "连接或断开显示器时，窗口会移到你上次使用这组显示器时的位置。撤销会把窗口放回上一次排列之前的位置：来自面板或键盘的移动、打开的布局或显示器变化。"
           }
         }
       }
     },
-    "Window capture and focus techniques follow the approach of AltTab.": {
+    "Window Layouts": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تتبع تقنيات التقاط النوافذ والتركيز عليها نهج AltTab."
+            "value": "تخطيطات النوافذ"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "উইন্ডো ক্যাপচার ও ফোকাসের কৌশলগুলো AltTab-এর পদ্ধতি অনুসরণ করে।"
+            "value": "উইন্ডো লেআউট"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las técnicas de captura y enfoque de ventanas siguen el enfoque de AltTab."
+            "value": "Disposiciones de ventanas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les techniques de capture et de mise au premier plan des fenêtres suivent l’approche d’AltTab."
+            "value": "Dispositions des fenêtres"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "विंडो कैप्चर और फ़ोकस की तकनीकें AltTab के तरीके पर आधारित हैं।"
+            "value": "विंडो लेआउट"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Teknik penangkapan dan pemfokusan jendela mengikuti pendekatan AltTab."
+            "value": "Tata letak jendela"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "As técnicas de captura e foco de janelas seguem a abordagem do AltTab."
+            "value": "Layouts de janelas"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Методы захвата и фокусировки окон следуют подходу AltTab."
+            "value": "Раскладки окон"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pencere yakalama ve odaklama teknikleri AltTab'ın yaklaşımını izler."
+            "value": "Pencere düzenleri"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "窗口捕获和聚焦技术参照了 AltTab 的方法。"
+            "value": "窗口布局"
+          }
+        }
+      }
+    },
+    "Window placement shortcuts": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصارات وضع النوافذ"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "উইন্ডো স্থাপনের শর্টকাট"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajos para colocar ventanas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourcis de placement des fenêtres"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "विंडो रखने के शॉर्टकट"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan penempatan jendela"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atalhos de posicionamento de janelas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетания клавиш для размещения окон"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere yerleştirme kısayolları"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "窗口放置快捷键"
+          }
+        }
+      }
+    },
+    "Window previews of these apps are blurred in the panel, the window switcher and the large preview. Only Docklane's previews are blurred, not the windows themselves.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تظهر معاينات نوافذ هذه التطبيقات مموّهة في اللوحة ومبدّل النوافذ والمعاينة الكبيرة. يقتصر التمويه على معاينات Docklane، لا النوافذ نفسها."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "এই অ্যাপগুলোর উইন্ডো প্রিভিউ প্যানেল, উইন্ডো সুইচার ও বড় প্রিভিউতে ঝাপসা দেখায়। শুধু Docklane-এর প্রিভিউ ঝাপসা হয়, উইন্ডোগুলো নয়।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las vistas previas de estas apps se ven desenfocadas en el panel, el selector de ventanas y la vista previa grande. Solo se desenfocan las vistas previas de Docklane, no las ventanas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les aperçus de ces apps sont floutés dans le panneau, le sélecteur de fenêtres et le grand aperçu. Seuls les aperçus de Docklane sont floutés, pas les fenêtres elles-mêmes."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इन ऐप्स के विंडो प्रीव्यू पैनल, विंडो स्विचर और बड़े प्रीव्यू में धुंधले दिखते हैं। सिर्फ़ Docklane के प्रीव्यू धुंधले होते हैं, विंडो खुद नहीं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pratinjau jendela app ini diburamkan di panel, pengalih jendela, dan pratinjau besar. Hanya pratinjau di Docklane yang diburamkan, bukan jendelanya."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As pré-visualizações destes apps ficam desfocadas no painel, no alternador de janelas e na pré-visualização grande. Só as pré-visualizações do Docklane são desfocadas, não as próprias janelas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Превью окон этих приложений размыты на панели, в переключателе окон и в большом превью. Размываются только превью в Docklane, а не сами окна."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu uygulamaların pencere önizlemeleri panelde, pencere değiştiricide ve büyük önizlemede bulanık görünür. Yalnızca Docklane'deki önizlemeler bulanıklaşır, pencerelerin kendisi değil."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这些应用的窗口预览在面板、窗口切换器和大预览中会被模糊。只模糊 Docklane 中的预览，窗口本身不受影响。"
           }
         }
       }
@@ -8368,130 +9200,130 @@
         }
       }
     },
-    "Work": {
+    "Window switcher shortcut": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "العمل"
+            "value": "اختصار مبدّل النوافذ"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "কাজ"
+            "value": "উইন্ডো সুইচারের শর্টকাট"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trabajo"
+            "value": "Atajo del selector de ventanas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Travail"
+            "value": "Raccourci du sélecteur de fenêtres"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "काम"
+            "value": "विंडो स्विचर का शॉर्टकट"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kerja"
+            "value": "Pintasan pengalih jendela"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trabalho"
+            "value": "Atalho do alternador de janelas"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Работа"
+            "value": "Сочетание клавиш переключателя окон"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İş"
+            "value": "Pencere değiştirme kısayolu"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "工作"
+            "value": "窗口切换快捷键"
           }
         }
       }
     },
-    "Workspaces": {
+    "Windows you moved by dragging go back to the default order, grouped by app. This can't be undone.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "مساحات العمل"
+            "value": "تعود النوافذ التي نقلتها بالسحب إلى الترتيب الافتراضي مجمّعة حسب التطبيق. لا يمكن التراجع عن ذلك."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "ওয়ার্কস্পেস"
+            "value": "টেনে সরানো উইন্ডোগুলো অ্যাপ অনুযায়ী সাজানো ডিফল্ট ক্রমে ফিরে যাবে। এটি পূর্বাবস্থায় ফেরানো যায় না।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espacios de trabajo"
+            "value": "Las ventanas que moviste arrastrando vuelven al orden predeterminado, agrupadas por app. No se puede deshacer."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espaces de travail"
+            "value": "Les fenêtres déplacées par glisser reprennent l’ordre par défaut, groupées par app. Cette action est irréversible."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "वर्कस्पेस"
+            "value": "खींचकर हटाई गई विंडो फिर से ऐप के हिसाब से समूहित डिफ़ॉल्ट क्रम में आ जाएँगी। इसे वापस नहीं किया जा सकता।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ruang Kerja"
+            "value": "Jendela yang Anda pindahkan dengan menyeret kembali ke urutan bawaan, dikelompokkan per app. Tindakan ini tidak dapat dibatalkan."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Espaços de trabalho"
+            "value": "As janelas que você moveu arrastando voltam à ordem padrão, agrupadas por app. Não é possível desfazer."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Рабочие пространства"
+            "value": "Окна, которые вы перетаскивали, вернутся к порядку по умолчанию, сгруппированные по приложениям. Это нельзя отменить."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Çalışma alanları"
+            "value": "Sürükleyerek yerini değiştirdiğin pencereler varsayılan sıraya, uygulamaya göre gruplanmış hâline döner. Bu işlem geri alınamaz."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "工作区"
+            "value": "你拖移过的窗口会恢复为按应用分组的默认顺序。此操作无法撤销。"
           }
         }
       }
@@ -8560,66 +9392,66 @@
         }
       }
     },
-    "⌃⌥← → ↑ ↓ put the front window in a half; press again for a third, then two thirds. ⌃⌥↩ fills the screen, ⌃⌥C centers the window, ⌃⌥⌘← → move it to the other display.": {
+    "e.g. Work, Meeting": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ تضع النافذة الأمامية في نصف الشاشة؛ اضغط مجددًا للثلث ثم للثلثين. ⌃⌥↩ يملأ الشاشة، و⌃⌥C يوسّط النافذة، و⌃⌥⌘← → ينقلها إلى الشاشة الأخرى."
+            "value": "مثلًا: العمل، اجتماع"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ সামনের উইন্ডোকে অর্ধেকে বসায়; আবার চাপলে এক-তৃতীয়াংশ, তারপর দুই-তৃতীয়াংশ। ⌃⌥↩ পুরো স্ক্রিন ভরে, ⌃⌥C মাঝখানে আনে, ⌃⌥⌘← → অন্য ডিসপ্লেতে সরায়।"
+            "value": "যেমন: কাজ, মিটিং"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ colocan la ventana delantera en una mitad; vuelve a pulsar para un tercio y luego dos tercios. ⌃⌥↩ llena la pantalla, ⌃⌥C centra la ventana y ⌃⌥⌘← → la mueven a la otra pantalla."
+            "value": "p. ej., Trabajo, Reunión"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ placent la fenêtre au premier plan sur une moitié ; appuyez à nouveau pour un tiers, puis deux tiers. ⌃⌥↩ remplit l’écran, ⌃⌥C centre la fenêtre, ⌃⌥⌘← → la déplacent sur l’autre écran."
+            "value": "p. ex. Travail, Réunion"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ सामने की विंडो को आधे हिस्से में रखते हैं; फिर दबाने पर एक-तिहाई, फिर दो-तिहाई। ⌃⌥↩ पूरी स्क्रीन भरता है, ⌃⌥C विंडो को बीच में लाता है, ⌃⌥⌘← → उसे दूसरे डिस्प्ले पर ले जाते हैं।"
+            "value": "जैसे: काम, मीटिंग"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ menaruh jendela depan di separuh layar; tekan lagi untuk sepertiga, lalu dua pertiga. ⌃⌥↩ memenuhi layar, ⌃⌥C menengahkan jendela, ⌃⌥⌘← → memindahkannya ke layar lain."
+            "value": "mis. Kerja, Rapat"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ colocam a janela da frente em uma metade; pressione de novo para um terço e depois dois terços. ⌃⌥↩ preenche a tela, ⌃⌥C centraliza a janela e ⌃⌥⌘← → a movem para a outra tela."
+            "value": "ex.: Trabalho, Reunião"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ ставят переднее окно на половину экрана; нажмите ещё раз — на треть, затем на две трети. ⌃⌥↩ разворачивает на весь экран, ⌃⌥C ставит окно по центру, ⌃⌥⌘← → переносят его на другой дисплей."
+            "value": "например: Работа, Встреча"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ öndeki pencereyi yarıma yerleştirir; tekrar basınca üçte bire, sonra üçte ikiye. ⌃⌥↩ ekranı doldurur, ⌃⌥C pencereyi ortalar, ⌃⌥⌘← → diğer ekrana taşır."
+            "value": "Örn. İş, Toplantı"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "⌃⌥← → ↑ ↓ 将最前面的窗口放到半屏；再按一次变为三分之一，然后三分之二。⌃⌥↩ 填满屏幕，⌃⌥C 将窗口居中，⌃⌥⌘← → 将其移到另一台显示器。"
+            "value": "例如：工作、会议"
           }
         }
       }

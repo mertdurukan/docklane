@@ -242,12 +242,12 @@ enum Displays {
 enum SaveWorkspaceDialog {
     static func run() {
         let alert = NSAlert()
-        alert.messageText = String(localized: "Save Workspace")
-        alert.informativeText = String(localized: "Save the current window layout as:")
+        alert.messageText = String(localized: "Save Window Layout")
+        alert.informativeText = String(localized: "Saves the open apps and where each window is. Layout name:")
         alert.addButton(withTitle: String(localized: "Save"))
         alert.addButton(withTitle: String(localized: "Cancel"))
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
-        field.placeholderString = String(localized: "Work")
+        field.placeholderString = String(localized: "e.g. Work, Meeting")
         alert.accessoryView = field
         alert.window.initialFirstResponder = field
         NSApp.activate()

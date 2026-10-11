@@ -46,7 +46,7 @@ private struct QuickControls: View {
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("Size").font(.subheadline.weight(.medium))
+                Text("Panel size").font(.subheadline.weight(.medium))
                 HStack(spacing: 8) {
                     Image(systemName: "rectangle.grid.1x2").font(.caption).foregroundStyle(.secondary)
                     Slider(value: $settings.size, in: 0...1)
@@ -54,7 +54,7 @@ private struct QuickControls: View {
                 }
             }
 
-            Picker("Position on screen", selection: $settings.edge) {
+            Picker("Panel position", selection: $settings.edge) {
                 Text("Left").tag(PanelEdge.left)
                 Text("Top").tag(PanelEdge.top)
                 Text("Bottom").tag(PanelEdge.bottom)
@@ -63,13 +63,13 @@ private struct QuickControls: View {
             .pickerStyle(.segmented)
 
             VStack(alignment: .leading, spacing: 8) {
-                Toggle("Show background", isOn: $settings.showBackground)
+                Toggle("Show panel background", isOn: $settings.showBackground)
                 Toggle("Always show window titles", isOn: $settings.alwaysShowTitles)
             }
             .toggleStyle(.switch)
             .controlSize(.small)
 
-            Picker("Window switcher", selection: $settings.switcherShortcut) {
+            Picker("Window switcher shortcut", selection: $settings.switcherShortcut) {
                 ForEach(SwitcherShortcut.allCases) { Text($0.title).tag($0) }
             }
 
@@ -83,12 +83,12 @@ private struct QuickControls: View {
                     }
                 }
                 if !WorkspaceManager.shared.profiles.isEmpty { Divider() }
-                Button("Save Current Layout…") { SaveWorkspaceDialog.run() }
-                Button("Undo Layout Change") { WorkspaceManager.shared.undo() }
+                Button("Save Layout…") { SaveWorkspaceDialog.run() }
+                Button("Undo Last Arrangement") { WorkspaceManager.shared.undo() }
                     .keyboardShortcut("z", modifiers: [.control, .option])
                     .disabled(!WorkspaceManager.shared.canUndo)
             } label: {
-                Label("Workspaces", systemImage: "rectangle.3.group")
+                Label("Window Layouts", systemImage: "rectangle.3.group")
             }
 
             Divider()

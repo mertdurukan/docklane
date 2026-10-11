@@ -10,7 +10,7 @@ struct SettingsView: View {
             AppearanceSettings().tabItem { Label("Appearance", systemImage: "paintbrush") }
             BehaviorSettings().tabItem { Label("Behavior", systemImage: "cursorarrow.motionlines") }
             AppsSettings().tabItem { Label("Apps", systemImage: "square.grid.2x2") }
-            WorkspacesSettings().tabItem { Label("Workspaces", systemImage: "rectangle.3.group") }
+            WorkspacesSettings().tabItem { Label("Window Layouts", systemImage: "rectangle.3.group") }
             GeneralSettings().tabItem { Label("General", systemImage: "gearshape") }
             AboutSettings().tabItem { Label("About", systemImage: "info.circle") }
         }
@@ -25,14 +25,14 @@ private struct AppearanceSettings: View {
     var body: some View {
         Form {
             Section {
-                LabeledContent("Size") {
+                LabeledContent("Panel size") {
                     HStack {
                         Text("Small").font(.caption).foregroundStyle(.secondary)
                         Slider(value: $settings.size, in: 0...1)
                         Text("Large").font(.caption).foregroundStyle(.secondary)
                     }
                 }
-                Picker("Position on screen", selection: $settings.edge) {
+                Picker("Panel position", selection: $settings.edge) {
                     Text("Left").tag(PanelEdge.left)
                     Text("Top").tag(PanelEdge.top)
                     Text("Bottom").tag(PanelEdge.bottom)
@@ -47,10 +47,16 @@ private struct AppearanceSettings: View {
                 }
             }
             Section {
-                Toggle("Show background", isOn: $settings.showBackground)
+                Toggle(isOn: $settings.showBackground) {
+                    Text("Show panel background")
+                    Text("Puts a frosted backdrop behind the previews.")
+                }
                 Toggle("Always show window titles", isOn: $settings.alwaysShowTitles)
-                Toggle("Label windows on other desktops", isOn: $settings.labelOtherDesktops)
-                Toggle("Show a speaker on apps playing sound", isOn: $settings.showAudioIndicator)
+                Toggle(isOn: $settings.labelOtherDesktops) {
+                    Text("Show which desktop a window is on")
+                    Text("Previews of windows on another desktop or in full screen get a “Desktop 2” or “Full Screen” label.")
+                }
+                Toggle("Show a sound icon on apps playing sound", isOn: $settings.showAudioIndicator)
             }
         }
         .formStyle(.grouped)
@@ -78,12 +84,12 @@ private struct BehaviorSettings: View {
                     .disabled(settings.autoHide)
                     .help("Only while the panel is always visible.")
                 Toggle("Only show windows from the current desktop", isOn: $settings.panelCurrentDesktopOnly)
-                Toggle("Click the front window's tile to minimize it", isOn: $settings.minimizeOnFrontClick)
+                Toggle("Click the front window's preview to minimize it", isOn: $settings.minimizeOnFrontClick)
             } header: {
                 Text("Panel")
             }
             Section {
-                Toggle("Show a large preview when hovering a tile", isOn: $settings.peekEnabled)
+                Toggle("Show a large preview when hovering over a window", isOn: $settings.peekEnabled)
                 if settings.peekEnabled {
                     LabeledContent("Preview after") {
                         HStack {
@@ -98,7 +104,7 @@ private struct BehaviorSettings: View {
                 Text("Preview")
             }
             Section {
-                Picker("Window switcher", selection: $settings.switcherShortcut) {
+                Picker("Window switcher shortcut", selection: $settings.switcherShortcut) {
                     ForEach(SwitcherShortcut.allCases) { Text($0.title).tag($0) }
                 }
                 Toggle("Only show windows from the current desktop", isOn: $settings.switcherCurrentDesktopOnly)
@@ -128,12 +134,13 @@ private struct BehaviorSettings: View {
 
 private struct AppsSettings: View {
     @Bindable private var settings = AppSettings.shared
+    @State private var confirmingReset = false
 
     var body: some View {
         Form {
             Section {
                 if settings.pinnedApps.isEmpty {
-                    Text("Right-click a window and choose Keep in Dock to pin its app.")
+                    Text("To pin an app, right-click one of its windows in the panel and choose Pin to Panel.")
                         .foregroundStyle(.secondary)
                 } else {
                     List {
@@ -152,7 +159,7 @@ private struct AppsSettings: View {
                                     Image(systemName: "minus.circle.fill").foregroundStyle(.secondary)
                                 }
                                 .buttonStyle(.borderless)
-                                .help("Remove from Dock")
+                                .help("Unpin from Panel")
                             }
                         }
                         .onMove { settings.pinnedApps.move(fromOffsets: $0, toOffset: $1) }
@@ -162,11 +169,11 @@ private struct AppsSettings: View {
             } header: {
                 Text("Pinned apps")
             } footer: {
-                Text("Pinned apps come first and stay in the panel even without windows. Drag to reorder.")
+                Text("Pinned apps appear at the start of the panel and stay there even without open windows. Drag to reorder.")
             }
             Section {
                 if settings.privateApps.isEmpty {
-                    Text("Right-click a window and choose Hide Preview to blur that app's previews.")
+                    Text("To blur an app's window previews, right-click one of its windows in the panel and choose Blur This App's Previews.")
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(settings.privateApps, id: \.self) { bundleID in
@@ -184,18 +191,23 @@ private struct AppsSettings: View {
                                 Image(systemName: "minus.circle.fill").foregroundStyle(.secondary)
                             }
                             .buttonStyle(.borderless)
-                            .help("Show Preview")
+                            .help("Stop Blurring This App")
                         }
                     }
                 }
             } header: {
-                Text("Hidden previews")
+                Text("Blurred previews")
             } footer: {
-                Text("Previews of these apps are blurred in the panel, the switcher and the large preview.")
+                Text("Window previews of these apps are blurred in the panel, the window switcher and the large preview. Only Docklane's previews are blurred, not the windows themselves.")
             }
             Section {
                 Toggle("Show pinned apps on all displays", isOn: $settings.pinnedOnAllDisplays)
-                Button("Reset tile order") { WindowEngine.shared.resetOrder() }
+                Button("Reset Panel Order…") { confirmingReset = true }
+                    .confirmationDialog("Reset the panel order?", isPresented: $confirmingReset) {
+                        Button("Reset Order", role: .destructive) { WindowEngine.shared.resetOrder() }
+                    } message: {
+                        Text("Windows you moved by dragging go back to the default order, grouped by app. This can't be undone.")
+                    }
             }
         }
         .formStyle(.grouped)
@@ -211,17 +223,19 @@ private struct WorkspacesSettings: View {
         Form {
             Section {
                 HStack {
-                    TextField("Name", text: $newName, prompt: Text("Work"))
+                    TextField("Layout name", text: $newName, prompt: Text("e.g. Work, Meeting"))
                         .onSubmit(save)
-                    Button("Save Current Layout", action: save)
+                    Button("Save Layout", action: save)
                         .disabled(newName.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
+            } header: {
+                Text("Save a window layout")
             } footer: {
-                Text("Saves which apps are open and where each window is. Restoring opens missing apps and moves the windows back.")
+                Text("Saves the open apps and where each window is. Opening the layout later starts apps that aren't running and moves the windows back; it doesn't reopen closed documents or tabs.")
             }
             Section {
                 if settings.windowRules.isEmpty {
-                    Text("No rules yet.").foregroundStyle(.secondary)
+                    Text("Choose where new windows of an app open.").foregroundStyle(.secondary)
                 }
                 ForEach($settings.windowRules) { $rule in
                     HStack {
@@ -254,25 +268,39 @@ private struct WorkspacesSettings: View {
                 .fixedSize()
                 .disabled(ruleCandidates.isEmpty)
             } header: {
-                Text("App rules")
+                Text("Automatic window placement")
             } footer: {
-                Text("New windows of these apps are put in place as soon as they open.")
+                Text("New windows of these apps are moved to the chosen place as soon as they open. Windows that are already open stay where they are.")
             }
             Section {
-                Toggle("Arrange windows with ⌃⌥ and the arrow keys", isOn: $settings.keyboardPlacement)
+                Toggle("Move and resize windows with the keyboard", isOn: $settings.keyboardPlacement)
+                DisclosureGroup("Show Shortcuts") {
+                    ForEach(PlacementShortcut.all, id: \.keys) { shortcut in
+                        LabeledContent {
+                            Text(verbatim: shortcut.keys).monospaced()
+                        } label: {
+                            Text(shortcut.action)
+                        }
+                    }
+                }
+                .disabled(!settings.keyboardPlacement)
+            } header: {
+                Text("Window placement shortcuts")
             } footer: {
-                Text("⌃⌥← → ↑ ↓ put the front window in a half; press again for a third, then two thirds. ⌃⌥↩ fills the screen, ⌃⌥C centers the window, ⌃⌥⌘← → move it to the other display.")
+                Text("Shortcuts act on the front window.")
             }
             Section {
-                Toggle("Remember window layouts per display setup", isOn: $settings.rememberDisplayLayouts)
-                Button("Undo Layout Change") { workspaces.undo() }
+                Toggle("Restore window positions when displays change", isOn: $settings.rememberDisplayLayouts)
+                Button("Undo Last Arrangement") { workspaces.undo() }
                     .disabled(!workspaces.canUndo)
+            } header: {
+                Text("Display changes")
             } footer: {
-                Text("When a display is connected or disconnected, windows go back to where they were the last time you used those displays.")
+                Text("When a display is connected or disconnected, windows move to where they were the last time you used that combination of displays. Undo puts windows back to where they were before the last arrangement: a move from the panel or the keyboard, an opened layout or a display change.")
             }
             Section {
                 if workspaces.profiles.isEmpty {
-                    Text("No saved workspaces yet.").foregroundStyle(.secondary)
+                    Text("No saved layouts yet.").foregroundStyle(.secondary)
                 } else {
                     ForEach(workspaces.profiles) { profile in
                         HStack {
@@ -296,7 +324,7 @@ private struct WorkspacesSettings: View {
                             }
                             .labelsHidden()
                             .fixedSize()
-                            Button("Restore") { workspaces.restore(profile) }
+                            Button("Open") { workspaces.restore(profile) }
                                 .disabled(workspaces.restoringID != nil)
                             Button {
                                 workspaces.delete(profile)
@@ -309,9 +337,9 @@ private struct WorkspacesSettings: View {
                     }
                 }
             } header: {
-                Text("Saved workspaces")
+                Text("Saved window layouts")
             } footer: {
-                Text("Press ⌃⌥⌘ and a workspace's number to restore it from anywhere; ⌃⌥Z undoes the last layout change.")
+                Text("Press ⌃⌥⌘ and a layout's number to open it from anywhere. ⌃⌥Z undoes the last arrangement.")
             }
         }
         .formStyle(.grouped)
@@ -354,7 +382,7 @@ private struct GeneralSettings: View {
                             launchAtLogin = SMAppService.mainApp.status == .enabled
                         }
                     }
-                Picker("Language", selection: $language) {
+                Picker("App language", selection: $language) {
                     ForEach(AppLanguage.allCases) { Text($0.title).tag($0) }
                 }
                 .onChange(of: language) { _, value in
@@ -369,9 +397,15 @@ private struct GeneralSettings: View {
                     }
                 }
             }
-            Section("Permissions") {
-                permission("Accessibility", granted: accessibility, action: Permissions.requestAccessibility)
-                permission("Screen & System Audio Recording", granted: screenRecording, action: Permissions.requestScreenRecording)
+            Section {
+                permission("Accessibility", detail: Permissions.accessibilityPurpose,
+                           granted: accessibility, action: Permissions.requestAccessibility)
+                permission("Screen & System Audio Recording", detail: Permissions.screenRecordingPurpose,
+                           granted: screenRecording, action: Permissions.requestScreenRecording)
+            } header: {
+                Text("System permissions")
+            } footer: {
+                Text("Docklane doesn't connect to the internet. Previews are kept in memory only and never saved to a file. Saved layouts (app names, window titles and positions) stay in Docklane's settings on this Mac.")
             }
         }
         .formStyle(.grouped)
@@ -381,13 +415,17 @@ private struct GeneralSettings: View {
         }
     }
 
-    private func permission(_ title: LocalizedStringKey, granted: Bool, action: @escaping () -> Void) -> some View {
-        LabeledContent(title) {
+    private func permission(_ title: LocalizedStringKey, detail: LocalizedStringKey, granted: Bool,
+                            action: @escaping () -> Void) -> some View {
+        LabeledContent {
             if granted {
                 Label("Granted", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
             } else {
                 Button("Open Settings", action: action)
             }
+        } label: {
+            Text(title)
+            Text(detail)
         }
     }
 }
@@ -404,11 +442,11 @@ private struct AboutSettings: View {
             Text("Your workspace, always in view.").foregroundStyle(.secondary)
             Text("Version \(version)").font(.callout).foregroundStyle(.secondary)
             Divider().padding(.vertical, 4)
-            Text("Uses private macOS interfaces to show and switch to windows on other desktops; they may change with macOS updates.")
+            Text("Uses macOS system interfaces that aren't public to show and switch to windows on other desktops. macOS updates may affect this.")
                 .font(.callout)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
-            Text("Window capture and focus techniques follow the approach of AltTab.")
+            Text("Thanks: window capture and focus techniques follow the approach of AltTab.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
             Text(verbatim: "MIT License · © 2026 Mert Durukan")
@@ -418,4 +456,22 @@ private struct AboutSettings: View {
         .padding(28)
         .frame(maxWidth: .infinity)
     }
+}
+
+/// The keyboard placement shortcuts, one per line in Settings.
+private struct PlacementShortcut {
+    let keys: String
+    let action: LocalizedStringKey
+
+    @MainActor static let all: [PlacementShortcut] = [
+        PlacementShortcut(keys: "⌃⌥←", action: "Left Half"),
+        PlacementShortcut(keys: "⌃⌥→", action: "Right Half"),
+        PlacementShortcut(keys: "⌃⌥↑", action: "Top Half"),
+        PlacementShortcut(keys: "⌃⌥↓", action: "Bottom Half"),
+        PlacementShortcut(keys: "⌃⌥← → ↑ ↓ ×2", action: "Press again for a third, then two thirds"),
+        PlacementShortcut(keys: "⌃⌥↩", action: "Fill Screen"),
+        PlacementShortcut(keys: "⌃⌥C", action: "Center"),
+        PlacementShortcut(keys: "⌃⌥⌘← →", action: "Move to the other display"),
+        PlacementShortcut(keys: "⌃⌥Z", action: "Undo Last Arrangement"),
+    ]
 }

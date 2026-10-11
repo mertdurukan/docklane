@@ -138,7 +138,7 @@ struct WindowTile: View {
     private var menu: some View {
         Button("New Window") { WindowActions.newWindow(pid: window.pid) }
         if !window.bundleID.isEmpty {
-            Button(settings.isPinned(window.bundleID) ? "Remove from Dock" : "Keep in Dock") {
+            Button(settings.isPinned(window.bundleID) ? "Unpin from Panel" : "Pin to Panel") {
                 settings.togglePinned(window.bundleID)
             }
         }
@@ -157,7 +157,7 @@ struct WindowTile: View {
             LivePins.shared.toggle(window)
         }
         if !window.bundleID.isEmpty {
-            Button(isPrivate ? "Show Preview" : "Hide Preview") { settings.togglePrivate(window.bundleID) }
+            Button(isPrivate ? "Stop Blurring This App" : "Blur This App's Previews") { settings.togglePrivate(window.bundleID) }
         }
         Button(window.isMinimized ? "Restore" : "Minimize") {
             if window.isMinimized { WindowFocuser.focus(window) } else { WindowActions.minimize(window) }
@@ -239,7 +239,7 @@ struct PinnedTile: View {
             return true
         }
         .contextMenu {
-            Button("Remove from Dock") { AppSettings.shared.togglePinned(app.bundleID) }
+            Button("Unpin from Panel") { AppSettings.shared.togglePinned(app.bundleID) }
             if app.isRunning {
                 Divider()
                 Button("Quit") {

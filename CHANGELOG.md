@@ -33,6 +33,14 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- Clearer wording everywhere, one term per thing: Workspaces are now Window Layouts (they
+  save and restore window positions; they don't create desktops), "Keep in Dock" is Pin to Panel
+  (the macOS Dock is not involved), "Hide Preview" is Blur This App's Previews (previews are
+  blurred, per app), "Reset tile order" is Reset Panel Order (now asks first, since it can't be
+  undone), App rules are Automatic window placement, and the keyboard placement shortcuts are
+  listed one per line. Settings explain what each permission is used for and what stays on the
+  Mac; options whose effect wasn't obvious (panel background, desktop labels) have a one-line
+  description. All 11 languages updated
 - Lighter on the system: no rescan of every app on each focus change while nothing of Docklane
   is on screen, the Space-change scan waits until the slide is over, hot keys and pointer
   monitors are no longer rebuilt on every Space change, the minimized check only asks apps

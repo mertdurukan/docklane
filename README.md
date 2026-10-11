@@ -33,7 +33,7 @@ comes to the front — even when it is on another desktop or in full screen.
   on hover
 - Windows from other desktops and full-screen spaces, marked with a desktop / full-screen chip
 - Focus ring on the active window; minimized windows dimmed and sorted last
-- Apps you keep in the panel ("Keep in Dock"), grouping by app, drag to reorder, rename a window
+- Apps pinned to the panel ("Pin to Panel"), grouping by app, drag to reorder, rename a window
 - Dock badges (unread counts) and a chip on windows whose app is playing audio
 - Drop files onto a thumbnail to open them in that app
 - Left, top, bottom or right edge; size slider; optional background; one panel per display
@@ -48,8 +48,8 @@ Hover a thumbnail and a large, live preview of that window opens above it.
 
 ### Right-click a window
 
-New Window, Keep in Dock, Rename, Move & Resize (left / right / top / bottom half, center, fill),
-Hide Preview, Minimize / Restore, Hide, Close Window and Quit.
+New Window, Pin to Panel, Rename, Move & Resize (left / right / top / bottom half, center, fill),
+Blur This App's Previews, Minimize / Restore, Hide, Close Window and Quit.
 
 <p align="center"><img src="docs/screenshots/context-menu.png" width="440" alt="The context menu of a window thumbnail"></p>
 
@@ -85,7 +85,7 @@ Hide Preview, Minimize / Restore, Hide, Close Window and Quit.
 
 ### Menu bar quick controls
 
-Show or hide the panel, size, edge, background, titles, the switcher shortcut and workspaces —
+Show or hide the panel, size, edge, background, titles, the switcher shortcut and window layouts —
 one click away.
 
 <p align="center"><img src="docs/screenshots/quick-controls.png" width="320" alt="Docklane's menu bar popover"></p>
@@ -93,18 +93,19 @@ one click away.
 ### And more
 
 - **Window memory:**
-  - Workspaces: save which apps are open and where each window is (on which display), bring
+  - Window layouts: save which apps are open and where each window is (on which display), bring
     them back from the menu or from anywhere with ⌃⌥⌘1–9; optionally hide every other app
   - Display setups: connect or disconnect a display and windows go back to where they were the
     last time you used that set of displays
-  - ⌃⌥Z undoes the last layout change Docklane made (workspace, display change, Move & Resize)
+  - ⌃⌥Z undoes the last arrangement Docklane made (an opened layout, a display change, Move & Resize
+    or a keyboard shortcut)
 - **Keyboard arrangement:** ⌃⌥←/→/↑/↓ put the front window in a half (press again: a third,
   then two thirds), ⌃⌥↩ fills the screen, ⌃⌥C centers, ⌃⌥⌘←/→ move it to the other display
-- **App rules:** new windows of an app go straight to their place ("Chrome: left half")
+- **Automatic window placement:** new windows of an app go straight to their place ("Chrome: left half")
 - **Live pins:** right-click a window → Pin Live Preview keeps a small live copy of it on top of
   everything, on every desktop; drag to move, resize from an edge, click to switch to it
-- **Privacy blur:** hide the previews of chosen apps (password managers, banking, chat…)
-  everywhere
+- **Privacy blur:** blur the previews of chosen apps (password managers, banking, chat…)
+  everywhere in Docklane (the windows themselves are not affected)
 - Launch at login, VoiceOver labels, a warning when the macOS Dock sits on the same edge
 - 11 languages with an in-app language choice
 
@@ -123,7 +124,7 @@ Docklane asks for two permissions on first launch. Both are granted in
 ## Privacy
 
 Docklane contains no networking code, no analytics and no crash reporting. Window thumbnails live
-only in memory. Settings, the manual order, window names and workspaces are stored in the app's
+only in memory. Settings, the manual order, window names and window layouts are stored in the app's
 `UserDefaults` (`io.github.mertdurukan.docklane`).
 
 ## Private APIs

@@ -5,6 +5,12 @@ import SwiftUI
 /// The two permissions Docklane needs, and where to grant them.
 @MainActor
 enum Permissions {
+    /// Why each permission is needed, shown next to it (welcome window and Settings).
+    static let accessibilityPurpose: LocalizedStringKey =
+        "Finds your windows, brings the one you choose to the front and arranges them. The ⌘Tab window switcher also needs it."
+    static let screenRecordingPurpose: LocalizedStringKey =
+        "Shows previews and titles of your windows. Docklane records no sound; previews are never saved or sent anywhere."
+
     static var accessibility: Bool { AccessibilityInspector.isTrusted }
     static var screenRecording: Bool { CGPreflightScreenCaptureAccess() }
     static var allGranted: Bool { accessibility && screenRecording }
@@ -91,13 +97,13 @@ struct PermissionsView: View {
 
             PermissionRow(
                 title: "Accessibility",
-                detail: "Brings the window you click to the front and keeps windows clear of the panel.",
+                detail: Permissions.accessibilityPurpose,
                 granted: accessibility,
                 action: Permissions.requestAccessibility
             )
             PermissionRow(
                 title: "Screen & System Audio Recording",
-                detail: "Shows live previews of your windows. Previews never leave your Mac.",
+                detail: Permissions.screenRecordingPurpose,
                 granted: screenRecording
             ) {
                 askedForScreenRecording = true
