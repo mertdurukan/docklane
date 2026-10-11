@@ -82,6 +82,12 @@ final class PeekController {
         }
     }
 
+    /// Whether the preview is open next to the panel on `screen`.
+    func isShowing(on screen: NSScreen) -> Bool {
+        guard let panel, panel.isVisible else { return false }
+        return screen.frame.intersects(panel.frame)
+    }
+
     func hide() {
         pending?.cancel()
         refresher?.cancel()

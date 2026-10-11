@@ -320,8 +320,13 @@ final class PanelController {
         for (displayID, entry) in panels {
             let previewing = previewUntil.map { $0 > Date() } ?? false
             let visible = previewing || !settings.autoHide || revealed.contains(displayID) || navigationDisplay == displayID
+            let wasShown = Self.isShown(entry.panel)
             setVisible(entry.panel, visible)
-            if !visible { PeekController.shared.hide() }
+            // Only the panel that is going away takes the preview with it; another display's
+            // hidden panel must not close it on every pointer move.
+            if wasShown && !visible && PeekController.shared.isShowing(on: entry.screen) {
+                PeekController.shared.hide()
+            }
         }
     }
 
@@ -379,9 +384,11 @@ final class PanelController {
         let now = Date()
 
         for (displayID, entry) in panels {
+            let others = panels.values.map(\.screen.frame).filter { $0 != entry.screen.frame }
             let inZone = PanelLayout.revealZones(edge: settings.edge, screenFrame: entry.screen.frame,
                                                  visibleFrame: panelArea(on: entry.screen),
-                                                 panel: entry.panel.frame).contains { $0.contains(pointer) }
+                                                 panel: entry.panel.frame,
+                                                 otherScreens: others).contains { $0.contains(pointer) }
             let overPanel = entry.panel.frame.insetBy(dx: -12, dy: -12).contains(pointer)
             let isRevealed = revealed.contains(displayID)
 

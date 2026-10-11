@@ -1056,3 +1056,35 @@ final class PermissionStateTests: XCTestCase {
         XCTAssertTrue(back.suggestRestart)
     }
 }
+
+final class SharedEdgeTests: XCTestCase {
+    private let main = CGRect(x: 0, y: 0, width: 1800, height: 1125)
+
+    func testLeftEdgeNextToAnotherDisplayRevealsOnlyWhereNothingAdjoins() {
+        // A 1080-high display to the left, aligned at the bottom: only the top 45 pt reveal.
+        let left = CGRect(x: -1920, y: 0, width: 1920, height: 1080)
+        let zones = PanelLayout.revealZones(edge: .left, screenFrame: main, otherScreens: [left])
+        XCTAssertEqual(zones.count, 1)
+        XCTAssertEqual(zones[0].minY, 1080)
+        XCTAssertEqual(zones[0].maxY, 1125)
+        XCTAssertFalse(zones.contains { $0.contains(CGPoint(x: 1, y: 500)) })
+    }
+
+    func testDisplayOnTheOtherSideChangesNothing() {
+        let right = CGRect(x: 1800, y: 0, width: 1920, height: 1080)
+        XCTAssertEqual(PanelLayout.revealZones(edge: .left, screenFrame: main, otherScreens: [right]),
+                       PanelLayout.revealZones(edge: .left, screenFrame: main))
+    }
+
+    func testDisplayInTheMiddleOfTheBottomEdgeSplitsTheStrip() {
+        let below = CGRect(x: 600, y: -900, width: 600, height: 900)
+        let zones = PanelLayout.revealZones(edge: .bottom, screenFrame: main, otherScreens: [below])
+        XCTAssertEqual(zones.map(\.minX), [0, 1200])
+        XCTAssertEqual(zones.map(\.maxX), [600, 1800])
+    }
+
+    func testFullyCoveredEdgeRevealsNothing() {
+        let left = CGRect(x: -1800, y: -100, width: 1800, height: 1400)
+        XCTAssertTrue(PanelLayout.revealZones(edge: .left, screenFrame: main, otherScreens: [left]).isEmpty)
+    }
+}

@@ -153,14 +153,60 @@ public enum PanelLayout {
     /// Every area that reveals an auto-hidden panel. For the top edge that is the strip below
     /// the menu bar and, when a menu bar is shown, the topmost pixels of the screen, both
     /// limited to the panel's stretch so menus and status items stay reachable.
+    /// `otherScreens`: the other displays. Where one of them touches this edge the pointer
+    /// passes straight through to it, so that stretch reveals nothing.
     public static func revealZones(edge: PanelEdge, screenFrame f: CGRect, visibleFrame: CGRect? = nil,
-                                   panel: CGRect? = nil) -> [CGRect] {
+                                   panel: CGRect? = nil, otherScreens: [CGRect] = []) -> [CGRect] {
         let zone = revealZone(edge: edge, screenFrame: f, visibleFrame: visibleFrame, panel: panel)
-        guard edge == .top, let visibleFrame, visibleFrame.maxY < f.maxY - menuBarRevealDepth else { return [zone] }
-        // The pointer's topmost position is reported as y == maxY, which CGRect.contains leaves
-        // out; reach one point past it.
-        let top = CGRect(x: zone.minX, y: f.maxY - menuBarRevealDepth, width: zone.width, height: menuBarRevealDepth + 1)
-        return [zone, top]
+        var zones = [zone]
+        if edge == .top, let visibleFrame, visibleFrame.maxY < f.maxY - menuBarRevealDepth {
+            // The pointer's topmost position is reported as y == maxY, which CGRect.contains
+            // leaves out; reach one point past it.
+            zones.append(CGRect(x: zone.minX, y: f.maxY - menuBarRevealDepth, width: zone.width, height: menuBarRevealDepth + 1))
+        }
+        let shared = sharedStretches(edge: edge, screenFrame: f, otherScreens: otherScreens)
+        guard !shared.isEmpty else { return zones }
+        return zones.flatMap { zone in
+            let along = edge.isVertical ? (zone.minY, zone.maxY) : (zone.minX, zone.maxX)
+            return subtract(along, shared).map { start, end in
+                edge.isVertical
+                    ? CGRect(x: zone.minX, y: start, width: zone.width, height: end - start)
+                    : CGRect(x: start, y: zone.minY, width: end - start, height: zone.height)
+            }
+        }
+    }
+
+    /// Stretches of `edge` (as ranges along it) where another display adjoins this one.
+    static func sharedStretches(edge: PanelEdge, screenFrame f: CGRect, otherScreens: [CGRect]) -> [(CGFloat, CGFloat)] {
+        let tolerance: CGFloat = 0.5
+        return otherScreens.compactMap { other in
+            let touches: Bool
+            switch edge {
+            case .left: touches = abs(other.maxX - f.minX) <= tolerance
+            case .right: touches = abs(other.minX - f.maxX) <= tolerance
+            case .bottom: touches = abs(other.maxY - f.minY) <= tolerance
+            case .top: touches = abs(other.minY - f.maxY) <= tolerance
+            }
+            guard touches else { return nil }
+            let start = edge.isVertical ? max(f.minY, other.minY) : max(f.minX, other.minX)
+            let end = edge.isVertical ? min(f.maxY, other.maxY) : min(f.maxX, other.maxX)
+            return end > start ? (start, end) : nil
+        }
+    }
+
+    /// `range` minus every range in `cuts`, as the pieces left over.
+    static func subtract(_ range: (CGFloat, CGFloat), _ cuts: [(CGFloat, CGFloat)]) -> [(CGFloat, CGFloat)] {
+        var pieces = [range]
+        for cut in cuts {
+            pieces = pieces.flatMap { piece -> [(CGFloat, CGFloat)] in
+                guard cut.1 > piece.0, cut.0 < piece.1 else { return [piece] }
+                var left: [(CGFloat, CGFloat)] = []
+                if cut.0 > piece.0 { left.append((piece.0, cut.0)) }
+                if cut.1 < piece.1 { left.append((cut.1, piece.1)) }
+                return left
+            }
+        }
+        return pieces
     }
 
     /// Strip at the screen edge that reveals an auto-hidden panel. For the top edge it sits

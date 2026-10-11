@@ -87,6 +87,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- Several displays: moving the pointer across the edge two displays share no longer reveals the
+  panel on that edge, and the large preview no longer closes on every pointer move because the
+  other display's panel is hidden
 - A tile dragged out of the panel or cancelled with Esc no longer stays faded, and Finder files
   can be dropped on a tile again afterwards
 - The same shortcut chosen for both panel shortcuts, or one taken by another app, is explained
