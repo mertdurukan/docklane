@@ -14,7 +14,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 APP="Docklane"
-VERSION="${VERSION:-0.1.0}"
+# Default: the latest release tag reachable from HEAD (v1.2.3 → 1.2.3), so local builds report
+# the version they contain and Check for Updates compares correctly.
+DEFAULT_VERSION="$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null | sed 's/^v//')"
+VERSION="${VERSION:-${DEFAULT_VERSION:-0.0.0}}"
 BUILD="${BUILD:-1}"
 UNIVERSAL="${UNIVERSAL:-0}"
 INSTALL="${INSTALL:-1}"
