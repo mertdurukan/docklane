@@ -579,3 +579,63 @@ final class ThumbnailSizeTests: XCTestCase {
         }
     }
 }
+
+final class SwitcherKeysTests: XCTestCase {
+    private func press(_ special: SwitcherKeyPress.Special? = nil, _ character: String? = nil,
+                       base: String? = nil, text: String? = nil, held: Bool = true,
+                       shift: Bool = false, other: Bool = false) -> SwitcherKeyPress {
+        SwitcherKeyPress(special: special, character: character, baseCharacter: base ?? character,
+                         text: text ?? character, triggerHeld: held, shift: shift, otherModifier: other)
+    }
+
+    func testTabWithTriggerOpensAndMoves() {
+        XCTAssertEqual(SwitcherKeys.decide(press(.tab), isOpen: false, isSearching: false), .handle(.next))
+        XCTAssertEqual(SwitcherKeys.decide(press(.tab, shift: true), isOpen: false, isSearching: false), .handle(.previous))
+        XCTAssertEqual(SwitcherKeys.decide(press(.tab, other: true), isOpen: false, isSearching: false), .pass)
+        XCTAssertEqual(SwitcherKeys.decide(press(.tab, held: false), isOpen: false, isSearching: false), .pass)
+    }
+
+    func testClosedSwitcherLetsEverythingThrough() {
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "q"), isOpen: false, isSearching: false), .pass)
+        XCTAssertEqual(SwitcherKeys.decide(press(.escape), isOpen: false, isSearching: false), .pass)
+    }
+
+    func testLetterShortcutsNeedTheTriggerHeld() {
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "q"), isOpen: true, isSearching: false), .handle(.quitApp))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "q", held: false), isOpen: true, isSearching: false),
+                       .releaseAndPass, "⌘ was released but the event was missed: never quit")
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "w", other: true), isOpen: true, isSearching: false), .swallow)
+    }
+
+    func testShortcutsFollowTheLayoutNotTheKeyPosition() {
+        // Turkish Q: "/" is Shift+7, and the ANSI slash key types ".".
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "/", base: "7", shift: true), isOpen: true, isSearching: false),
+                       .handle(.beginSearch))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "."), isOpen: true, isSearching: false), .swallow)
+        // AZERTY: the key at the ANSI "Q" position types "a"; the real "q" quits.
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "a"), isOpen: true, isSearching: false), .swallow)
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "Q", base: "q", shift: true), isOpen: true, isSearching: false),
+                       .handle(.quitApp))
+    }
+
+    func testSearchTypesTextWithoutTheModifier() {
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "q", text: "й", held: false), isOpen: true, isSearching: true),
+                       .handle(.character("й")))
+        XCTAssertEqual(SwitcherKeys.decide(press(.delete, held: false), isOpen: true, isSearching: true), .handle(.backspace))
+        XCTAssertEqual(SwitcherKeys.decide(press(.escape, held: false), isOpen: true, isSearching: true), .handle(.cancel))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, nil, held: false), isOpen: true, isSearching: true), .swallow)
+    }
+
+    func testNavigationKeys() {
+        XCTAssertEqual(SwitcherKeys.decide(press(.left), isOpen: true, isSearching: false), .handle(.left))
+        XCTAssertEqual(SwitcherKeys.decide(press(.returnKey), isOpen: true, isSearching: false), .handle(.confirm))
+        XCTAssertEqual(SwitcherKeys.decide(press(.space), isOpen: true, isSearching: false), .handle(.confirm))
+    }
+
+    func testModifierRelease() {
+        XCTAssertTrue(SwitcherKeys.modifierReleased(triggerHeld: false, isOpen: true, isSearching: false))
+        XCTAssertFalse(SwitcherKeys.modifierReleased(triggerHeld: false, isOpen: true, isSearching: true))
+        XCTAssertFalse(SwitcherKeys.modifierReleased(triggerHeld: true, isOpen: true, isSearching: false))
+        XCTAssertFalse(SwitcherKeys.modifierReleased(triggerHeld: false, isOpen: false, isSearching: false))
+    }
+}

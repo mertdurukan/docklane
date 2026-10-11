@@ -31,6 +31,9 @@ final class WindowSwitcher {
     private var panel: SwitcherPanel?
     private var isActive = false
     private var previousApp: NSRunningApplication?
+    /// While open, checks the modifier itself: a release event can be missed (tap timeout,
+    /// secure input), which would otherwise leave the switcher stuck open.
+    private var releaseWatch: Timer?
 
     private init() {}
 
@@ -42,6 +45,15 @@ final class WindowSwitcher {
         keyTap.onKey = { [weak self] key in self?.handle(key) ?? false }
         keyTap.start(AppSettings.shared.switcherShortcut)
         observeSettings()
+        // Clicking another app (e.g. while typing a search) closes the switcher, so the
+        // keyboard never stays captured by a switcher nobody is looking at.
+        NotificationCenter.default.addObserver(forName: NSApplication.didResignActiveNotification,
+                                               object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self, self.isActive else { return }
+                self.cancel()
+            }
+        }
     }
 
     private func observeSettings() {
@@ -58,7 +70,7 @@ final class WindowSwitcher {
 
     // MARK: - Keys
 
-    private func handle(_ key: SwitcherKeyTap.Key) -> Bool {
+    private func handle(_ key: SwitcherCommand) -> Bool {
         switch key {
         case .next: return isActive ? move(1) : show(reverse: false)
         case .previous: return isActive ? move(-1) : show(reverse: true)
@@ -97,13 +109,13 @@ final class WindowSwitcher {
             }
             return true
         case .quitApp:
-            return act { WindowActions.quitApp(pid: $0.pid); return .removeApp }
+            return act({ WindowActions.quitApp(pid: $0.pid) }, removing: .removeApp)
         case .hideApp:
-            return act { WindowActions.hideApp(pid: $0.pid); return .removeApp }
+            return act({ WindowActions.hideApp(pid: $0.pid) }, removing: .removeApp)
         case .closeWindow:
-            return act { WindowActions.close($0); return .removeWindow }
+            return act({ WindowActions.close($0) }, removing: .removeWindow)
         case .minimizeWindow:
-            return act { WindowActions.minimize($0); return .removeWindow }
+            return act({ WindowActions.minimize($0) }, removing: .removeWindow)
         }
     }
 
@@ -124,11 +136,13 @@ final class WindowSwitcher {
 
     private enum AfterAction { case removeApp, removeWindow }
 
-    private func act(_ action: (DockWindow) -> AfterAction) -> Bool {
+    /// Runs `action` after the event tap returns (it talks to other apps); the list updates now.
+    private func act(_ action: @escaping (DockWindow) -> Void, removing scope: AfterAction) -> Bool {
         guard isActive, model.items.indices.contains(model.selection) else { return isActive }
         let selected = model.items[model.selection]
+        DispatchQueue.main.async { action(selected) }
         let remove: (DockWindow) -> Bool
-        switch action(selected) {
+        switch scope {
         case .removeApp: remove = { $0.pid == selected.pid }
         case .removeWindow: remove = { $0.id == selected.id }
         }
@@ -169,6 +183,7 @@ final class WindowSwitcher {
         panel.makeKeyAndOrderFront(nil)
         panel.orderFrontRegardless()
         isActive = true
+        startReleaseWatch()
         switcherLog.debug("shown items=\(items.count, privacy: .public) docklaneActive=\(NSApp.isActive, privacy: .public)")
         WindowEngine.shared.refreshThumbnails(Array(items.prefix(12)))
         return true
@@ -202,7 +217,23 @@ final class WindowSwitcher {
                               width: size.width, height: size.height), display: true)
     }
 
+    private func startReleaseWatch() {
+        releaseWatch?.invalidate()
+        releaseWatch = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                if SwitcherKeys.modifierReleased(triggerHeld: self.keyTap.isTriggerHeld,
+                                                 isOpen: self.isActive, isSearching: self.model.isSearching) {
+                    switcherLog.debug("modifier release caught by watch")
+                    self.commit()
+                }
+            }
+        }
+    }
+
     private func hide() {
+        releaseWatch?.invalidate()
+        releaseWatch = nil
         isActive = false
         model.isSearching = false
         panel?.orderOut(nil)
@@ -212,11 +243,13 @@ final class WindowSwitcher {
         guard isActive else { return }
         let target = model.items.indices.contains(model.selection) ? model.items[model.selection] : nil
         hide()
-        if let target, WindowFocuser.focus(target) {
-            return
-        }
-        if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
-            previousApp?.activate()
+        // Focusing talks to other apps; do it after the event tap has returned.
+        let previousApp = previousApp
+        DispatchQueue.main.async {
+            if let target, WindowFocuser.focus(target) { return }
+            if NSWorkspace.shared.frontmostApplication?.processIdentifier == getpid() {
+                previousApp?.activate()
+            }
         }
     }
 

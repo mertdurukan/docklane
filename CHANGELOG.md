@@ -14,6 +14,14 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- The window switcher no longer gets stuck open when the ⌘ release is missed; it checks the
+  key itself while open
+- Q/H/W/M in the switcher only act while ⌘ is held; a key typed after a missed release
+  switches and goes to the app instead of quitting or closing something
+- Switcher shortcuts follow the keyboard layout: "/" search works on Turkish Q (⇧7), and
+  Q/H/W/M are the real letters on AZERTY, Turkish F, Dvorak and while a Cyrillic layout is on
+- Clicking another app while searching closes the switcher instead of keeping the keyboard
+- Focusing and quitting from the switcher run after the key event is released to the system
 - One ⌘Tab press now selects the next app; the window you are in is always first and is
   read live when the switcher opens
 - Clicking a window sometimes brought only its app forward instead of that exact window;

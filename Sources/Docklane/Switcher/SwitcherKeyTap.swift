@@ -1,5 +1,6 @@
 import AppKit
 import Carbon.HIToolbox
+import DocklaneCore
 
 /// Intercepts the switcher shortcut (e.g. ⌘Tab) before macOS's app switcher sees it, and the
 /// keys used while the switcher is open. Every other key passes through untouched. Typed
@@ -7,19 +8,9 @@ import Carbon.HIToolbox
 /// are never stored. Needs Accessibility permission.
 @MainActor
 final class SwitcherKeyTap {
-    enum Key {
-        case next, previous, left, right, up, down
-        case confirm, cancel
-        case quitApp, hideApp, closeWindow, minimizeWindow
-        case beginSearch
-        case character(String)
-        case backspace
-        /// The modifier (⌘ or ⌥) was released.
-        case modifierReleased
-    }
-
-    /// Return true to swallow the key.
-    var onKey: ((Key) -> Bool)?
+    /// Called inside the event tap: must stay quick. Return true to swallow the key;
+    /// heavy work (focusing, quitting) is deferred by the receiver.
+    var onKey: ((SwitcherCommand) -> Bool)?
     var isSwitching: () -> Bool = { false }
     var isSearching: () -> Bool = { false }
 
@@ -59,9 +50,17 @@ final class SwitcherKeyTap {
         self.source = source
     }
 
+    /// The trigger modifier is physically down right now (independent of delivered events).
+    var isTriggerHeld: Bool {
+        CGEventSource.flagsState(.combinedSessionState).contains(trigger)
+    }
+
     func stop() {
         if let source { CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes) }
-        if let port { CGEvent.tapEnable(tap: port, enable: false) }
+        if let port {
+            CGEvent.tapEnable(tap: port, enable: false)
+            CFMachPortInvalidate(port)
+        }
         port = nil
         source = nil
     }
@@ -70,9 +69,16 @@ final class SwitcherKeyTap {
         switch type {
         case .tapDisabledByTimeout, .tapDisabledByUserInput:
             if let port { CGEvent.tapEnable(tap: port, enable: true) }
+            // A modifier release may have been missed while the tap was off.
+            let flags = CGEventSource.flagsState(.combinedSessionState)
+            if SwitcherKeys.modifierReleased(triggerHeld: flags.contains(trigger),
+                                             isOpen: isSwitching(), isSearching: isSearching()) {
+                _ = onKey?(.modifierReleased)
+            }
             return false
         case .flagsChanged:
-            if isSwitching() && !event.flags.contains(trigger) {
+            if SwitcherKeys.modifierReleased(triggerHeld: event.flags.contains(trigger),
+                                             isOpen: isSwitching(), isSearching: isSearching()) {
                 _ = onKey?(.modifierReleased)
             }
             return false
@@ -86,47 +92,48 @@ final class SwitcherKeyTap {
     private func keyDown(_ event: CGEvent) -> Bool {
         let code = Int(event.getIntegerValueField(.keyboardEventKeycode))
         let flags = event.flags
-        let backward = flags.contains(.maskShift)
-
-        if code == kVK_Tab && flags.contains(trigger) && !hasOtherModifiers(flags) {
-            return onKey?(backward ? .previous : .next) ?? false
-        }
-        guard isSwitching() else { return false }
-
-        switch code {
-        case kVK_Tab: return send(backward ? .previous : .next)
-        case kVK_LeftArrow: return send(.left)
-        case kVK_RightArrow: return send(.right)
-        case kVK_UpArrow: return send(.up)
-        case kVK_DownArrow: return send(.down)
-        case kVK_Return, kVK_ANSI_KeypadEnter: return send(.confirm)
-        case kVK_Escape: return send(.cancel)
-        default: break
-        }
-
-        if isSearching() {
-            if code == kVK_Delete { return send(.backspace) }
-            if let text = Self.characters(of: event) { return send(.character(text)) }
+        let isOpen = isSwitching()
+        // Characters are only looked up while the switcher is open (never stored).
+        let press = SwitcherKeyPress(
+            special: Self.special(code),
+            character: isOpen ? KeyboardLayout.character(for: code, shift: flags.contains(.maskShift)) : nil,
+            baseCharacter: isOpen ? KeyboardLayout.character(for: code, shift: false) : nil,
+            text: isOpen && isSearching() ? Self.typedText(of: event) : nil,
+            triggerHeld: flags.contains(trigger),
+            shift: flags.contains(.maskShift),
+            otherModifier: hasOtherModifiers(flags)
+        )
+        switch SwitcherKeys.decide(press, isOpen: isOpen, isSearching: isSearching()) {
+        case .pass:
+            return false
+        case .swallow:
             return true
+        case .handle(let command):
+            // When the switcher can't open (nothing to switch to) the system shortcut works.
+            return onKey?(command) ?? false
+        case .releaseAndPass:
+            _ = onKey?(.modifierReleased)
+            return false
         }
+    }
 
+    private static func special(_ code: Int) -> SwitcherKeyPress.Special? {
         switch code {
-        case kVK_Space: return send(.confirm)
-        case kVK_ANSI_Slash: return send(.beginSearch)
-        case kVK_ANSI_Q: return send(.quitApp)
-        case kVK_ANSI_H: return send(.hideApp)
-        case kVK_ANSI_W: return send(.closeWindow)
-        case kVK_ANSI_M: return send(.minimizeWindow)
-        default: return true // swallow stray keys while the switcher is open
+        case kVK_Tab: .tab
+        case kVK_LeftArrow: .left
+        case kVK_RightArrow: .right
+        case kVK_UpArrow: .up
+        case kVK_DownArrow: .down
+        case kVK_Return, kVK_ANSI_KeypadEnter: .returnKey
+        case kVK_Escape: .escape
+        case kVK_Delete: .delete
+        case kVK_Space: .space
+        default: nil
         }
     }
 
-    private func send(_ key: Key) -> Bool {
-        onKey?(key) ?? true
-    }
-
-    /// Printable characters of a key press (layout-aware), or nil.
-    private static func characters(of event: CGEvent) -> String? {
+    /// Printable text of a key press in the current layout (any script), or nil.
+    private static func typedText(of event: CGEvent) -> String? {
         var length = 0
         var buffer = [UniChar](repeating: 0, count: 8)
         event.keyboardGetUnicodeString(maxStringLength: buffer.count, actualStringLength: &length, unicodeString: &buffer)
@@ -141,5 +148,27 @@ final class SwitcherKeyTap {
     private func hasOtherModifiers(_ flags: CGEventFlags) -> Bool {
         let others: CGEventFlags = [.maskCommand, .maskAlternate, .maskControl]
         return !flags.intersection(others).subtracting(trigger).isEmpty
+    }
+}
+
+/// Character a key gives on the current Latin keyboard layout (the ASCII-capable one, so
+/// shortcuts still work while a Cyrillic or Arabic layout is selected).
+enum KeyboardLayout {
+    static func character(for keyCode: Int, shift: Bool) -> String? {
+        guard let source = TISCopyCurrentASCIICapableKeyboardLayoutInputSource()?.takeRetainedValue(),
+              let pointer = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData) else { return nil }
+        let data = Unmanaged<CFData>.fromOpaque(pointer).takeUnretainedValue() as Data
+        return data.withUnsafeBytes { raw -> String? in
+            guard let layout = raw.baseAddress?.assumingMemoryBound(to: UCKeyboardLayout.self) else { return nil }
+            var deadKeys: UInt32 = 0
+            var length = 0
+            var chars = [UniChar](repeating: 0, count: 4)
+            let modifiers: UInt32 = shift ? UInt32(shiftKey >> 8) & 0xFF : 0
+            let status = UCKeyTranslate(layout, UInt16(keyCode), UInt16(kUCKeyActionDown), modifiers,
+                                        UInt32(LMGetKbdType()), OptionBits(kUCKeyTranslateNoDeadKeysBit),
+                                        &deadKeys, chars.count, &length, &chars)
+            guard status == noErr, length > 0 else { return nil }
+            return String(utf16CodeUnits: chars, count: length)
+        }
     }
 }
