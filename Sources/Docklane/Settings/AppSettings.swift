@@ -26,6 +26,7 @@ final class AppSettings {
     /// Shortcut for the window switcher (replaces the app switcher when it is ⌘Tab).
     var switcherShortcut: SwitcherShortcut { didSet { store(switcherShortcut.rawValue, "switcherShortcut") } }
     var desktopSwitcherEnabled: Bool { didSet { store(desktopSwitcherEnabled, "desktopSwitcherEnabled") } }
+    var rememberDisplayLayouts: Bool { didSet { store(rememberDisplayLayouts, "rememberDisplayLayouts") } }
 
     /// Apps whose previews are blurred everywhere (password managers, banking, chat…).
     var privateApps: [String] { didSet { store(privateApps, "privateApps") } }
@@ -68,6 +69,7 @@ final class AppSettings {
             "hotKey": HotKeyChoice.controlOptionD.rawValue,
             "switcherShortcut": SwitcherShortcut.commandTab.rawValue,
             "desktopSwitcherEnabled": true,
+            "rememberDisplayLayouts": true,
             "peekEnabled": true,
             "peekDelay": 0.6,
             "showAudioIndicator": true,
@@ -89,6 +91,7 @@ final class AppSettings {
         hotKey = HotKeyChoice(rawValue: defaults.string(forKey: "hotKey") ?? "") ?? .controlOptionD
         switcherShortcut = SwitcherShortcut(rawValue: defaults.string(forKey: "switcherShortcut") ?? "") ?? .commandTab
         desktopSwitcherEnabled = defaults.bool(forKey: "desktopSwitcherEnabled")
+        rememberDisplayLayouts = defaults.bool(forKey: "rememberDisplayLayouts")
         privateApps = defaults.stringArray(forKey: "privateApps") ?? []
         peekEnabled = defaults.bool(forKey: "peekEnabled")
         peekDelay = defaults.double(forKey: "peekDelay")

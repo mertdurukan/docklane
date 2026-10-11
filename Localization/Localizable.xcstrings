@@ -2096,6 +2096,70 @@
         }
       }
     },
+    "Hide other apps": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء التطبيقات الأخرى"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "অন্য অ্যাপ লুকান"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar otras apps"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer les autres apps"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अन्य ऐप्स छिपाएँ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sembunyikan app lain"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar outros apps"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть другие приложения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer uygulamaları gizle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐藏其他应用"
+          }
+        }
+      }
+    },
     "Hide the panel until the pointer reaches the screen edge": {
       "localizations": {
         "ar": {
@@ -4144,6 +4208,70 @@
         }
       }
     },
+    "Press ⌃⌥⌘ and a workspace's number to restore it from anywhere; ⌃⌥Z undoes the last layout change.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط ⌃⌥⌘ ورقم مساحة العمل لاستعادتها من أي مكان؛ ويتراجع ⌃⌥Z عن آخر تغيير في الترتيب."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "যেকোনো জায়গা থেকে কোনো ওয়ার্কস্পেস ফেরাতে ⌃⌥⌘ ও তার নম্বর চাপুন; ⌃⌥Z শেষ বিন্যাস পরিবর্তন পূর্বাবস্থায় ফেরায়।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulsa ⌃⌥⌘ y el número de un espacio de trabajo para restaurarlo desde cualquier lugar; ⌃⌥Z deshace el último cambio de disposición."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appuyez sur ⌃⌥⌘ et le numéro d’un espace de travail pour le restaurer depuis n’importe où ; ⌃⌥Z annule le dernier changement de disposition."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "किसी वर्कस्पेस को कहीं से भी वापस लाने के लिए ⌃⌥⌘ और उसका नंबर दबाएँ; ⌃⌥Z पिछला व्यवस्था बदलाव पूर्ववत करता है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekan ⌃⌥⌘ dan nomor ruang kerja untuk memulihkannya dari mana saja; ⌃⌥Z membatalkan perubahan tata letak terakhir."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pressione ⌃⌥⌘ e o número de um espaço de trabalho para restaurá-lo de qualquer lugar; ⌃⌥Z desfaz a última alteração de disposição."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите ⌃⌥⌘ и номер рабочего пространства, чтобы восстановить его откуда угодно; ⌃⌥Z отменяет последнее изменение расположения."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir çalışma alanını her yerden geri getirmek için ⌃⌥⌘ ve numarasına bas; ⌃⌥Z son düzen değişikliğini geri alır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按 ⌃⌥⌘ 加工作区编号，可在任何地方恢复该工作区；⌃⌥Z 撤销上一次布局更改。"
+          }
+        }
+      }
+    },
     "Preview": {
       "localizations": {
         "ar": {
@@ -4460,6 +4588,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "退出 Docklane"
+          }
+        }
+      }
+    },
+    "Remember window layouts per display setup": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكّر ترتيب النوافذ لكل إعداد شاشات"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "প্রতিটি ডিসপ্লে সেটআপের জন্য উইন্ডোর বিন্যাস মনে রাখুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordar la disposición de ventanas para cada configuración de pantallas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mémoriser la disposition des fenêtres pour chaque configuration d’écrans"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "हर डिस्प्ले सेटअप के लिए विंडो की व्यवस्था याद रखें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingat tata letak jendela untuk setiap susunan layar"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lembrar a disposição das janelas para cada configuração de telas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запоминать расположение окон для каждого набора дисплеев"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her ekran düzeni için pencere yerleşimini hatırla"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "为每种显示器组合记住窗口布局"
           }
         }
       }
@@ -6000,6 +6192,70 @@
         }
       }
     },
+    "Shortcut": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاختصار"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "শর্টকাট"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourci"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "शॉर्टकट"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atalho"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сочетание клавиш"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kısayol"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷键"
+          }
+        }
+      }
+    },
     "Shortcuts": {
       "localizations": {
         "ar": {
@@ -7216,6 +7472,70 @@
         }
       }
     },
+    "Undo Layout Change": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تراجع عن تغيير الترتيب"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "বিন্যাসের পরিবর্তন পূর্বাবস্থায় ফেরান"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deshacer cambio de disposición"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler le changement de disposition"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "व्यवस्था का बदलाव पूर्ववत करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batalkan perubahan tata letak"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desfazer alteração de disposição"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить изменение расположения"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzen değişikliğini geri al"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撤销布局更改"
+          }
+        }
+      }
+    },
     "Uses private macOS interfaces to show and switch to windows on other desktops; they may change with macOS updates.": {
       "localizations": {
         "ar": {
@@ -7404,6 +7724,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "欢迎使用 Docklane"
+          }
+        }
+      }
+    },
+    "When a display is connected or disconnected, windows go back to where they were the last time you used those displays.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند توصيل شاشة أو فصلها، تعود النوافذ إلى أماكنها في آخر مرة استخدمت فيها هذه الشاشات."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কোনো ডিসপ্লে যুক্ত বা বিচ্ছিন্ন করলে উইন্ডোগুলো সেখানে ফিরে যায় যেখানে শেষবার ওই ডিসপ্লেগুলো ব্যবহারের সময় ছিল।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al conectar o desconectar una pantalla, las ventanas vuelven a donde estaban la última vez que usaste esas pantallas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quand un écran est branché ou débranché, les fenêtres reviennent là où elles étaient la dernière fois que vous avez utilisé ces écrans."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कोई डिस्प्ले जोड़ने या हटाने पर विंडो वहीं लौट आती हैं जहाँ वे पिछली बार उन डिस्प्ले के साथ थीं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saat layar disambungkan atau dilepas, jendela kembali ke tempatnya saat terakhir kali Anda memakai layar tersebut."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ao conectar ou desconectar uma tela, as janelas voltam para onde estavam na última vez que você usou essas telas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "При подключении или отключении дисплея окна возвращаются туда, где были, когда вы в последний раз работали с этими дисплеями."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ekran takılıp çıkarıldığında pencereler, o ekranları son kullandığındaki yerlerine döner."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接或断开显示器时，窗口会回到你上次使用这些显示器时的位置。"
           }
         }
       }

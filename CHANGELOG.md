@@ -8,6 +8,12 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Window memory. Workspaces get a shortcut each (⌃⌥⌘1–9), remember which display every
+  window was on (and where on it, so they fit another resolution or the laptop screen), wait
+  for apps they open to show their windows, and can hide every other app. Docklane also
+  remembers the layout of each set of displays and puts windows back when a display is
+  connected or disconnected. ⌃⌥Z undoes the last layout change (workspace, display change,
+  Move & Resize). Moving windows to another desktop is not possible on current macOS
 - Desktop switcher on ⌥Tab: every desktop and full-screen space as a miniature (wallpaper
   with its windows where they are, or the full-screen app), in Mission Control order. Hold ⌥,
   Tab to move, release to go; 1–9 jump straight to one. The first press selects the desktop

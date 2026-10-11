@@ -149,6 +149,7 @@ struct WindowTile: View {
         Menu("Move & Resize") {
             ForEach(PlacementPreset.allCases, id: \.self) { placement in
                 Button(placement.title) {
+                    WorkspaceManager.shared.recordUndoPoint()
                     WindowActions.fill(window, frame: placement.frame(in: usableFrame, current: WindowActions.cocoaFrame(of: window)),
                                        restoreIfMinimized: true)
                 }

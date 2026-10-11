@@ -75,10 +75,18 @@ private struct QuickControls: View {
 
             Menu {
                 ForEach(WorkspaceManager.shared.profiles) { profile in
-                    Button(profile.name) { WorkspaceManager.shared.restore(profile) }
+                    if let number = profile.hotKey {
+                        Button(profile.name) { WorkspaceManager.shared.restore(profile) }
+                            .keyboardShortcut(KeyEquivalent(Character("\(number)")), modifiers: [.control, .option, .command])
+                    } else {
+                        Button(profile.name) { WorkspaceManager.shared.restore(profile) }
+                    }
                 }
                 if !WorkspaceManager.shared.profiles.isEmpty { Divider() }
                 Button("Save Current Layout…") { SaveWorkspaceDialog.run() }
+                Button("Undo Layout Change") { WorkspaceManager.shared.undo() }
+                    .keyboardShortcut("z", modifiers: [.control, .option])
+                    .disabled(!WorkspaceManager.shared.canUndo)
             } label: {
                 Label("Workspaces", systemImage: "rectangle.3.group")
             }
@@ -152,12 +160,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func start() {
         let engine = WindowEngine.shared
         let panels = PanelController.shared
-        engine.onWindowsChanged = { [weak self] in self?.clearance.enforce(engine.windows) }
+        engine.onWindowsChanged = { [weak self] in
+            self?.clearance.enforce(engine.windows)
+            WorkspaceManager.shared.windowsChanged()
+        }
         engine.isAnyoneLooking = { panels.isAnyPanelVisible || WindowSwitcher.shared.isOpen || DesktopSwitcher.shared.isOpen }
         panels.onLayoutChanged = { [weak self] in self?.clearance.enforce(engine.windows) }
         engine.start()
         panels.start()
         WindowSwitcher.shared.start()
         DesktopSwitcher.shared.start()
+        WorkspaceManager.shared.start()
     }
 }

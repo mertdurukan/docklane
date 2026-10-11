@@ -91,7 +91,12 @@ one click away.
 
 ### And more
 
-- **Workspaces:** save which apps are open and where each window is, and bring them back later
+- **Window memory:**
+  - Workspaces: save which apps are open and where each window is (on which display), bring
+    them back from the menu or from anywhere with ⌃⌥⌘1–9; optionally hide every other app
+  - Display setups: connect or disconnect a display and windows go back to where they were the
+    last time you used that set of displays
+  - ⌃⌥Z undoes the last layout change Docklane made (workspace, display change, Move & Resize)
 - **Privacy blur:** hide the previews of chosen apps (password managers, banking, chat…)
   everywhere
 - Launch at login, VoiceOver labels, a warning when the macOS Dock sits on the same edge

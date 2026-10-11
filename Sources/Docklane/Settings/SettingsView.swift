@@ -204,6 +204,7 @@ private struct AppsSettings: View {
 
 private struct WorkspacesSettings: View {
     private var workspaces: WorkspaceManager { .shared }
+    @Bindable private var settings = AppSettings.shared
     @State private var newName = ""
 
     var body: some View {
@@ -219,6 +220,13 @@ private struct WorkspacesSettings: View {
                 Text("Saves which apps are open and where each window is. Restoring opens missing apps and moves the windows back.")
             }
             Section {
+                Toggle("Remember window layouts per display setup", isOn: $settings.rememberDisplayLayouts)
+                Button("Undo Layout Change") { workspaces.undo() }
+                    .disabled(!workspaces.canUndo)
+            } footer: {
+                Text("When a display is connected or disconnected, windows go back to where they were the last time you used those displays.")
+            }
+            Section {
                 if workspaces.profiles.isEmpty {
                     Text("No saved workspaces yet.").foregroundStyle(.secondary)
                 } else {
@@ -231,6 +239,19 @@ private struct WorkspacesSettings: View {
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()
+                            Toggle("Hide other apps", isOn: Binding(
+                                get: { profile.hidesOthers == true },
+                                set: { workspaces.setHidesOthers($0, for: profile) }))
+                                .toggleStyle(.checkbox)
+                                .controlSize(.small)
+                            Picker("Shortcut", selection: Binding(
+                                get: { profile.hotKey },
+                                set: { workspaces.setHotKey($0, for: profile) })) {
+                                Text("Off").tag(Int?.none)
+                                ForEach(1...9, id: \.self) { Text(verbatim: "⌃⌥⌘\($0)").tag(Int?.some($0)) }
+                            }
+                            .labelsHidden()
+                            .fixedSize()
                             Button("Restore") { workspaces.restore(profile) }
                                 .disabled(workspaces.restoringID != nil)
                             Button {
@@ -245,6 +266,8 @@ private struct WorkspacesSettings: View {
                 }
             } header: {
                 Text("Saved workspaces")
+            } footer: {
+                Text("Press ⌃⌥⌘ and a workspace's number to restore it from anywhere; ⌃⌥Z undoes the last layout change.")
             }
         }
         .formStyle(.grouped)

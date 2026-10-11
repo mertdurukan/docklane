@@ -33,7 +33,27 @@ final class HotKeyCenter {
     }
 
     private func unregister(_ slot: Slot) {
-        if let ref = hotKeys.removeValue(forKey: slot.rawValue) { UnregisterEventHotKey(ref) }
+        unregister(id: slot.rawValue)
+    }
+
+    /// A fixed shortcut under a free `id` (100 and up; the slots above use small numbers).
+    /// Returns false when macOS refused it (another app already has the combination).
+    @discardableResult
+    func register(id: UInt32, keyCode: Int, modifiers: Int, action: @escaping () -> Void) -> Bool {
+        unregister(id: id)
+        actions[id] = action
+        installHandlerIfNeeded()
+        var ref: EventHotKeyRef?
+        let hotKeyID = EventHotKeyID(signature: Self.signature, id: id)
+        guard RegisterEventHotKey(UInt32(keyCode), UInt32(modifiers), hotKeyID, GetApplicationEventTarget(), 0, &ref) == noErr,
+              let ref else { return false }
+        hotKeys[id] = ref
+        return true
+    }
+
+    func unregister(id: UInt32) {
+        actions[id] = nil
+        if let ref = hotKeys.removeValue(forKey: id) { UnregisterEventHotKey(ref) }
     }
 
     private func fire(_ id: UInt32) {

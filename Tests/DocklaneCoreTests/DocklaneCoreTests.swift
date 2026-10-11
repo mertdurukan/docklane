@@ -782,3 +782,74 @@ final class DesktopStartTests: XCTestCase {
         XCTAssertEqual(DesktopStart.selection(spaces: [space(1, shown: true)], recent: [], reverse: false), 0)
     }
 }
+
+final class WindowLayoutTests: XCTestCase {
+    private let laptop = DisplayInfo(id: "L", frame: CGRect(x: 0, y: 0, width: 1440, height: 900),
+                                     visibleFrame: CGRect(x: 0, y: 0, width: 1440, height: 875))
+    private let monitor = DisplayInfo(id: "M", frame: CGRect(x: 1440, y: 0, width: 2560, height: 1440),
+                                      visibleFrame: CGRect(x: 1440, y: 0, width: 2560, height: 1415))
+
+    private func saved(_ frame: CGRect, on display: DisplayInfo?) -> SavedWindow {
+        SavedWindow(bundleID: "a", appName: "A", title: "T", frame: frame, display: display?.id,
+                    relativeFrame: display.map { WindowLayoutMath.relative(frame, in: $0.visibleFrame) })
+    }
+
+    func testSameDisplaysKeepTheExactFrame() {
+        let frame = CGRect(x: 1600, y: 100, width: 1200, height: 800)
+        XCTAssertEqual(WindowLayoutMath.resolve(saved(frame, on: monitor), displays: [laptop, monitor]), frame)
+    }
+
+    func testMissingMonitorMovesItsWindowOntoTheLaptopProportionally() {
+        // Right half of the monitor → right half of the laptop.
+        let frame = CGRect(x: 1440 + 1280, y: 0, width: 1280, height: 1415)
+        let result = WindowLayoutMath.resolve(saved(frame, on: monitor), displays: [laptop])
+        XCTAssertEqual(result, CGRect(x: 720, y: 0, width: 720, height: 875))
+    }
+
+    func testOldLayoutsWithoutDisplayAreClampedOnScreen() {
+        let offScreen = SavedWindow(bundleID: "a", appName: "A", title: "", frame: CGRect(x: 3000, y: 200, width: 800, height: 600))
+        let result = WindowLayoutMath.resolve(offScreen, displays: [laptop])
+        XCTAssertTrue(laptop.visibleFrame.contains(result))
+        XCTAssertEqual(result.size, CGSize(width: 800, height: 600))
+    }
+
+    func testDisplaySetKeyIgnoresOrder() {
+        XCTAssertEqual(WindowLayoutMath.displaySetKey([laptop, monitor]), WindowLayoutMath.displaySetKey([monitor, laptop]))
+        XCTAssertNotEqual(WindowLayoutMath.displaySetKey([laptop]), WindowLayoutMath.displaySetKey([laptop, monitor]))
+    }
+
+    func testDisplayForAFrameIsTheOneShowingMostOfIt() {
+        XCTAssertEqual(WindowLayoutMath.display(for: CGRect(x: 1300, y: 0, width: 600, height: 400), among: [laptop, monitor])?.id, "M")
+        XCTAssertEqual(WindowLayoutMath.display(for: CGRect(x: -900, y: 0, width: 100, height: 100), among: [laptop, monitor])?.id, "L")
+    }
+
+    func testRecorderGivesTheLayoutFromBeforeTheChange() {
+        var recorder = LayoutRecorder()
+        let before = [saved(CGRect(x: 0, y: 0, width: 100, height: 100), on: laptop)]
+        let piledUp = [saved(CGRect(x: 10, y: 10, width: 100, height: 100), on: laptop)]
+        let t = Date(timeIntervalSince1970: 1000)
+        recorder.record(before, at: t)
+        recorder.record(piledUp, at: t.addingTimeInterval(9.5))
+        XCTAssertEqual(recorder.layout(before: t.addingTimeInterval(8)), before)
+    }
+
+    func testUndoHistoryIsBoundedAndLastInFirstOut() {
+        var history = LayoutHistory()
+        for index in 0..<12 { history.push([saved(CGRect(x: index, y: 0, width: 10, height: 10), on: nil)]) }
+        XCTAssertEqual(history.entries.count, 10)
+        XCTAssertEqual(history.pop()?.first?.frame.minX, 11)
+        XCTAssertNil(LayoutHistory().entries.first)
+    }
+
+    func testOldWorkspaceJSONStillLoads() throws {
+        let json = #"{"version":1,"profiles":[{"id":"6F9619FF-8B86-D011-B42D-00C04FC964FF","name":"Work","createdAt":0,"windows":[{"bundleID":"a","appName":"A","title":"T","frame":[[0,0],[10,10]]}]}]}"#
+        let library = try JSONDecoder().decode(WorkspaceLibrary.self, from: Data(json.utf8))
+        XCTAssertEqual(library.profiles.first?.windows.first?.display, nil)
+        XCTAssertNil(library.profiles.first?.hotKey)
+    }
+
+    func testFreeHotKeyIsTheFirstUnusedNumber() {
+        let profiles = [WorkspaceProfile(name: "A", windows: [], hotKey: 1), WorkspaceProfile(name: "B", windows: [], hotKey: 3)]
+        XCTAssertEqual(WorkspaceProfile.freeHotKey(among: profiles), 2)
+    }
+}
