@@ -1163,3 +1163,27 @@ final class UpdateCheckTests: XCTestCase {
         XCTAssertEqual(UpdateCheck.result(current: "0.1.0", latestReleaseJSON: Data("{}".utf8)), .failed)
     }
 }
+
+final class RecentWindowsTests: XCTestCase {
+    private func window(_ id: WindowNumber, minimized: Bool = false) -> DockWindow {
+        DockWindow(id: id, pid: 1, bundleID: "a", appName: "A", title: "", bounds: .zero,
+                   isOnScreen: !minimized, isMinimized: minimized)
+    }
+
+    func testMostRecentFirstUnknownInGivenOrderMinimizedLast() {
+        var recent = RecentWindows()
+        recent.focused(3)
+        recent.focused(1)
+        recent.focused(3)  // focused again: back to the front, not listed twice
+        XCTAssertEqual(recent.order, [3, 1])
+        let windows = [window(1), window(2), window(3), window(4, minimized: true), window(5)]
+        XCTAssertEqual(recent.sorted(windows).map(\.id), [3, 1, 2, 5, 4])
+    }
+
+    func testKeepsAtMostTheLimit() {
+        var recent = RecentWindows()
+        for id in 1...WindowNumber(RecentWindows.limit + 5) { recent.focused(id) }
+        XCTAssertEqual(recent.order.count, RecentWindows.limit)
+        XCTAssertEqual(recent.order.first, WindowNumber(RecentWindows.limit + 5))
+    }
+}

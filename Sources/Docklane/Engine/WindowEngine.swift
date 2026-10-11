@@ -40,7 +40,7 @@ final class WindowEngine {
     @ObservationIgnored private var lastFullRefresh = Date.distantPast
 
     /// Most recently focused windows first (for the window switcher).
-    @ObservationIgnored private var recentWindows: [WindowNumber] = []
+    @ObservationIgnored private var recentWindows = RecentWindows()
     @ObservationIgnored private let capturer = WindowCapturer()
     @ObservationIgnored private var fingerprints: [WindowNumber: UInt64] = [:]
     /// When each thumbnail was last taken.
@@ -241,9 +241,7 @@ final class WindowEngine {
         let previous = focusedWindow
         focusedWindow = focused
         if let focused {
-            recentWindows.removeAll { $0 == focused }
-            recentWindows.insert(focused, at: 0)
-            recentWindows = Array(recentWindows.prefix(200))
+            recentWindows.focused(focused)
         }
         // "Last seen" image of the window the user left, fresh image of the new one — only
         // while the panel or a switcher is on screen; otherwise they refresh when one appears.
@@ -266,16 +264,7 @@ final class WindowEngine {
     /// Every window, most recently used first, minimized windows last.
     func windowsByRecency() -> [DockWindow] { byRecency(windows) }
 
-    private func byRecency(_ source: [DockWindow]) -> [DockWindow] {
-        let rank = Dictionary(recentWindows.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
-        let indexed = source.enumerated().map { (offset: $0.offset, window: $0.element) }
-        return indexed.sorted { lhs, rhs in
-            if lhs.window.isMinimized != rhs.window.isMinimized { return !lhs.window.isMinimized }
-            let l = rank[lhs.window.id] ?? Int.max
-            let r = rank[rhs.window.id] ?? Int.max
-            return l != r ? l < r : lhs.offset < rhs.offset
-        }.map(\.window)
-    }
+    private func byRecency(_ source: [DockWindow]) -> [DockWindow] { recentWindows.sorted(source) }
 
     // MARK: - Thumbnails
 
