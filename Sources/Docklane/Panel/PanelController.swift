@@ -71,7 +71,19 @@ final class PanelController {
 
     private func registerHotKeys() {
         HotKeyCenter.shared.register(settings.hotKey, for: .toggleHiding) { [weak self] in self?.toggle() }
-        HotKeyCenter.shared.register(settings.navigationHotKey, for: .navigate) { [weak self] in self?.beginNavigation() }
+        // The same combination for both would silently do only one of them: leave the second
+        // off (Settings says so) instead.
+        let navigation = settings.navigationHotKey == settings.hotKey ? .none : settings.navigationHotKey
+        HotKeyCenter.shared.register(navigation, for: .navigate) { [weak self] in self?.toggleNavigation() }
+    }
+
+    /// The shortcut opens keyboard navigation and, pressed again, closes it.
+    private func toggleNavigation() {
+        if navigationSelection != nil || navigationMonitor != nil {
+            endNavigation(activate: false)
+        } else {
+            beginNavigation()
+        }
     }
 
     /// The panel window on `screen`, for placing the peek preview next to it.
@@ -106,6 +118,14 @@ final class PanelController {
 
         NSApp.activate()
         entry.panel.makeKeyAndOrderFront(nil)
+        // macOS may refuse to activate Docklane; then no key would ever reach it and the
+        // panel would stay open in navigation mode. Give up after a moment.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, self.navigationSelection != nil, !NSApp.isActive else { return }
+                self.endNavigation(activate: false)
+            }
+        }
         if navigationMonitor == nil {
             navigationMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
                 let handled = MainActor.assumeIsolated { self?.handleNavigationKey(event) ?? false }

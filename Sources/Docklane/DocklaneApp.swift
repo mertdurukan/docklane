@@ -199,7 +199,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             LivePins.shared.windowsChanged(engine.windows)
         }
         engine.isAnyoneLooking = { panels.isAnyPanelVisible || WindowSwitcher.shared.isOpen || DesktopSwitcher.shared.isOpen }
-        panels.onLayoutChanged = { [weak self] in self?.clearance.enforce(engine.windows) }
+        panels.onLayoutChanged = { [weak self] in self?.clearance.enforceSoon { engine.windows } }
         engine.start()
         panels.start()
         WindowSwitcher.shared.start()

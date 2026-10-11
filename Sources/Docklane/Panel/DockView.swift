@@ -116,6 +116,11 @@ struct DockView: View {
             usableFrame: usable
         )
         .opacity(dragging == window.id ? 0.4 : 1)
+        // SwiftUI reports no end for a drag dropped outside the panel or cancelled with Esc:
+        // once the pointer moves over a tile with no button down, the drag is over.
+        .onContinuousHover { _ in
+            if dragging != nil && NSEvent.pressedMouseButtons == 0 { dragging = nil }
+        }
         .onDrag {
             dragging = window.id
             return NSItemProvider(object: String(window.id) as NSString)
@@ -170,17 +175,18 @@ private struct TileDropDelegate: DropDelegate {
     @Binding var dragging: WindowNumber?
 
     func dropEntered(info: DropInfo) {
-        guard let dragging, dragging != target.id else { return }
+        guard let dragging, dragging != target.id, !info.hasItemsConforming(to: [.fileURL]) else { return }
         WindowEngine.shared.move(dragging, before: target.id, currentOrder: order)
     }
 
     func dropUpdated(info: DropInfo) -> DropProposal? {
-        DropProposal(operation: dragging == nil ? .copy : .move)
+        DropProposal(operation: info.hasItemsConforming(to: [.fileURL]) ? .copy : .move)
     }
 
     func performDrop(info: DropInfo) -> Bool {
         defer { dragging = nil }
-        guard dragging == nil, info.hasItemsConforming(to: [.fileURL]),
+        // Finder files carry a file URL; a tile being reordered only carries text.
+        guard info.hasItemsConforming(to: [.fileURL]),
               let appURL = NSRunningApplication(processIdentifier: target.pid)?.bundleURL else { return dragging != nil }
         FileDrop.load(info.itemProviders(for: [.fileURL])) { urls in
             WindowActions.open(urls, withApplicationAt: appURL)

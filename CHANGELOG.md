@@ -87,6 +87,15 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- A tile dragged out of the panel or cancelled with Esc no longer stays faded, and Finder files
+  can be dropped on a tile again afterwards
+- The same shortcut chosen for both panel shortcuts, or one taken by another app, is explained
+  in Settings instead of silently doing nothing; ⌃⌥Space notes its clash with input sources
+- The keyboard navigation shortcut (⌃⌥K) closes navigation when pressed again, and navigation
+  ends by itself if macOS doesn't let Docklane take the keyboard
+- Dragging the Size slider with the panel always visible moves windows out of the way once,
+  when the slider stops, not at every step
+- No crash in the window switcher while displays reconfigure and no screen is listed
 - The large preview no longer opens over a window's context menu: a right-click closes it and it
   stays closed until the menu is gone
 - Menu bar popover: "Panel position" sits above its control like "Panel size", so longer

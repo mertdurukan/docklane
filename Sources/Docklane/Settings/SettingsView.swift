@@ -127,6 +127,7 @@ private struct BehaviorSettings: View {
                 Picker("Navigate the panel with the keyboard", selection: $settings.navigationHotKey) {
                     ForEach(HotKeyChoice.allCases) { Text($0.title).tag($0) }
                 }
+                ShortcutProblems()
             } header: {
                 Text("Shortcuts")
             } footer: {
@@ -587,5 +588,37 @@ private enum LayoutDialogs {
         alert.buttons.first?.hasDestructiveAction = true
         NSApp.activate()
         if alert.runModal() == .alertFirstButtonReturn { WorkspaceManager.shared.delete(profile) }
+    }
+}
+
+/// Says why a shortcut does nothing: both set to the same keys, taken by another app, or a
+/// combination macOS also uses.
+private struct ShortcutProblems: View {
+    private var settings: AppSettings { .shared }
+
+    var body: some View {
+        let refused = HotKeyCenter.shared.refusedSlots
+        let same = settings.hotKey == settings.navigationHotKey && settings.hotKey != .none
+        if same {
+            warning("Both shortcuts are the same, so keyboard navigation is off. Choose another shortcut for one of them.")
+        } else {
+            if refused.contains(.toggleHiding) { taken(settings.hotKey) }
+            if refused.contains(.navigate) { taken(settings.navigationHotKey) }
+        }
+        if settings.hotKey == .controlOptionSpace || settings.navigationHotKey == .controlOptionSpace {
+            Text("macOS also uses ⌃⌥Space to switch input sources when more than one keyboard language is set up.")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func taken(_ choice: HotKeyChoice) -> some View {
+        warning("\(choice.title) is already used by another app. Choose another shortcut.")
+    }
+
+    private func warning(_ text: LocalizedStringKey) -> some View {
+        Label(text, systemImage: "exclamationmark.triangle.fill")
+            .font(.callout)
+            .foregroundStyle(.orange)
     }
 }

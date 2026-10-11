@@ -9,6 +9,18 @@ import DocklaneCore
 final class WindowClearance {
     private var lastAdjusted: [WindowNumber: Date] = [:]
     private let cooldown: TimeInterval = 3
+    private var pending: Task<Void, Never>?
+
+    /// For changes that come in bursts (dragging the Size slider): enforce once they stop,
+    /// instead of moving windows at every step.
+    func enforceSoon(_ windows: @escaping @MainActor () -> [DockWindow]) {
+        pending?.cancel()
+        pending = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(300))
+            guard !Task.isCancelled else { return }
+            self?.enforce(windows())
+        }
+    }
 
     func enforce(_ windows: [DockWindow], onlyPID: pid_t? = nil) {
         let settings = AppSettings.shared

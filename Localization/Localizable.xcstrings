@@ -2,6 +2,70 @@
   "sourceLanguage": "en",
   "version": "1.0",
   "strings": {
+    "%@ is already used by another app. Choose another shortcut.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستخدم تطبيق آخر %@ بالفعل. اختر اختصارًا آخر."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ইতিমধ্যে অন্য একটি অ্যাপ ব্যবহার করছে। অন্য শর্টকাট বেছে নিন।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otra app ya usa %@. Elige otro atajo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ est déjà utilisé par une autre app. Choisissez un autre raccourci."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ पहले से किसी दूसरे ऐप में इस्तेमाल हो रहा है। दूसरा शॉर्टकट चुनें।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sudah dipakai app lain. Pilih pintasan lain."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ já é usado por outro app. Escolha outro atalho."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ уже используется другим приложением. Выберите другое сочетание."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ başka bir uygulama tarafından kullanılıyor. Başka bir kısayol seç."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 已被其他应用使用。请选择其他快捷键。"
+          }
+        }
+      }
+    },
     "%lld windows · %lld apps": {
       "localizations": {
         "ar": {
@@ -1196,6 +1260,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "模糊的预览"
+          }
+        }
+      }
+    },
+    "Both shortcuts are the same, so keyboard navigation is off. Choose another shortcut for one of them.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاختصاران متطابقان، لذا التنقل بلوحة المفاتيح متوقف. اختر اختصارًا آخر لأحدهما."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "দুটি শর্টকাট একই, তাই কীবোর্ড দিয়ে চলাচল বন্ধ আছে। একটির জন্য অন্য শর্টকাট বেছে নিন।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los dos atajos son iguales, así que la navegación con el teclado está desactivada. Elige otro atajo para uno de ellos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les deux raccourcis sont identiques : la navigation au clavier est donc désactivée. Choisissez un autre raccourci pour l’un d’eux."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दोनों शॉर्टकट एक जैसे हैं, इसलिए कीबोर्ड नेविगेशन बंद है। किसी एक के लिए दूसरा शॉर्टकट चुनें।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kedua pintasan sama, jadi navigasi papan ketik nonaktif. Pilih pintasan lain untuk salah satunya."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os dois atalhos são iguais, então a navegação pelo teclado está desativada. Escolha outro atalho para um deles."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оба сочетания одинаковые, поэтому навигация с клавиатуры отключена. Выберите другое сочетание для одного из них."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İki kısayol aynı olduğu için klavyeyle gezinme kapalı. Birine başka bir kısayol seç."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "两个快捷键相同，因此键盘导航已关闭。请为其中一个选择其他快捷键。"
           }
         }
       }
@@ -11116,6 +11244,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "例如：工作、会议"
+          }
+        }
+      }
+    },
+    "macOS also uses ⌃⌥Space to switch input sources when more than one keyboard language is set up.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند إعداد أكثر من لغة للوحة المفاتيح، يستخدم macOS أيضًا ⌃⌥Space لتبديل مصادر الإدخال."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "একাধিক কীবোর্ড ভাষা থাকলে macOS-ও ইনপুট সোর্স বদলাতে ⌃⌥Space ব্যবহার করে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si tienes más de un idioma de teclado, macOS también usa ⌃⌥Space para cambiar de fuente de entrada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avec plusieurs langues de clavier, macOS utilise aussi ⌃⌥Espace pour changer de méthode de saisie."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक से ज़्यादा कीबोर्ड भाषा होने पर macOS भी इनपुट सोर्स बदलने के लिए ⌃⌥Space इस्तेमाल करता है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika ada lebih dari satu bahasa papan ketik, macOS juga memakai ⌃⌥Space untuk mengganti sumber input."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Com mais de um idioma de teclado, o macOS também usa ⌃⌥Space para trocar a fonte de entrada."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если настроено несколько раскладок, macOS тоже использует ⌃⌥Space для переключения источника ввода."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birden fazla klavye dili kuruluysa macOS ⌃⌥Space'i giriş kaynağını değiştirmek için de kullanır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置了多种键盘语言时，macOS 也会用 ⌃⌥Space 切换输入法。"
           }
         }
       }

@@ -1,8 +1,10 @@
 import AppKit
 import Carbon.HIToolbox
+import Observation
 
 /// Global shortcuts (Carbon hot keys: no extra permission needed).
 @MainActor
+@Observable
 final class HotKeyCenter {
     enum Slot: UInt32 {
         /// Show / hide the panel (turns auto-hide on or off).
@@ -13,15 +15,19 @@ final class HotKeyCenter {
 
     static let shared = HotKeyCenter()
 
-    private var actions: [UInt32: () -> Void] = [:]
-    private var hotKeys: [UInt32: EventHotKeyRef] = [:]
-    private var handler: EventHandlerRef?
+    @ObservationIgnored private var actions: [UInt32: () -> Void] = [:]
+    @ObservationIgnored private var hotKeys: [UInt32: EventHotKeyRef] = [:]
+    @ObservationIgnored private var handler: EventHandlerRef?
     private static let signature = OSType(0x444B_4C4E) // "DKLN"
 
     private init() {}
 
+    /// Slots whose shortcut macOS refused (another app, or Docklane itself, already has it).
+    private(set) var refusedSlots: Set<Slot> = []
+
     func register(_ choice: HotKeyChoice, for slot: Slot, action: @escaping () -> Void) {
         unregister(slot)
+        refusedSlots.remove(slot)
         actions[slot.rawValue] = action
         guard let (keyCode, modifiers) = Self.keys(for: choice) else { return }
         installHandlerIfNeeded()
@@ -29,6 +35,8 @@ final class HotKeyCenter {
         let id = EventHotKeyID(signature: Self.signature, id: slot.rawValue)
         if RegisterEventHotKey(keyCode, modifiers, id, GetApplicationEventTarget(), 0, &ref) == noErr, let ref {
             hotKeys[slot.rawValue] = ref
+        } else {
+            refusedSlots.insert(slot)
         }
     }
 

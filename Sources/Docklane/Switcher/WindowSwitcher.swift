@@ -227,7 +227,9 @@ final class WindowSwitcher {
     private func layoutPanel() {
         guard let panel else { return }
         let mouse = NSEvent.mouseLocation
-        let screen = NSScreen.screens.first { $0.frame.contains(mouse) } ?? NSScreen.main ?? NSScreen.screens[0]
+        // No screen at all happens for a moment while displays reconfigure.
+        guard let screen = NSScreen.screens.first(where: { $0.frame.contains(mouse) }) ?? NSScreen.main ?? NSScreen.screens.first
+        else { return }
         let area = screen.visibleFrame
         let layout = SwitcherLayout(count: model.allItems.count, maxWidth: area.width * 0.9)
         model.columns = layout.columns
