@@ -17,17 +17,17 @@ public enum WindowActions {
         Task { @MainActor in
             // The attribute flips at once but the animation takes a moment, and a minimize
             // request during it is ignored: wait until the window has left the screen-sized
-            // frame and stopped changing size.
+            // frame and stopped changing size (checked every 50 ms, up to 3 s).
             var last = screenSize
-            for _ in 0..<30 {
-                try? await Task.sleep(for: .milliseconds(150))
+            for _ in 0..<60 {
+                try? await Task.sleep(for: .milliseconds(50))
                 let current = size(of: element)
                 if current != screenSize && current == last { break }
                 last = current
             }
             for _ in 0..<3 where !AccessibilityInspector.isMinimized(element) {
                 AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, kCFBooleanTrue)
-                try? await Task.sleep(for: .milliseconds(400))
+                try? await Task.sleep(for: .milliseconds(300))
             }
         }
     }

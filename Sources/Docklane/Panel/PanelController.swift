@@ -286,17 +286,21 @@ final class PanelController {
 
     /// True while at least one panel is on screen.
     var isAnyPanelVisible: Bool {
-        panels.values.contains { $0.panel.alphaValue > 0 }
+        panels.values.contains { Self.isShown($0.panel) }
     }
 
+    /// Only acts on a change (it used to run on every mouse move). A hidden panel stays ordered
+    /// in, fully transparent: ordering it out would keep it from coming back on a full-screen
+    /// app's space.
     private func setVisible(_ panel: DockPanel, _ visible: Bool) {
-        if visible && panel.alphaValue == 0 {
-            WindowEngine.shared.refreshThumbnailsIfStale()
-        }
+        guard visible != Self.isShown(panel) || (visible && !panel.isVisible) else { return }
+        if visible && !Self.isShown(panel) { WindowEngine.shared.viewerAppeared() }
         panel.alphaValue = visible ? 1 : 0
         panel.ignoresMouseEvents = !visible
         if visible { panel.orderFrontRegardless() }
     }
+
+    private static func isShown(_ panel: DockPanel) -> Bool { panel.isVisible && panel.alphaValue > 0 }
 
     // MARK: - Auto-hide
 
@@ -324,6 +328,11 @@ final class PanelController {
 
     private func updateAutoHide() {
         let pointer = NSEvent.mouseLocation
+        // Most pointer movement is nowhere near a panel: nothing to do then.
+        if revealed.isEmpty && hideDeadlines.isEmpty && zoneEnteredAt.isEmpty
+            && !panels.values.contains(where: { $0.panel.frame.insetBy(dx: -48, dy: -48).contains(pointer) }) {
+            return
+        }
         let now = Date()
 
         for (displayID, entry) in panels {

@@ -31,6 +31,12 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- Lower background load: audio and Dock badges are read only while the panel or a switcher is
+  on screen, the safety-net scan runs every 6 s instead of 2 s when nobody looks, focus changes
+  no longer capture thumbnails in the background, and pointer movement away from the panel does
+  no work. Measured over 15 s: 63 → 16 ms in scans, 42 → 0 ms audio, 13 → 0 ms badges,
+  66 → 0 ms drawing, 15 → 1 ms pointer handling
+- Minimizing a full-screen window is faster (0.66 → 0.47 s)
 - The window and desktop switchers look like the panel: Liquid Glass on macOS 26 (frosted
   before), cards filled by the live thumbnail with the app icon on the corner and the title in a
   pill, a glowing ring for the selection, and a quieter key hint with the keys in bold

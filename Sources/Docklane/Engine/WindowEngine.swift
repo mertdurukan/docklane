@@ -44,6 +44,7 @@ final class WindowEngine {
     @ObservationIgnored private var fingerprints: [WindowNumber: UInt64] = [:]
     @ObservationIgnored private var watcher: AppEventWatcher?
     @ObservationIgnored private var timers: [Timer] = []
+    @ObservationIgnored private var scanTicks = 0
     @ObservationIgnored private var pendingRefresh: Task<Void, Never>?
     @ObservationIgnored private var pendingMemoryRelief: Task<Void, Never>?
     @ObservationIgnored private var isPaused = false
@@ -72,8 +73,17 @@ final class WindowEngine {
         refreshThumbnails(windows)
 
         timers = [
-            repeating(Self.scanInterval) { $0.refresh() },
-            repeating(Self.badgeInterval) { $0.refreshBadges() },
+            // Changes arrive as events; the scan is a safety net, every 2 s while someone looks
+            // at Docklane and every 6 s otherwise.
+            repeating(Self.scanInterval) { engine in
+                engine.scanTicks += 1
+                guard engine.isAnyoneLooking() || engine.scanTicks % 3 == 0 else { return }
+                engine.refresh()
+            },
+            repeating(Self.badgeInterval) { engine in
+                guard engine.isAnyoneLooking() else { return }
+                engine.refreshBadges()
+            },
             repeating(Self.thumbnailInterval) { engine in
                 guard engine.isAnyoneLooking() else { return }
                 engine.refreshAllThumbnails()
@@ -142,7 +152,20 @@ final class WindowEngine {
         }
         hasScanned = true
         updateFocus()
+        // The audio chip is only on screen in the panel and the switcher.
+        if isAnyoneLooking() { refreshAudio() }
+    }
+
+    /// The panel or a switcher just appeared: bring what it shows up to date.
+    func viewerAppeared() {
+        refreshThumbnailsIfStale()
+        refreshIndicators()
+    }
+
+    /// Audio and Dock badges, read only while something shows them.
+    func refreshIndicators() {
         refreshAudio()
+        refreshBadges()
     }
 
     private func refreshAudio() {
@@ -193,9 +216,10 @@ final class WindowEngine {
             recentWindows.insert(focused, at: 0)
             recentWindows = Array(recentWindows.prefix(200))
         }
-        // "Last seen" image of the window the user left, fresh image of the new one.
+        // "Last seen" image of the window the user left, fresh image of the new one — only
+        // while the panel or a switcher is on screen; otherwise they refresh when one appears.
         let changed = windows.filter { $0.id == previous || $0.id == focused }
-        if !changed.isEmpty {
+        if !changed.isEmpty && isAnyoneLooking() {
             Task { [weak self] in
                 try? await Task.sleep(for: .milliseconds(400))
                 self?.refreshThumbnails(changed)
