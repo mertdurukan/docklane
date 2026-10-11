@@ -18,6 +18,9 @@ All notable changes to Docklane are listed here. The format follows
   focus is now checked and retried once
 - Clicking a window of a hidden app (⌘H) now unhides the app
 - Choosing a window whose app has quit hands focus back instead of leaving it on Docklane
+- Thumbnails of apps that quit are released (memory no longer grows over time)
+- `Scripts/build-app.sh` stops instead of installing an ad-hoc signed copy when the signing
+  identity is missing (that broke permissions); `ADHOC=1` allows it
 
 ## [0.1.0] — 2026-10-11
 

@@ -91,17 +91,19 @@ final class WindowEngine {
         let previous = windows
         let merged = Self.merge(previous: previous, snapshot: snapshot)
 
+        // Drop the thumbnail of every window that vanished, including those of apps that quit.
+        let current = Set(merged.map(\.id))
+        let vanished = previous.filter { !current.contains($0.id) }
+        for window in vanished {
+            thumbnails[window.id] = nil
+            fingerprints[window.id] = nil
+        }
         // Windows that vanished while their app keeps running were closed: forget their
         // manual position and label so a reused window number can't inherit them.
-        let current = Set(merged.map(\.id))
-        let closed = previous.filter { !current.contains($0.id) && NSRunningApplication(processIdentifier: $0.pid) != nil }
+        let closed = vanished.filter { NSRunningApplication(processIdentifier: $0.pid) != nil }
         if !closed.isEmpty {
             memory.forget(Set(closed.map(\.id)))
             saveMemory()
-            for window in closed {
-                thumbnails[window.id] = nil
-                fingerprints[window.id] = nil
-            }
         }
 
         if merged != previous {
