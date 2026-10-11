@@ -63,7 +63,7 @@ Hide Preview, Minimize / Restore, Hide, Close Window and Quit.
   | Tab / ⇧Tab, \` / ⇧\`, arrows | Move |
   | Release ⌘, Return | Switch |
   | F | Search window titles and app names (diacritic-insensitive) |
-  | Q / H / W / M | Quit, hide, close or minimize, like ⌘Q / ⌘H / ⌘W / ⌘M |
+  | Q / H or C / W / M | Quit, hide (instantly, no animation), close or minimize, like ⌘Q / ⌘H / ⌘W / ⌘M |
   | Esc, ⌘. | Cancel |
 
   Letters follow the keyboard layout; \` uses its key position.

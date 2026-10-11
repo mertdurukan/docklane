@@ -7536,66 +7536,66 @@
         }
       }
     },
-    "Tab next  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel": {
+    "Tab next  ·  F search  ·  Q quit  ·  H/C hide  ·  W close  ·  M minimize  ·  Esc cancel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab التالي  ·  F بحث  ·  Q إنهاء  ·  H إخفاء  ·  W إغلاق  ·  M تصغير  ·  Esc إلغاء"
+            "value": "Tab التالي  ·  F بحث  ·  Q إنهاء  ·  H/C إخفاء  ·  W إغلاق  ·  M تصغير  ·  Esc إلغاء"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab পরবর্তী  ·  F খুঁজুন  ·  Q বের হন  ·  H লুকান  ·  W বন্ধ  ·  M ছোট  ·  Esc বাতিল"
+            "value": "Tab পরবর্তী  ·  F খুঁজুন  ·  Q বের হন  ·  H/C লুকান  ·  W বন্ধ  ·  M ছোট  ·  Esc বাতিল"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab siguiente  ·  F buscar  ·  Q salir  ·  H ocultar  ·  W cerrar  ·  M minimizar  ·  Esc cancelar"
+            "value": "Tab siguiente  ·  F buscar  ·  Q salir  ·  H/C ocultar  ·  W cerrar  ·  M minimizar  ·  Esc cancelar"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab suivant  ·  F rechercher  ·  Q quitter  ·  H masquer  ·  W fermer  ·  M réduire  ·  Échap annuler"
+            "value": "Tab suivant  ·  F rechercher  ·  Q quitter  ·  H/C masquer  ·  W fermer  ·  M réduire  ·  Échap annuler"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab अगला  ·  F खोजें  ·  Q बाहर निकलें  ·  H छिपाएँ  ·  W बंद करें  ·  M छोटा करें  ·  Esc रद्द करें"
+            "value": "Tab अगला  ·  F खोजें  ·  Q बाहर निकलें  ·  H/C छिपाएँ  ·  W बंद करें  ·  M छोटा करें  ·  Esc रद्द करें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab berikutnya  ·  F cari  ·  Q keluar  ·  H sembunyikan  ·  W tutup  ·  M minimalkan  ·  Esc batal"
+            "value": "Tab berikutnya  ·  F cari  ·  Q keluar  ·  H/C sembunyikan  ·  W tutup  ·  M minimalkan  ·  Esc batal"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab próxima  ·  F buscar  ·  Q encerrar  ·  H ocultar  ·  W fechar  ·  M minimizar  ·  Esc cancelar"
+            "value": "Tab próxima  ·  F buscar  ·  Q encerrar  ·  H/C ocultar  ·  W fechar  ·  M minimizar  ·  Esc cancelar"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab далее  ·  F поиск  ·  Q завершить  ·  H скрыть  ·  W закрыть  ·  M свернуть  ·  Esc отмена"
+            "value": "Tab далее  ·  F поиск  ·  Q завершить  ·  H/C скрыть  ·  W закрыть  ·  M свернуть  ·  Esc отмена"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab ilerle  ·  F ara  ·  Q çık  ·  H gizle  ·  W kapat  ·  M küçült  ·  Esc iptal"
+            "value": "Tab ilerle  ·  F ara  ·  Q çık  ·  H/C gizle  ·  W kapat  ·  M küçült  ·  Esc iptal"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab 下一个  ·  F 搜索  ·  Q 退出  ·  H 隐藏  ·  W 关闭  ·  M 最小化  ·  Esc 取消"
+            "value": "Tab 下一个  ·  F 搜索  ·  Q 退出  ·  H/C 隐藏  ·  W 关闭  ·  M 最小化  ·  Esc 取消"
           }
         }
       }

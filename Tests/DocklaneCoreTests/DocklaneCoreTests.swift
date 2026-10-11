@@ -655,6 +655,11 @@ final class SwitcherKeysTests: XCTestCase {
         XCTAssertEqual(SwitcherKeys.decide(press(nil, "."), isOpen: true, isSearching: false), .handle(.cancel))
     }
 
+    func testCHidesTheAppLikeH() {
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "c"), isOpen: true, isSearching: false), .handle(.hideApp))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "h"), isOpen: true, isSearching: false), .handle(.hideApp))
+    }
+
     func testNumbersGoToSpaces() {
         let two = SwitcherKeyPress(digit: 2, character: "2", baseCharacter: "2", text: "2", triggerHeld: true)
         XCTAssertEqual(SwitcherKeys.decide(two, isOpen: true, isSearching: false), .handle(.goToSpace(2)))

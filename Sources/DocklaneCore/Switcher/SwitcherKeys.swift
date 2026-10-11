@@ -102,7 +102,7 @@ public enum SwitcherKeys {
         switch key.baseCharacter?.lowercased() {
         case "f": return .handle(.beginSearch)
         case "q": return .handle(.quitApp)
-        case "h": return .handle(.hideApp)
+        case "h", "c": return .handle(.hideApp)  // C: "clear it off the screen", instantly
         case "w": return .handle(.closeWindow)
         case "m": return .handle(.minimizeWindow)
         default: return .swallow // stray keys while the switcher is open

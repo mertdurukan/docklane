@@ -295,7 +295,7 @@ struct SwitcherLayout {
     static func hint(searching: Bool) -> String {
         HintText.wrappingBetweenItems(searching
             ? String(localized: "Return switch  ·  Esc clear / close  ·  ← → move")
-            : String(localized: "Tab next  ·  F search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel"))
+            : String(localized: "Tab next  ·  F search  ·  Q quit  ·  H/C hide  ·  W close  ·  M minimize  ·  Esc cancel"))
     }
 
     /// Height of the hint wrapped to `width`, at most `footerMaxLines` lines.
