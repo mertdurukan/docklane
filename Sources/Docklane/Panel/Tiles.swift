@@ -79,7 +79,6 @@ struct WindowTile: View {
             .saturation(window.isMinimized ? 0 : 1)
             .opacity(window.isMinimized ? 0.55 : 1)
             .scaleEffect(isHovered && !reduceMotion ? 1.03 : 1)
-            .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: isHovered)
             // No margin toward the screen edge (the panel's minimal edge gap is the distance),
             // except inside a background, so tiles don't touch its border.
             .padding(edge.insets(PanelMetrics.tileInset, edgeSide: settings.showBackground ? PanelMetrics.tileInset : 0))
@@ -220,7 +219,6 @@ struct PinnedTile: View {
                 .frame(width: 4, height: 4)
         }
         .scaleEffect(isHovered && !reduceMotion ? 1.06 : 1)
-        .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: isHovered)
         .padding(PanelMetrics.tileInset / 2)
         .contentShape(Rectangle())
         .onHover { isHovered = $0 }

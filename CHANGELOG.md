@@ -31,6 +31,7 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- No animation anywhere: hovering a tile enlarges it instantly (it used to ease in over 0.12 s)
 - Lower background load: audio and Dock badges are read only while the panel or a switcher is
   on screen, the safety-net scan runs every 6 s instead of 2 s when nobody looks, focus changes
   no longer capture thumbnails in the background, and pointer movement away from the panel does
