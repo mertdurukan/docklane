@@ -87,6 +87,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- Windows of an app that had just launched could take several seconds to appear when the app
+  wasn't ready for Accessibility yet; Docklane now retries subscribing after 0.5, 1 and 2 s
 - A permission turned off while Docklane runs (in System Settings or by a macOS update) no
   longer fails silently: the menu bar icon gets a dot, the menu bar popover says which
   permission is off and what stops working, with a button to System Settings. Without

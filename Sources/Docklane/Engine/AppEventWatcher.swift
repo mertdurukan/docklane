@@ -52,25 +52,56 @@ final class AppEventWatcher {
         for pid in Array(observers.keys) { unwatch(pid) }
     }
 
+    /// Retries per app: an app that has just launched often isn't ready for Accessibility yet.
+    private var retries: [pid_t: Int] = [:]
+    private static let retryDelays: [TimeInterval] = [0.5, 1, 2]
+
     private func watch(_ pid: pid_t) {
         var created: AXObserver?
-        guard AXObserverCreate(pid, Self.callback, &created) == .success, let observer = created else { return }
+        guard AXObserverCreate(pid, Self.callback, &created) == .success, let observer = created else {
+            scheduleRetry(pid)
+            return
+        }
         // Short timeout: registering is IPC, and a hung app would otherwise block for seconds
         // per notification.
         let appElement = AccessibilityInspector.application(pid)
         let refcon = Unmanaged.passUnretained(self).toOpaque()
+        var registered = 0
         for notification in Self.notifications {
-            // Some apps don't support every notification; that's fine. A hung app is not
-            // asked again for each one.
-            if AXObserverAddNotification(observer, appElement, notification as CFString, refcon) == .cannotComplete {
-                break
-            }
+            // Some apps don't support every notification; that's fine. A hung or not yet
+            // ready app is not asked again for each one.
+            let result = AXObserverAddNotification(observer, appElement, notification as CFString, refcon)
+            if result == .success || result == .notificationAlreadyRegistered { registered += 1 }
+            if result == .cannotComplete { break }
         }
+        guard registered > 0 else {
+            scheduleRetry(pid)
+            return
+        }
+        retries[pid] = nil
         CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .commonModes)
         observers[pid] = observer
     }
 
+    /// Tries again after 0.5, 1 and 2 s; after that the periodic scan still finds its windows.
+    private func scheduleRetry(_ pid: pid_t) {
+        let attempt = retries[pid, default: 0]
+        guard attempt < Self.retryDelays.count else {
+            retries[pid] = nil
+            return
+        }
+        retries[pid] = attempt + 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.retryDelays[attempt]) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, self.observers[pid] == nil,
+                      NSRunningApplication(processIdentifier: pid)?.isTerminated == false else { return }
+                self.watch(pid)
+            }
+        }
+    }
+
     private func unwatch(_ pid: pid_t) {
+        retries[pid] = nil
         guard let observer = observers.removeValue(forKey: pid) else { return }
         CFRunLoopRemoveSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .commonModes)
     }
