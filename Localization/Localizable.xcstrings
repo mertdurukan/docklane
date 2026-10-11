@@ -2608,66 +2608,66 @@
         }
       }
     },
-    "Hold the key and press Tab to move between windows; release to switch. Press F to search. Esc cancels; Q quits, C minimizes all of the app's windows, W closes and M minimizes.": {
+    "Hold the key and press Tab to move between windows; release to switch. Press F to search. Esc cancels; Q quits the app, C sends the whole app to the Dock (all its windows), W closes the window and M minimizes only the selected window.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اضغط مع الاستمرار على المفتاح واضغط Tab للتنقل بين النوافذ؛ اترك المفتاح للانتقال. اضغط F للبحث. Esc يلغي؛ وQ للإنهاء، وC لتصغير كل نوافذ التطبيق، وW للإغلاق، وM للتصغير."
+            "value": "اضغط مع الاستمرار على المفتاح واضغط Tab للتنقل بين النوافذ؛ اترك المفتاح للانتقال. اضغط F للبحث. Esc يلغي؛ وQ لإنهاء التطبيق، وC لإرسال التطبيق كله إلى Dock (كل نوافذه)، وW لإغلاق النافذة، وM لتصغير النافذة المحددة فقط."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "কী চেপে ধরে Tab চাপলে উইন্ডোগুলোর মধ্যে যাওয়া যায়; ছেড়ে দিলে সেটিতে চলে যায়। খুঁজতে F চাপুন। Esc বাতিল করে; Q অ্যাপ থেকে বের হয়, C অ্যাপের সব উইন্ডো ছোট করে, W বন্ধ করে ও M ছোট করে।"
+            "value": "কী চেপে ধরে Tab চাপলে উইন্ডোগুলোর মধ্যে যাওয়া যায়; ছেড়ে দিলে সেটিতে চলে যায়। খুঁজতে F চাপুন। Esc বাতিল করে; Q অ্যাপ থেকে বের হয়, C পুরো অ্যাপ (সব উইন্ডো) Dock-এ পাঠায়, W উইন্ডো বন্ধ করে ও M শুধু বেছে নেওয়া উইন্ডো ছোট করে।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantén pulsada la tecla y pulsa Tab para moverte entre ventanas; suéltala para cambiar. Pulsa F para buscar. Esc cancela; Q sale, C minimiza todas las ventanas de la app, W cierra y M minimiza."
+            "value": "Mantén pulsada la tecla y pulsa Tab para moverte entre ventanas; suéltala para cambiar. Pulsa F para buscar. Esc cancela; Q sale de la app, C envía la app entera al Dock (todas sus ventanas), W cierra la ventana y M minimiza solo la ventana seleccionada."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Maintenez la touche et appuyez sur Tab pour passer d’une fenêtre à l’autre ; relâchez pour basculer. Appuyez sur F pour rechercher. Échap annule ; Q quitte, C réduit toutes les fenêtres de l’app, W ferme et M réduit."
+            "value": "Maintenez la touche et appuyez sur Tab pour passer d’une fenêtre à l’autre ; relâchez pour basculer. Appuyez sur F pour rechercher. Échap annule ; Q quitte l’app, C envoie toute l’app dans le Dock (toutes ses fenêtres), W ferme la fenêtre et M réduit seulement la fenêtre sélectionnée."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "कुंजी दबाए रखें और विंडो के बीच जाने के लिए Tab दबाएँ; स्विच करने के लिए छोड़ दें। खोजने के लिए F दबाएँ। Esc रद्द करता है; Q ऐप बंद करता है, C ऐप की सभी विंडो छोटी करता है, W बंद करता है और M छोटा करता है।"
+            "value": "कुंजी दबाए रखें और विंडो के बीच जाने के लिए Tab दबाएँ; स्विच करने के लिए छोड़ दें। खोजने के लिए F दबाएँ। Esc रद्द करता है; Q ऐप बंद करता है, C पूरे ऐप (उसकी सभी विंडो) को Dock में भेजता है, W विंडो बंद करता है और M सिर्फ़ चुनी गई विंडो छोटी करता है।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tahan tombol dan tekan Tab untuk berpindah antarjendela; lepaskan untuk beralih. Tekan F untuk mencari. Esc membatalkan; Q keluar, C meminimalkan semua jendela app, W menutup, dan M meminimalkan."
+            "value": "Tahan tombol dan tekan Tab untuk berpindah antarjendela; lepaskan untuk beralih. Tekan F untuk mencari. Esc membatalkan; Q keluar dari app, C mengirim seluruh app ke Dock (semua jendelanya), W menutup jendela, dan M hanya meminimalkan jendela yang dipilih."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mantenha a tecla pressionada e pressione Tab para navegar entre as janelas; solte para alternar. Pressione F para buscar. Esc cancela; Q encerra, C minimiza todas as janelas do app, W fecha e M minimiza."
+            "value": "Mantenha a tecla pressionada e pressione Tab para navegar entre as janelas; solte para alternar. Pressione F para buscar. Esc cancela; Q encerra o app, C manda o app inteiro para o Dock (todas as janelas), W fecha a janela e M minimiza só a janela selecionada."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Удерживайте клавишу и нажимайте Tab, чтобы переходить между окнами; отпустите, чтобы переключиться. Нажмите F, чтобы искать. Esc отменяет; Q завершает, C сворачивает все окна приложения, W закрывает, M сворачивает."
+            "value": "Удерживайте клавишу и нажимайте Tab, чтобы переходить между окнами; отпустите, чтобы переключиться. Нажмите F, чтобы искать. Esc отменяет; Q завершает приложение, C убирает всё приложение в Dock (все его окна), W закрывает окно, M сворачивает только выбранное окно."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tuşu basılı tutup Tab'a bastıkça pencereler arasında gezinirsin; bırakınca geçilir. Aramak için F'ye bas. Esc iptal eder; Q uygulamadan çıkar, C uygulamanın tüm pencerelerini küçültür, W kapatır, M küçültür."
+            "value": "Tuşu basılı tutup Tab'a bastıkça pencereler arasında gezinirsin; bırakınca geçilir. Aramak için F'ye bas. Esc iptal eder; Q uygulamadan çıkar, C uygulamayı tüm pencereleriyle Dock'a indirir, W pencereyi kapatır, M yalnızca seçili pencereyi küçültür."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "按住该键并按 Tab 在窗口间移动；松开即可切换。按 F 搜索。Esc 取消；Q 退出，C 将该应用所有窗口最小化，W 关闭，M 最小化。"
+            "value": "按住该键并按 Tab 在窗口间移动；松开即可切换。按 F 搜索。Esc 取消；Q 退出应用，C 将整个应用（所有窗口）收进程序坞，W 关闭窗口，M 只最小化所选窗口。"
           }
         }
       }
@@ -7984,66 +7984,66 @@
         }
       }
     },
-    "Tab next  ·  F search  ·  Q quit  ·  C minimize all  ·  W close  ·  M minimize  ·  Esc cancel": {
+    "Tab next  ·  F search  ·  Q quit  ·  C send app to Dock  ·  W close  ·  M minimize window  ·  Esc cancel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab التالي  ·  F بحث  ·  Q إنهاء  ·  C تصغير الكل  ·  W إغلاق  ·  M تصغير  ·  Esc إلغاء"
+            "value": "Tab التالي  ·  F بحث  ·  Q إنهاء  ·  C إرسال التطبيق إلى Dock  ·  W إغلاق  ·  M تصغير النافذة  ·  Esc إلغاء"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab পরবর্তী  ·  F খুঁজুন  ·  Q বের হন  ·  C সব ছোট  ·  W বন্ধ  ·  M ছোট  ·  Esc বাতিল"
+            "value": "Tab পরবর্তী  ·  F খুঁজুন  ·  Q বের হন  ·  C পুরো অ্যাপ Dock-এ পাঠান  ·  W বন্ধ  ·  M উইন্ডো ছোট  ·  Esc বাতিল"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab siguiente  ·  F buscar  ·  Q salir  ·  C minimizar todo  ·  W cerrar  ·  M minimizar  ·  Esc cancelar"
+            "value": "Tab siguiente  ·  F buscar  ·  Q salir  ·  C enviar la app al Dock  ·  W cerrar  ·  M minimizar ventana  ·  Esc cancelar"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab suivant  ·  F rechercher  ·  Q quitter  ·  C tout réduire  ·  W fermer  ·  M réduire  ·  Échap annuler"
+            "value": "Tab suivant  ·  F rechercher  ·  Q quitter  ·  C envoyer l’app dans le Dock  ·  W fermer  ·  M réduire la fenêtre  ·  Échap annuler"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab अगला  ·  F खोजें  ·  Q बाहर निकलें  ·  C सभी छोटा करें  ·  W बंद करें  ·  M छोटा करें  ·  Esc रद्द करें"
+            "value": "Tab अगला  ·  F खोजें  ·  Q बाहर निकलें  ·  C पूरा ऐप Dock में भेजें  ·  W बंद करें  ·  M विंडो छोटी करें  ·  Esc रद्द करें"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab berikutnya  ·  F cari  ·  Q keluar  ·  C minimalkan semua  ·  W tutup  ·  M minimalkan  ·  Esc batal"
+            "value": "Tab berikutnya  ·  F cari  ·  Q keluar  ·  C kirim app ke Dock  ·  W tutup  ·  M minimalkan jendela  ·  Esc batal"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab próxima  ·  F buscar  ·  Q encerrar  ·  C minimizar tudo  ·  W fechar  ·  M minimizar  ·  Esc cancelar"
+            "value": "Tab próxima  ·  F buscar  ·  Q encerrar  ·  C mandar o app para o Dock  ·  W fechar  ·  M minimizar janela  ·  Esc cancelar"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab далее  ·  F поиск  ·  Q завершить  ·  C свернуть все  ·  W закрыть  ·  M свернуть  ·  Esc отмена"
+            "value": "Tab далее  ·  F поиск  ·  Q завершить  ·  C убрать приложение в Dock  ·  W закрыть  ·  M свернуть окно  ·  Esc отмена"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab ilerle  ·  F ara  ·  Q çık  ·  C tümünü küçült  ·  W kapat  ·  M küçült  ·  Esc iptal"
+            "value": "Tab ilerle  ·  F ara  ·  Q çık  ·  C uygulamayı Dock'a indir  ·  W kapat  ·  M pencereyi küçült  ·  Esc iptal"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tab 下一个  ·  F 搜索  ·  Q 退出  ·  C 全部最小化  ·  W 关闭  ·  M 最小化  ·  Esc 取消"
+            "value": "Tab 下一个  ·  F 搜索  ·  Q 退出  ·  C 整个应用收进程序坞  ·  W 关闭  ·  M 最小化窗口  ·  Esc 取消"
           }
         }
       }
