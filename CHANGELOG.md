@@ -14,6 +14,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- A panel on the top edge opens every time the pointer is pushed to the top: the topmost
+  pixels above the panel count too (the thin strip below the menu bar was easy to skip),
+  after a 0.15 s pause so menus stay usable
 - An app that stopped responding no longer freezes Docklane: focusing one of its windows
   gives up within half a second (measured 0.52 s) and app notifications use a short timeout
 - The window switcher no longer gets stuck open when the ⌘ release is missed; it checks the

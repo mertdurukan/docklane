@@ -26,6 +26,11 @@ final class PanelController {
     @ObservationIgnored private var contentLengths: [CGDirectDisplayID: CGFloat] = [:]
     @ObservationIgnored private var mouseMonitors: [Any] = []
     @ObservationIgnored private var hideTimer: Timer?
+    /// Top edge only: when the pointer entered a reveal zone; it reveals after `topRevealDwell`
+    /// so passing through on the way to the menu bar doesn't.
+    @ObservationIgnored private var zoneEnteredAt: [CGDirectDisplayID: Date] = [:]
+    @ObservationIgnored private var dwellTimer: Timer?
+    static let topRevealDwell: TimeInterval = 0.15
     /// While appearance settings change the panel stays visible briefly, even when hidden.
     @ObservationIgnored private var previewUntil: Date?
     @ObservationIgnored private var previewTimer: Timer?
@@ -303,11 +308,21 @@ final class PanelController {
         let now = Date()
 
         for (displayID, entry) in panels {
-            let inRevealZone = PanelLayout.revealZone(edge: settings.edge, screenFrame: entry.screen.frame,
-                                                      visibleFrame: entry.screen.visibleFrame,
-                                                      panel: entry.panel.frame).contains(pointer)
+            let inZone = PanelLayout.revealZones(edge: settings.edge, screenFrame: entry.screen.frame,
+                                                 visibleFrame: entry.screen.visibleFrame,
+                                                 panel: entry.panel.frame).contains { $0.contains(pointer) }
             let overPanel = entry.panel.frame.insetBy(dx: -12, dy: -12).contains(pointer)
             let isRevealed = revealed.contains(displayID)
+
+            var inRevealZone = inZone
+            if inZone && !isRevealed && settings.edge == .top {
+                let entered = zoneEnteredAt[displayID] ?? now
+                zoneEnteredAt[displayID] = entered
+                inRevealZone = now.timeIntervalSince(entered) >= Self.topRevealDwell
+                if !inRevealZone { scheduleDwellCheck(at: entered.addingTimeInterval(Self.topRevealDwell)) }
+            } else if !inZone {
+                zoneEnteredAt[displayID] = nil
+            }
 
             if inRevealZone || (isRevealed && overPanel) {
                 hideDeadlines[displayID] = nil
@@ -326,6 +341,17 @@ final class PanelController {
         }
         applyVisibility()
         scheduleHideCheck()
+    }
+
+    /// A pointer resting at the top sends no more events: check once the dwell is over.
+    private func scheduleDwellCheck(at date: Date) {
+        guard dwellTimer == nil else { return }
+        dwellTimer = Timer.scheduledTimer(withTimeInterval: max(date.timeIntervalSinceNow, 0) + 0.01, repeats: false) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.dwellTimer = nil
+                self?.updateAutoHide()
+            }
+        }
     }
 
     /// The pointer may stop right after leaving a panel: check again when the earliest

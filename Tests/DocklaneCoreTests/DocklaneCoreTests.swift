@@ -190,6 +190,26 @@ final class PanelLayoutTests: XCTestCase {
         XCTAssertEqual(zone.height, PanelLayout.revealDepth)
     }
 
+    func testTopPanelAlsoRevealsAtTheVeryTopAboveItself() {
+        let screen = CGRect(x: 0, y: 0, width: 1800, height: 1125)
+        let panel = CGRect(x: 700, y: 900, width: 400, height: 195)
+        let zones = PanelLayout.revealZones(edge: .top, screenFrame: screen, visibleFrame: visible, panel: panel)
+        XCTAssertEqual(zones.count, 2)
+        XCTAssertTrue(zones.contains { $0.contains(CGPoint(x: 900, y: 1124)) }, "pointer stopped at the top")
+        XCTAssertTrue(zones.contains { $0.contains(CGPoint(x: 900, y: 1125)) }, "topmost row reports y == maxY")
+        XCTAssertTrue(zones.contains { $0.contains(CGPoint(x: 900, y: 1093)) }, "strip below the menu bar")
+        XCTAssertFalse(zones.contains { $0.contains(CGPoint(x: 900, y: 1110) )}, "middle of the menu bar")
+        XCTAssertFalse(zones.contains { $0.contains(CGPoint(x: 100, y: 1124)) }, "menus left of the panel")
+    }
+
+    func testOtherEdgesAndHiddenMenuBarHaveOneZone() {
+        let screen = CGRect(x: 0, y: 0, width: 1800, height: 1125)
+        XCTAssertEqual(PanelLayout.revealZones(edge: .left, screenFrame: screen, visibleFrame: visible).count, 1)
+        XCTAssertEqual(PanelLayout.revealZones(edge: .top, screenFrame: screen, visibleFrame: screen).count, 1)
+        let noMenuBar = PanelLayout.revealZones(edge: .top, screenFrame: screen, visibleFrame: screen)
+        XCTAssertTrue(noMenuBar[0].contains(CGPoint(x: 900, y: 1125)))
+    }
+
     func testAutoHideReservesNothing() {
         let frames = PanelLayout.frames(edge: .left, thickness: 200, visibleFrame: visible, autoHide: true)
         XCTAssertEqual(frames.reserved, .zero)

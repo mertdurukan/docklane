@@ -132,6 +132,23 @@ public enum PanelLayout {
     /// only has to get close to the edge, not hit its last pixel.
     public static let revealDepth: CGFloat = 4
 
+    /// Height of the top-of-screen strip (inside the menu bar) that also reveals a top panel:
+    /// a pointer thrown upward stops there, often without touching the strip below the bar.
+    public static let menuBarRevealDepth: CGFloat = 2
+
+    /// Every area that reveals an auto-hidden panel. For the top edge that is the strip below
+    /// the menu bar and, when a menu bar is shown, the topmost pixels of the screen, both
+    /// limited to the panel's stretch so menus and status items stay reachable.
+    public static func revealZones(edge: PanelEdge, screenFrame f: CGRect, visibleFrame: CGRect? = nil,
+                                   panel: CGRect? = nil) -> [CGRect] {
+        let zone = revealZone(edge: edge, screenFrame: f, visibleFrame: visibleFrame, panel: panel)
+        guard edge == .top, let visibleFrame, visibleFrame.maxY < f.maxY - menuBarRevealDepth else { return [zone] }
+        // The pointer's topmost position is reported as y == maxY, which CGRect.contains leaves
+        // out; reach one point past it.
+        let top = CGRect(x: zone.minX, y: f.maxY - menuBarRevealDepth, width: zone.width, height: menuBarRevealDepth + 1)
+        return [zone, top]
+    }
+
     /// Strip at the screen edge that reveals an auto-hidden panel. For the top edge it sits
     /// right below the menu bar (`visibleFrame`), so the menu bar keeps working. With a `panel`
     /// frame it covers only the panel's stretch of the edge, like the Dock's.
@@ -145,7 +162,9 @@ public enum PanelLayout {
         case .bottom: zone = CGRect(x: f.minX, y: f.minY, width: f.width, height: depth)
         case .top:
             let top = (visibleFrame ?? f).maxY
-            zone = CGRect(x: f.minX, y: top - depth, width: f.width, height: depth)
+            // With no menu bar the strip is the screen's top, whose last row reports y == maxY.
+            let reach: CGFloat = top >= f.maxY ? 1 : 0
+            zone = CGRect(x: f.minX, y: top - depth, width: f.width, height: depth + reach)
         }
         guard let panel else { return zone }
         if edge.isVertical {
