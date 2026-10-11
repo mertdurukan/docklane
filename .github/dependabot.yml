@@ -1,0 +1,7 @@
+# Keeps the pinned GitHub Actions current (pull requests with the new commit SHA).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
