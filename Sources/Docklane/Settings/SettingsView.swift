@@ -445,7 +445,7 @@ private struct GeneralSettings: View {
             } header: {
                 Text("System permissions")
             } footer: {
-                Text("Docklane doesn't connect to the internet. Previews are kept in memory only and never saved to a file. Saved layouts (app names, window titles and positions) stay in Docklane's settings on this Mac.")
+                Text("Docklane goes online only when you click Check for Updates in About, to ask GitHub for the latest version number. Previews are kept in memory only and never saved to a file. Saved layouts (app names, window titles and positions) stay in Docklane's settings on this Mac.")
             }
         }
         .formStyle(.grouped)
@@ -488,6 +488,7 @@ private struct AboutSettings: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             Text("Version \(version)").font(.callout).foregroundStyle(.secondary)
+            UpdateCheckRow(version: version)
             Divider().padding(.vertical, 4)
             Text("Uses macOS system interfaces that aren't public to show and switch to windows on other desktops. macOS updates may affect this.")
                 .font(.callout)
@@ -652,5 +653,46 @@ private struct ShortcutProblems: View {
         Label(text, systemImage: "exclamationmark.triangle.fill")
             .font(.callout)
             .foregroundStyle(.orange)
+    }
+}
+
+/// About → Check for Updates: one request to GitHub, only when clicked.
+private struct UpdateCheckRow: View {
+    let version: String
+    @State private var state: Phase = .idle
+
+    private enum Phase: Equatable {
+        case idle, checking
+        case done(UpdateCheck.Result)
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            switch state {
+            case .idle:
+                EmptyView()
+            case .checking:
+                Text("Checking…").foregroundStyle(.secondary)
+            case .done(.upToDate):
+                Label("Docklane is up to date.", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+            case .done(.available(let latest, let page)):
+                Text("Version \(latest.description) is available.")
+                Button("Download") { NSWorkspace.shared.open(page) }
+            case .done(.failed):
+                Text("Couldn't reach GitHub. Try again later.").foregroundStyle(.secondary)
+            }
+            if state != .checking {
+                Button("Check for Updates") { check() }
+            }
+        }
+        .font(.callout)
+    }
+
+    private func check() {
+        state = .checking
+        Task {
+            let result = await UpdateCheck.run(current: version)
+            state = .done(result)
+        }
     }
 }

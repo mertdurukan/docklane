@@ -1142,3 +1142,24 @@ final class CatalogCoverageTests: XCTestCase {
         XCTAssertEqual(missing, [], "Add these to Localization/Localizable.xcstrings with all translations")
     }
 }
+
+final class UpdateCheckTests: XCTestCase {
+    func testVersionsCompareNumerically() throws {
+        let v = { (text: String) in try XCTUnwrap(SemanticVersion(text)) }
+        XCTAssertLessThan(try v("0.9.0"), try v("0.10.0"))
+        XCTAssertLessThan(try v("v0.1.0"), try v("0.1.1"))
+        XCTAssertEqual(try v("1.2"), try v("v1.2.0"))
+        XCTAssertEqual(try v("1.2.0-beta").description, "1.2.0")
+        XCTAssertNil(SemanticVersion("dev"))
+        XCTAssertNil(SemanticVersion("1..2"))
+    }
+
+    func testResultFromGitHubJSON() throws {
+        let json = Data(#"{"tag_name":"v0.2.0","html_url":"https://github.com/mertdurukan/docklane/releases/tag/v0.2.0","draft":false}"#.utf8)
+        let page = try XCTUnwrap(URL(string: "https://github.com/mertdurukan/docklane/releases/tag/v0.2.0"))
+        XCTAssertEqual(UpdateCheck.result(current: "0.1.0", latestReleaseJSON: json), .available(try XCTUnwrap(SemanticVersion("0.2.0")), page: page))
+        XCTAssertEqual(UpdateCheck.result(current: "0.2.0", latestReleaseJSON: json), .upToDate(try XCTUnwrap(SemanticVersion("0.2.0"))))
+        XCTAssertEqual(UpdateCheck.result(current: "dev", latestReleaseJSON: json), .failed)
+        XCTAssertEqual(UpdateCheck.result(current: "0.1.0", latestReleaseJSON: Data("{}".utf8)), .failed)
+    }
+}

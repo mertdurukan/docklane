@@ -8,6 +8,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Settings → About → Check for Updates: asks GitHub for the latest release number, only when you
+  click it (no background checks), and offers the download page when a newer version exists.
+  This is Docklane's only network request; the privacy notes in Settings and the README say so
 - Settings → General says when macOS is waiting for approval to open Docklane at login (with a
   button to Login Items) and when Docklane runs from outside the Applications folder
 - Settings → About → Copy Diagnostic Info: version, macOS, Mac model, permissions, missing

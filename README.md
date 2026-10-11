@@ -22,7 +22,7 @@ that lists windows, not just apps.
 - macOS 14 Sonoma or later · Apple Silicon and Intel
 - 11 languages: English, 简体中文, हिन्दी, Español, العربية, Français, বাংলা, Português, Русский,
   Bahasa Indonesia and Türkçe (switchable inside the app)
-- MIT licensed, no network code, no analytics
+- MIT licensed, no analytics; online only when you click Check for Updates
 
 ## Features
 
@@ -125,7 +125,9 @@ Docklane asks for two permissions on first launch. Both are granted in
 
 ## Privacy
 
-Docklane contains no networking code, no analytics and no crash reporting. Window thumbnails live
+Docklane has no analytics and no crash reporting. Its only network request is **Check for
+Updates** in Settings → About, made only when you click it: it reads the latest release number from
+GitHub's API (`api.github.com/repos/mertdurukan/docklane/releases/latest`). Window thumbnails live
 only in memory. Settings, the manual order, window names and window layouts are stored in the app's
 `UserDefaults` (`io.github.mertdurukan.docklane`).
 

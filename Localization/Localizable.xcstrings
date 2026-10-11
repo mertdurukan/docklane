@@ -1584,6 +1584,134 @@
         }
       }
     },
+    "Check for Updates": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحقق من التحديثات"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "আপডেট দেখুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar actualizaciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les mises à jour"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपडेट जाँचें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Periksa Pembaruan"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificar Atualizações"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить обновления"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellemeleri denetle"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查更新"
+          }
+        }
+      }
+    },
+    "Checking…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ التحقق…"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "দেখা হচ্ছে…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobando…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérification…"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "जाँच हो रही है…"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memeriksa…"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificando…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка…"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denetleniyor…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在检查…"
+          }
+        }
+      }
+    },
     "Choose a name that no other layout uses.": {
       "localizations": {
         "ar": {
@@ -1964,6 +2092,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "拷贝诊断信息"
+          }
+        }
+      }
+    },
+    "Couldn't reach GitHub. Try again later.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر الوصول إلى GitHub. حاول لاحقًا."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub-এ পৌঁছানো যায়নি। পরে আবার চেষ্টা করুন।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo conectar con GitHub. Inténtalo más tarde."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de joindre GitHub. Réessayez plus tard."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub तक नहीं पहुँच सके। बाद में फिर कोशिश करें।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tidak dapat menghubungi GitHub. Coba lagi nanti."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível acessar o GitHub. Tente mais tarde."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось связаться с GitHub. Попробуйте позже."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub'a ulaşılamadı. Daha sonra yeniden dene."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法连接 GitHub。请稍后再试。"
           }
         }
       }
@@ -2352,66 +2544,130 @@
         }
       }
     },
-    "Docklane doesn't connect to the internet. Previews are kept in memory only and never saved to a file. Saved layouts (app names, window titles and positions) stay in Docklane's settings on this Mac.": {
+    "Docklane goes online only when you click Check for Updates in About, to ask GitHub for the latest version number. Previews are kept in memory only and never saved to a file. Saved layouts (app names, window titles and positions) stay in Docklane's settings on this Mac.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لا يتصل Docklane بالإنترنت. تُحفظ المعاينات في الذاكرة فقط ولا تُحفظ في ملف أبدًا. تبقى التخطيطات المحفوظة (أسماء التطبيقات وعناوين النوافذ ومواضعها) في إعدادات Docklane على هذا الـ Mac."
+            "value": "لا يتصل Docklane بالإنترنت إلا عند النقر على التحقق من التحديثات في حول، ليسأل GitHub عن رقم أحدث إصدار. تُحفظ المعاينات في الذاكرة فقط ولا تُحفظ في ملف أبدًا. تبقى التخطيطات المحفوظة (أسماء التطبيقات وعناوين النوافذ ومواضعها) في إعدادات Docklane على هذا الـ Mac."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane ইন্টারনেটে যুক্ত হয় না। প্রিভিউ শুধু মেমরিতে থাকে, কখনো ফাইলে সংরক্ষিত হয় না। সংরক্ষিত লেআউট (অ্যাপের নাম, উইন্ডোর শিরোনাম ও অবস্থান) এই Mac-এ Docklane-এর সেটিংসে থাকে।"
+            "value": "আপনি About-এ Check for Updates-এ ক্লিক করলেই কেবল Docklane ইন্টারনেটে যায়, GitHub থেকে সর্বশেষ সংস্করণ নম্বর জানতে। প্রিভিউ শুধু মেমরিতে থাকে, কখনো ফাইলে সংরক্ষিত হয় না। সংরক্ষিত লেআউট (অ্যাপের নাম, উইন্ডোর শিরোনাম ও অবস্থান) এই Mac-এ Docklane-এর সেটিংসে থাকে।"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane no se conecta a internet. Las vistas previas solo se guardan en memoria, nunca en un archivo. Las disposiciones guardadas (nombres de apps, títulos y posiciones de ventanas) se quedan en los ajustes de Docklane en este Mac."
+            "value": "Docklane solo se conecta a internet cuando haces clic en Buscar actualizaciones en Acerca de, para preguntar a GitHub el número de la última versión. Las vistas previas solo se guardan en memoria, nunca en un archivo. Las disposiciones guardadas (nombres de apps, títulos y posiciones de ventanas) se quedan en los ajustes de Docklane en este Mac."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane ne se connecte pas à internet. Les aperçus restent en mémoire et ne sont jamais enregistrés dans un fichier. Les dispositions enregistrées (noms d’apps, titres et positions des fenêtres) restent dans les réglages de Docklane sur ce Mac."
+            "value": "Docklane ne se connecte à internet que lorsque vous cliquez sur Rechercher les mises à jour dans À propos, pour demander à GitHub le numéro de la dernière version. Les aperçus restent en mémoire et ne sont jamais enregistrés dans un fichier. Les dispositions enregistrées (noms d’apps, titres et positions des fenêtres) restent dans les réglages de Docklane sur ce Mac."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane इंटरनेट से नहीं जुड़ता। प्रीव्यू सिर्फ़ मेमोरी में रहते हैं, किसी फ़ाइल में नहीं सहेजे जाते। सहेजे गए लेआउट (ऐप के नाम, विंडो के टाइटल और जगह) इसी Mac पर Docklane की सेटिंग्स में रहते हैं।"
+            "value": "Docklane सिर्फ़ तब ऑनलाइन जाता है जब आप About में Check for Updates पर क्लिक करते हैं, ताकि GitHub से नवीनतम वर्ज़न नंबर पूछ सके। प्रीव्यू सिर्फ़ मेमोरी में रहते हैं, किसी फ़ाइल में नहीं सहेजे जाते। सहेजे गए लेआउट (ऐप के नाम, विंडो के टाइटल और जगह) इसी Mac पर Docklane की सेटिंग्स में रहते हैं।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane tidak terhubung ke internet. Pratinjau hanya disimpan di memori dan tidak pernah disimpan ke file. Tata letak tersimpan (nama app, judul dan posisi jendela) tetap di pengaturan Docklane di Mac ini."
+            "value": "Docklane hanya terhubung ke internet saat Anda mengeklik Periksa Pembaruan di Tentang, untuk menanyakan nomor versi terbaru ke GitHub. Pratinjau hanya disimpan di memori dan tidak pernah disimpan ke file. Tata letak tersimpan (nama app, judul dan posisi jendela) tetap di pengaturan Docklane di Mac ini."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "O Docklane não se conecta à internet. As pré-visualizações ficam só na memória e nunca são salvas em arquivo. Os layouts salvos (nomes de apps, títulos e posições das janelas) ficam nos ajustes do Docklane neste Mac."
+            "value": "O Docklane só se conecta à internet quando você clica em Verificar Atualizações em Sobre, para perguntar ao GitHub o número da versão mais recente. As pré-visualizações ficam só na memória e nunca são salvas em arquivo. Os layouts salvos (nomes de apps, títulos e posições das janelas) ficam nos ajustes do Docklane neste Mac."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane не подключается к интернету. Превью хранятся только в памяти и никогда не сохраняются в файл. Сохранённые раскладки (названия приложений, заголовки и положение окон) остаются в настройках Docklane на этом Mac."
+            "value": "Docklane выходит в интернет, только когда вы нажимаете «Проверить обновления» в разделе «О программе», чтобы узнать у GitHub номер последней версии. Превью хранятся только в памяти и никогда не сохраняются в файл. Сохранённые раскладки (названия приложений, заголовки и положение окон) остаются в настройках Docklane на этом Mac."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane internete bağlanmaz. Önizlemeler yalnızca bellekte tutulur, hiçbir dosyaya kaydedilmez. Kaydedilen düzenler (uygulama adları, pencere başlıkları ve konumları) bu Mac'te, Docklane ayarlarında kalır."
+            "value": "Docklane yalnızca Hakkında'daki Güncellemeleri denetle'ye tıkladığında, GitHub'dan son sürüm numarasını sormak için internete bağlanır. Önizlemeler yalnızca bellekte tutulur, hiçbir dosyaya kaydedilmez. Kaydedilen düzenler (uygulama adları, pencere başlıkları ve konumları) bu Mac'te, Docklane ayarlarında kalır."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Docklane 不连接互联网。预览只保存在内存中，从不写入文件。存储的布局（应用名称、窗口标题和位置）保留在这台 Mac 上的 Docklane 设置中。"
+            "value": "只有在你点按“关于”中的“检查更新”时，Docklane 才会联网，向 GitHub 查询最新版本号。预览只保存在内存中，从不写入文件。存储的布局（应用名称、窗口标题和位置）保留在这台 Mac 上的 Docklane 设置中。"
+          }
+        }
+      }
+    },
+    "Docklane is up to date.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane محدّث."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane হালনাগাদ আছে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane está actualizado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane est à jour."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane अप टू डेट है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane sudah versi terbaru."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Docklane está atualizado."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установлена последняя версия Docklane."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane güncel."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Docklane 已是最新版本。"
           }
         }
       }
@@ -2604,6 +2860,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "Docklane – 有一项权限已关闭"
+          }
+        }
+      }
+    },
+    "Download": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنزيل"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ডাউনলোড করুন"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descargar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Télécharger"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डाउनलोड करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unduh"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baixar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скачать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下载"
           }
         }
       }
@@ -10796,6 +11116,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "版本 %@"
+          }
+        }
+      }
+    },
+    "Version %@ is available.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار %@ متاح."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "সংস্করণ %@ পাওয়া যাচ্ছে।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La versión %@ está disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La version %@ est disponible."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "वर्ज़न %@ उपलब्ध है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versi %@ tersedia."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A versão %@ está disponível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступна версия %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sürümü çıktı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 版本现已推出。"
           }
         }
       }
