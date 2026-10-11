@@ -104,8 +104,13 @@ private struct BehaviorSettings: View {
                 Text("Preview")
             }
             Section {
-                Picker("Window switcher shortcut", selection: $settings.switcherShortcut) {
+                Picker(selection: $settings.switcherShortcut) {
                     ForEach(SwitcherShortcut.allCases) { Text($0.title).tag($0) }
+                } label: {
+                    Text("Window switcher shortcut")
+                    if settings.switcherShortcut == .commandTab {
+                        Text("Replaces the macOS app switcher while Docklane runs. To keep the system's ⌘Tab, choose ⌥Tab.")
+                    }
                 }
                 Toggle("Only show windows from the current desktop", isOn: $settings.switcherCurrentDesktopOnly)
                     .disabled(settings.switcherShortcut == .off)
@@ -140,7 +145,7 @@ private struct AppsSettings: View {
         Form {
             Section {
                 if settings.pinnedApps.isEmpty {
-                    Text("To pin an app, right-click one of its windows in the panel and choose Pin to Panel.")
+                    Text("No pinned apps yet. Pin the apps you use most to keep them in the panel even when they are closed.")
                         .foregroundStyle(.secondary)
                 } else {
                     List {
@@ -166,14 +171,15 @@ private struct AppsSettings: View {
                     }
                     .frame(minHeight: 120)
                 }
+                AppChooser(title: "Pin App", excluded: Set(settings.pinnedApps)) { settings.togglePinned($0) }
             } header: {
                 Text("Pinned apps")
             } footer: {
-                Text("Pinned apps appear at the start of the panel and stay there even without open windows. Drag to reorder.")
+                Text("Pinned apps appear at the start of the panel and stay there even without open windows. Drag to reorder. You can also right-click a window in the panel and choose Pin to Panel.")
             }
             Section {
                 if settings.privateApps.isEmpty {
-                    Text("To blur an app's window previews, right-click one of its windows in the panel and choose Blur This App's Previews.")
+                    Text("No blurred apps yet. Blur an app's previews when you don't want its window contents to show in the panel.")
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(settings.privateApps, id: \.self) { bundleID in
@@ -195,10 +201,11 @@ private struct AppsSettings: View {
                         }
                     }
                 }
+                AppChooser(title: "Add App", excluded: Set(settings.privateApps)) { settings.togglePrivate($0) }
             } header: {
                 Text("Blurred previews")
             } footer: {
-                Text("Window previews of these apps are blurred in the panel, the window switcher and the large preview. Only Docklane's previews are blurred, not the windows themselves.")
+                Text("Window previews of these apps are blurred in the panel, the window switcher and the large preview. Only Docklane's previews are blurred, not the windows themselves. You can also right-click a window in the panel and choose Blur This App's Previews.")
             }
             Section {
                 Toggle("Show pinned apps on all displays", isOn: $settings.pinnedOnAllDisplays)
@@ -218,6 +225,7 @@ private struct WorkspacesSettings: View {
     private var workspaces: WorkspaceManager { .shared }
     @Bindable private var settings = AppSettings.shared
     @State private var newName = ""
+    @State private var saveProblem: WorkspaceManager.SaveResult?
 
     var body: some View {
         Form {
@@ -225,8 +233,13 @@ private struct WorkspacesSettings: View {
                 HStack {
                     TextField("Layout name", text: $newName, prompt: Text("e.g. Work, Meeting"))
                         .onSubmit(save)
+                        .onChange(of: newName) { saveProblem = nil }
                     Button("Save Layout", action: save)
-                        .disabled(newName.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+                switch saveProblem {
+                case .missingName: Text("Enter a layout name to save.").foregroundStyle(.orange)
+                case .noWindows: Text("There are no open windows to save.").foregroundStyle(.orange)
+                case .saved, nil: EmptyView()
                 }
             } header: {
                 Text("Save a window layout")
@@ -326,13 +339,18 @@ private struct WorkspacesSettings: View {
                             .fixedSize()
                             Button("Open") { workspaces.restore(profile) }
                                 .disabled(workspaces.restoringID != nil)
-                            Button {
-                                workspaces.delete(profile)
+                            Menu {
+                                Button("Rename…") { LayoutDialogs.rename(profile) }
+                                Button("Update with Current Windows") { LayoutDialogs.update(profile) }
+                                Divider()
+                                Button("Delete…", role: .destructive) { LayoutDialogs.delete(profile) }
                             } label: {
-                                Image(systemName: "trash")
+                                Image(systemName: "ellipsis.circle")
                             }
-                            .buttonStyle(.borderless)
-                            .help("Delete")
+                            .menuStyle(.borderlessButton)
+                            .menuIndicator(.hidden)
+                            .fixedSize()
+                            .help("More")
                         }
                     }
                 }
@@ -346,8 +364,13 @@ private struct WorkspacesSettings: View {
     }
 
     private func save() {
-        workspaces.saveCurrentLayout(named: newName)
-        newName = ""
+        let result = workspaces.saveCurrentLayout(named: newName)
+        if result == .saved {
+            newName = ""
+            saveProblem = nil
+        } else {
+            saveProblem = result
+        }
     }
 
     /// Running apps without a rule yet, by name.
@@ -439,16 +462,23 @@ private struct AboutSettings: View {
         VStack(spacing: 12) {
             Image(nsImage: NSApp.applicationIconImage).resizable().frame(width: 72, height: 72)
             Text(verbatim: "Docklane").font(.title.bold())
-            Text("Your workspace, always in view.").foregroundStyle(.secondary)
+            Text("Every open window, at a glance.").font(.title3)
+            Text("See your windows, switch between them and keep your layout.")
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             Text("Version \(version)").font(.callout).foregroundStyle(.secondary)
             Divider().padding(.vertical, 4)
             Text("Uses macOS system interfaces that aren't public to show and switch to windows on other desktops. macOS updates may affect this.")
                 .font(.callout)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             Text("Thanks: window capture and focus techniques follow the approach of AltTab.")
                 .font(.callout)
+                .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             Text(verbatim: "MIT License · © 2026 Mert Durukan")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
@@ -474,4 +504,92 @@ private struct PlacementShortcut {
         PlacementShortcut(keys: "⌃⌥⌘← →", action: "Move to the other display"),
         PlacementShortcut(keys: "⌃⌥Z", action: "Undo Last Arrangement"),
     ]
+}
+
+/// "Pin App" / "Add App": running apps first, then any app from the Applications folder.
+private struct AppChooser: View {
+    let title: LocalizedStringKey
+    let excluded: Set<String>
+    let choose: (String) -> Void
+
+    var body: some View {
+        Menu(title) {
+            ForEach(candidates, id: \.bundleID) { app in
+                Button(app.name) { choose(app.bundleID) }
+            }
+            if !candidates.isEmpty { Divider() }
+            Button("Other App…", action: chooseOther)
+        }
+        .fixedSize()
+    }
+
+    private var candidates: [(bundleID: String, name: String)] {
+        var seen = Set<String>()
+        return NSWorkspace.shared.runningApplications
+            .filter { $0.activationPolicy == .regular && $0.processIdentifier != getpid() }
+            .compactMap { app -> (bundleID: String, name: String)? in
+                guard let id = app.bundleIdentifier, !excluded.contains(id), seen.insert(id).inserted else { return nil }
+                return (id, app.localizedName ?? id)
+            }
+            .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+
+    private func chooseOther() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.application]
+        panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        NSApp.activate()
+        guard panel.runModal() == .OK, let url = panel.url,
+              let bundleID = Bundle(url: url)?.bundleIdentifier, !excluded.contains(bundleID) else { return }
+        choose(bundleID)
+    }
+}
+
+/// Rename, update and delete a saved layout, each saying what will happen.
+@MainActor
+private enum LayoutDialogs {
+    static func rename(_ profile: WorkspaceProfile) {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "Rename Layout")
+        alert.informativeText = String(localized: "New name for “\(profile.name)”:")
+        alert.addButton(withTitle: String(localized: "Rename"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 260, height: 24))
+        field.stringValue = profile.name
+        alert.accessoryView = field
+        alert.window.initialFirstResponder = field
+        NSApp.activate()
+        while alert.runModal() == .alertFirstButtonReturn {
+            if WorkspaceManager.shared.rename(profile, to: field.stringValue) { return }
+            alert.informativeText = String(localized: "Choose a name that no other layout uses.")
+        }
+    }
+
+    static func update(_ profile: WorkspaceProfile) {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "Update “\(profile.name)” with the current windows?")
+        alert.informativeText = String(localized: "The open apps and window positions replace what this layout saved. Its name and shortcut stay.")
+        alert.addButton(withTitle: String(localized: "Update"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
+        NSApp.activate()
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        if WorkspaceManager.shared.update(profile) == .noWindows {
+            let notice = NSAlert()
+            notice.messageText = String(localized: "There are no open windows to save.")
+            notice.runModal()
+        }
+    }
+
+    static func delete(_ profile: WorkspaceProfile) {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "Delete “\(profile.name)”?")
+        alert.informativeText = String(localized: "The saved layout and its shortcut are removed. Your windows stay where they are.")
+        alert.addButton(withTitle: String(localized: "Delete"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
+        alert.buttons.first?.hasDestructiveAction = true
+        NSApp.activate()
+        if alert.runModal() == .alertFirstButtonReturn { WorkspaceManager.shared.delete(profile) }
+    }
 }

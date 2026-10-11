@@ -50,10 +50,14 @@ final class WorkspaceManager {
 
     // MARK: - Workspaces
 
-    func saveCurrentLayout(named name: String) {
+    enum SaveResult { case saved, missingName, noWindows }
+
+    @discardableResult
+    func saveCurrentLayout(named name: String) -> SaveResult {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return .missingName }
         let windows = currentLayout()
-        guard !trimmed.isEmpty, !windows.isEmpty else { return }
+        guard !windows.isEmpty else { return .noWindows }
         // Saving under an existing name replaces that profile, keeping its shortcut and options.
         let previous = library.profiles.first { $0.name.caseInsensitiveCompare(trimmed) == .orderedSame }
         library.profiles.removeAll { $0.id == previous?.id }
@@ -61,6 +65,32 @@ final class WorkspaceManager {
         library.profiles.append(WorkspaceProfile(name: trimmed, windows: windows, hotKey: hotKey,
                                                  hidesOthers: previous?.hidesOthers))
         persist()
+        return .saved
+    }
+
+    /// False when the name is empty or another layout already has it.
+    @discardableResult
+    func rename(_ profile: WorkspaceProfile, to name: String) -> Bool {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty,
+              !library.profiles.contains(where: { $0.id != profile.id && $0.name.caseInsensitiveCompare(trimmed) == .orderedSame }),
+              let index = library.profiles.firstIndex(where: { $0.id == profile.id }) else { return false }
+        library.profiles[index].name = trimmed
+        persist()
+        return true
+    }
+
+    /// Replaces the layout's windows with the current ones; name, shortcut and options stay.
+    @discardableResult
+    func update(_ profile: WorkspaceProfile) -> SaveResult {
+        let windows = currentLayout()
+        guard !windows.isEmpty else { return .noWindows }
+        guard let index = library.profiles.firstIndex(where: { $0.id == profile.id }) else { return .saved }
+        let old = library.profiles[index]
+        library.profiles[index] = WorkspaceProfile(id: old.id, name: old.name, createdAt: old.createdAt, windows: windows,
+                                                   hotKey: old.hotKey, hidesOthers: old.hidesOthers)
+        persist()
+        return .saved
     }
 
     func delete(_ profile: WorkspaceProfile) {
@@ -89,8 +119,9 @@ final class WorkspaceManager {
         guard restoringID == nil else { return }
         restoringID = profile.id
         Task {
-            await apply(profile.windows, launchMissing: true, hideOthers: profile.hidesOthers == true)
+            let report = await apply(profile.windows, launchMissing: true, hideOthers: profile.hidesOthers == true)
             restoringID = nil
+            if !report.isComplete { RestoreReportAlert.show(report, layout: profile.name) }
         }
     }
 
@@ -160,19 +191,25 @@ final class WorkspaceManager {
 
     /// Opens missing apps (waiting until their windows appear, up to 10 s), then moves each
     /// window to its saved place on the displays connected now.
-    private func apply(_ layout: [SavedWindow], launchMissing: Bool, hideOthers: Bool, recordUndo: Bool = true) async {
+    @discardableResult
+    private func apply(_ layout: [SavedWindow], launchMissing: Bool, hideOthers: Bool, recordUndo: Bool = true) async -> RestoreReport {
         if recordUndo { recordUndoPoint() }
         let wanted = Set(layout.map(\.bundleID))
+        var notInstalled = Set<String>()
         if launchMissing {
             let running = Set(NSWorkspace.shared.runningApplications.compactMap(\.bundleIdentifier))
             let missing = wanted.subtracting(running)
             for bundleID in missing {
-                guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { continue }
+                guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else {
+                    notInstalled.insert(bundleID)
+                    continue
+                }
                 let configuration = NSWorkspace.OpenConfiguration()
                 configuration.activates = false
                 NSWorkspace.shared.openApplication(at: url, configuration: configuration, completionHandler: nil)
             }
-            if !missing.isEmpty { await waitForWindows(of: missing) }
+            let launched = missing.subtracting(notInstalled)
+            if !launched.isEmpty { await waitForWindows(of: launched) }
         }
         if hideOthers {
             for app in NSWorkspace.shared.runningApplications where app.activationPolicy == .regular
@@ -183,11 +220,14 @@ final class WorkspaceManager {
         let engine = WindowEngine.shared
         engine.refresh()
         let displays = Displays.current()
-        for pair in WorkspaceMatcher.match(saved: layout, live: engine.windows) {
+        let pairs = WorkspaceMatcher.match(saved: layout, live: engine.windows)
+        for pair in pairs {
             WindowActions.fill(pair.window, frame: WindowLayoutMath.resolve(pair.saved, displays: displays),
                                restoreIfMinimized: true)
         }
         engine.scheduleRefresh(after: .milliseconds(400))
+        return RestoreReport(saved: layout, missingBundleIDs: notInstalled,
+                             placedBundleIDs: Set(pairs.map(\.window.bundleID)), placedWindows: pairs.count)
     }
 
     private func waitForWindows(of bundleIDs: Set<String>) async {
@@ -237,7 +277,7 @@ enum Displays {
     }
 }
 
-/// Asks for a workspace name, then saves the current layout.
+/// Asks for a layout name, then saves the current layout; says why when nothing could be saved.
 @MainActor
 enum SaveWorkspaceDialog {
     static func run() {
@@ -251,8 +291,39 @@ enum SaveWorkspaceDialog {
         alert.accessoryView = field
         alert.window.initialFirstResponder = field
         NSApp.activate()
-        if alert.runModal() == .alertFirstButtonReturn {
-            WorkspaceManager.shared.saveCurrentLayout(named: field.stringValue)
+        while alert.runModal() == .alertFirstButtonReturn {
+            switch WorkspaceManager.shared.saveCurrentLayout(named: field.stringValue) {
+            case .saved: return
+            case .missingName: alert.informativeText = String(localized: "Enter a layout name to save.")
+            case .noWindows:
+                alert.informativeText = String(localized: "There are no open windows to save.")
+            }
         }
+    }
+}
+
+/// Tells what could not be brought back when a layout opened only partly.
+@MainActor
+enum RestoreReportAlert {
+    static func show(_ report: RestoreReport, layout: String) {
+        let alert = NSAlert()
+        alert.messageText = report.placedNothing
+            ? String(localized: "“\(layout)” couldn't be opened")
+            : String(localized: "“\(layout)” opened in part")
+        var lines: [String] = []
+        let list = { (names: [String]) in ListFormatter.localizedString(byJoining: names) }
+        if !report.notInstalled.isEmpty {
+            lines.append(String(localized: "Not installed on this Mac: \(list(report.notInstalled))."))
+        }
+        if !report.withoutWindows.isEmpty {
+            lines.append(String(localized: "Opened no window to put back: \(list(report.withoutWindows))."))
+        }
+        if !report.placedNothing {
+            lines.append(String(localized: "The other windows were put back in place."))
+        }
+        alert.informativeText = lines.joined(separator: "\n")
+        alert.addButton(withTitle: String(localized: "OK"))
+        NSApp.activate()
+        alert.runModal()
     }
 }

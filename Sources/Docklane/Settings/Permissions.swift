@@ -89,7 +89,7 @@ struct PermissionsView: View {
                     .frame(width: 56, height: 56)
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Welcome to Docklane").font(.title2.bold())
-                    Text("Your workspace, always in view.").foregroundStyle(.secondary)
+                    Text("Every open window, at a glance.").foregroundStyle(.secondary)
                 }
             }
             Text("Docklane needs two permissions. Grant them in System Settings → Privacy & Security; Docklane starts on its own once both are on.")

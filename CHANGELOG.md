@@ -8,6 +8,14 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Saved window layouts can be renamed, updated with the current windows and deleted (with a
+  confirmation) from a menu on each layout. Opening a layout that comes back only in part says
+  what is missing ("Not installed on this Mac: …", "Opened no window to put back: …") instead of
+  failing silently
+- Pin App and Add App buttons (Settings → Apps) pin an app or blur its previews without the
+  right-click menu: running apps, or any app from the Applications folder
+- Saving a layout without a name or without open windows says why instead of a greyed-out button;
+  ⌘Tab as the window switcher shortcut notes that it replaces the macOS app switcher
 - C in the window switcher sends the whole app to the Dock: every window of the selected app is
   minimized (full-screen windows leave full screen first). H (hide) is gone. The hint names both
   minimize keys by what they act on: "C send app to Dock", "M minimize window"
@@ -34,6 +42,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Changed
 
+- New tagline: "Every open window, at a glance." with "See your windows, switch between them and
+  keep your layout." in About, the welcome window and the README
 - Clearer wording everywhere, one term per thing: Workspaces are now Window Layouts (they
   save and restore window positions; they don't create desktops), "Keep in Dock" is Pin to Panel
   (the macOS Dock is not involved), "Hide Preview" is Blur This App's Previews (previews are

@@ -106,3 +106,37 @@ public struct WorkspaceLibrary: Codable, Equatable, Sendable {
         if let data = try? JSONEncoder().encode(self) { defaults.set(data, forKey: key) }
     }
 }
+
+/// What happened when a saved layout was opened, so the user hears about apps that could not
+/// be brought back instead of a silent partial result. Pure, unit tested.
+public struct RestoreReport: Equatable, Sendable {
+    /// Apps of the layout that are not installed on this Mac (names, in layout order).
+    public let notInstalled: [String]
+    /// Installed apps that ended up with no window to put in place.
+    public let withoutWindows: [String]
+    public let placedWindows: Int
+    public let savedWindows: Int
+
+    public init(notInstalled: [String], withoutWindows: [String], placedWindows: Int, savedWindows: Int) {
+        self.notInstalled = notInstalled
+        self.withoutWindows = withoutWindows
+        self.placedWindows = placedWindows
+        self.savedWindows = savedWindows
+    }
+
+    /// `missingBundleIDs`: apps with no installed copy. `placedBundleIDs`: apps that had at
+    /// least one window moved into place.
+    public init(saved: [SavedWindow], missingBundleIDs: Set<String>, placedBundleIDs: Set<String>, placedWindows: Int) {
+        var seen = Set<String>()
+        let apps = saved.filter { seen.insert($0.bundleID).inserted }
+        notInstalled = apps.filter { missingBundleIDs.contains($0.bundleID) }.map(\.appName)
+        withoutWindows = apps.filter { !missingBundleIDs.contains($0.bundleID) && !placedBundleIDs.contains($0.bundleID) }
+            .map(\.appName)
+        self.placedWindows = placedWindows
+        savedWindows = saved.count
+    }
+
+    /// Every app of the layout got its windows back (an app may have fewer windows open now).
+    public var isComplete: Bool { notInstalled.isEmpty && withoutWindows.isEmpty }
+    public var placedNothing: Bool { placedWindows == 0 }
+}

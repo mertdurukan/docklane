@@ -2,7 +2,9 @@
 
 # Docklane
 
-**Your workspace, always in view.**
+**Every open window, at a glance.**
+
+See your windows, switch between them and keep your layout.
 
 Docklane is a macOS menu bar app that keeps a Dock-like panel on the edge of your screen with
 **live thumbnails of every open window** — on every desktop, including full-screen apps. Click a

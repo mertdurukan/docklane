@@ -282,6 +282,7 @@ struct AudioChip: View {
             .background(Capsule().fill(.black.opacity(0.55)))
             .environment(\.colorScheme, .dark)
             .accessibilityLabel(Text("Playing audio"))
+            .help("Playing audio")
     }
 }
 

@@ -912,3 +912,25 @@ final class WindowRuleTests: XCTestCase {
         XCTAssertEqual(try JSONDecoder().decode([WindowRule].self, from: JSONEncoder().encode(rules)), rules)
     }
 }
+
+final class RestoreReportTests: XCTestCase {
+    private func saved(_ bundleID: String, _ name: String) -> SavedWindow {
+        SavedWindow(bundleID: bundleID, appName: name, title: "", frame: .zero, display: nil, relativeFrame: nil)
+    }
+
+    func testNamesMissingAndWindowlessAppsOnceInLayoutOrder() {
+        let layout = [saved("a", "Safari"), saved("b", "Notes"), saved("a", "Safari"), saved("c", "Mail")]
+        let report = RestoreReport(saved: layout, missingBundleIDs: ["b"], placedBundleIDs: ["a"], placedWindows: 2)
+        XCTAssertEqual(report.notInstalled, ["Notes"])
+        XCTAssertEqual(report.withoutWindows, ["Mail"])
+        XCTAssertEqual(report.savedWindows, 4)
+        XCTAssertFalse(report.isComplete)
+        XCTAssertFalse(report.placedNothing)
+    }
+
+    func testCompleteWhenEveryAppGotAWindowEvenIfFewerWindows() {
+        let layout = [saved("a", "Safari"), saved("a", "Safari")]
+        let report = RestoreReport(saved: layout, missingBundleIDs: [], placedBundleIDs: ["a"], placedWindows: 1)
+        XCTAssertTrue(report.isComplete)
+    }
+}
