@@ -1105,3 +1105,40 @@ final class DiagnosticReportTests: XCTestCase {
         XCTAssertEqual(DiagnosticReport.age(of: nil, now: now), "never")
     }
 }
+
+/// Every user-facing literal in the app's sources must be in the string catalog; otherwise it
+/// silently stays English in every other language.
+final class CatalogCoverageTests: XCTestCase {
+    func testEveryInterfaceStringIsInTheCatalog() throws {
+        let root = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let catalogURL = root.appendingPathComponent("Localization/Localizable.xcstrings")
+        let catalog = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: catalogURL)) as? [String: Any])
+        let keys = Set(try XCTUnwrap(catalog["strings"] as? [String: Any]).keys)
+
+        let sources = root.appendingPathComponent("Sources/Docklane")
+        let files = try XCTUnwrap(FileManager.default.enumerator(at: sources, includingPropertiesForKeys: nil))
+            .compactMap { $0 as? URL }.filter { $0.pathExtension == "swift" }
+        XCTAssertFalse(files.isEmpty)
+
+        // The first string literal passed to these SwiftUI / Foundation calls is a catalog key.
+        let call = /(?:Text|Toggle|Button|Label|Picker|Menu|DisclosureGroup|LabeledContent|confirmationDialog|\.help|String\(localized:|action:|title:|detail:|LocalizedStringKey =\s*)\(?\s*"((?:[^"\\]|\\.)*)"/
+        let interpolation = /\\\((?:[^()]|\([^()]*\))*\)/
+        var missing: [String] = []
+        for file in files {
+            let text = try String(contentsOf: file, encoding: .utf8)
+            for match in text.matches(of: call) {
+                let literal = String(match.output.1)
+                guard !literal.isEmpty, literal != "Docklane" else { continue }
+                if literal.contains("\\(") {
+                    let asObject = literal.replacing(interpolation, with: "%@")
+                    let asNumber = literal.replacing(interpolation, with: "%lld")
+                    if !keys.contains(asObject) && !keys.contains(asNumber) { missing.append(literal) }
+                } else if !keys.contains(literal) {
+                    missing.append(literal)
+                }
+            }
+        }
+        XCTAssertEqual(missing, [], "Add these to Localization/Localizable.xcstrings with all translations")
+    }
+}
