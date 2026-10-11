@@ -28,6 +28,10 @@ final class DockPanel: NSPanel {
         setAccessibilityLabel("Docklane")
     }
 
+    /// Docklane places the panel itself; AppKit would push it below the menu bar, even in a
+    /// full-screen space where that bar is hidden.
+    override func constrainFrameRect(_ frameRect: NSRect, to screen: NSScreen?) -> NSRect { frameRect }
+
     /// Clicking a window that can't become key does not activate its app.
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { false }

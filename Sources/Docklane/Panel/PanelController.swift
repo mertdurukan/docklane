@@ -191,10 +191,27 @@ final class PanelController {
         PanelLayout.frames(
             edge: settings.edge,
             thickness: settings.metrics.thickness(for: settings.edge, background: settings.showBackground),
-            visibleFrame: screen.visibleFrame,
+            visibleFrame: panelArea(on: screen),
             autoHide: settings.autoHide,
             contentLength: screen.displayID.flatMap { contentLengths[$0] }
         ).panel
+    }
+
+    /// Where the panel may go: the visible frame, except that a full-screen app hides the menu
+    /// bar, so a top panel then starts at the very top of the screen.
+    private func panelArea(on screen: NSScreen) -> CGRect {
+        var area = screen.visibleFrame
+        guard settings.edge == .top, Self.showsFullScreenSpace(screen) else { return area }
+        area.size.height = screen.frame.maxY - area.minY
+        return area
+    }
+
+    private static func showsFullScreenSpace(_ screen: NSScreen) -> Bool {
+        let shown = WindowEngine.shared.spaces.filter(\.isShown)
+        let mine = shown.first { DisplayLookup.displayID(for: $0.display) == screen.displayID }
+        // One shared set of spaces ("Displays have separate Spaces" off) has no display UUID.
+        let space = mine ?? (screen == NSScreen.screens.first ? shown.first : nil)
+        return space?.isFullScreen ?? false
     }
 
     /// The panel window covers only its tiles; it is resized whenever their length changes.
@@ -223,6 +240,8 @@ final class PanelController {
             _ = settings.hotKey
             _ = settings.navigationHotKey
             _ = settings.keepWindowsClear
+            // Entering or leaving a full-screen space moves a top panel.
+            _ = WindowEngine.shared.spaces
         } onChange: { [weak self] in
             Task { @MainActor in
                 guard let self else { return }
@@ -309,7 +328,7 @@ final class PanelController {
 
         for (displayID, entry) in panels {
             let inZone = PanelLayout.revealZones(edge: settings.edge, screenFrame: entry.screen.frame,
-                                                 visibleFrame: entry.screen.visibleFrame,
+                                                 visibleFrame: panelArea(on: entry.screen),
                                                  panel: entry.panel.frame).contains { $0.contains(pointer) }
             let overPanel = entry.panel.frame.insetBy(dx: -12, dy: -12).contains(pointer)
             let isRevealed = revealed.contains(displayID)

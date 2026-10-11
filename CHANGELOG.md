@@ -20,6 +20,8 @@ All notable changes to Docklane are listed here. The format follows
 
 - Tiles sit 4 pt from the screen edge, like the Dock (was 16 pt); the far side keeps room
   for shadows, and the app icon's overhang is kept clear on the left and bottom edges
+- In a full-screen space, where the menu bar is hidden, a top panel sits at the very top of
+  the screen instead of below the empty menu bar area
 - Search in the window switcher is now ⌘F (press F while holding ⌘), the macOS Find
   shortcut, on every keyboard layout; "/" still works
 - The window switcher is only as wide as its cards, centred, with no empty columns
