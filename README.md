@@ -97,6 +97,8 @@ one click away.
   - Display setups: connect or disconnect a display and windows go back to where they were the
     last time you used that set of displays
   - ⌃⌥Z undoes the last layout change Docklane made (workspace, display change, Move & Resize)
+- **Keyboard arrangement:** ⌃⌥←/→/↑/↓ put the front window in a half (press again: a third,
+  then two thirds), ⌃⌥↩ fills the screen, ⌃⌥C centers, ⌃⌥⌘←/→ move it to the other display
 - **Privacy blur:** hide the previews of chosen apps (password managers, banking, chat…)
   everywhere
 - Launch at login, VoiceOver labels, a warning when the macOS Dock sits on the same edge

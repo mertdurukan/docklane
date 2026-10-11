@@ -220,6 +220,11 @@ private struct WorkspacesSettings: View {
                 Text("Saves which apps are open and where each window is. Restoring opens missing apps and moves the windows back.")
             }
             Section {
+                Toggle("Arrange windows with ⌃⌥ and the arrow keys", isOn: $settings.keyboardPlacement)
+            } footer: {
+                Text("⌃⌥← → ↑ ↓ put the front window in a half; press again for a third, then two thirds. ⌃⌥↩ fills the screen, ⌃⌥C centers the window, ⌃⌥⌘← → move it to the other display.")
+            }
+            Section {
                 Toggle("Remember window layouts per display setup", isOn: $settings.rememberDisplayLayouts)
                 Button("Undo Layout Change") { workspaces.undo() }
                     .disabled(!workspaces.canUndo)

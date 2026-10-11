@@ -853,3 +853,42 @@ final class WindowLayoutTests: XCTestCase {
         XCTAssertEqual(WorkspaceProfile.freeHotKey(among: profiles), 2)
     }
 }
+
+final class PlacementCycleTests: XCTestCase {
+    private let usable = CGRect(x: 0, y: 0, width: 1800, height: 1000)
+
+    func testArrowCyclesHalfThirdTwoThirds() {
+        let half = PlacementCycle.frame(for: .left, current: CGRect(x: 300, y: 300, width: 600, height: 400), usable: usable)
+        XCTAssertEqual(half, CGRect(x: 0, y: 0, width: 900, height: 1000))
+        let third = PlacementCycle.frame(for: .left, current: half, usable: usable)
+        XCTAssertEqual(third, CGRect(x: 0, y: 0, width: 600, height: 1000))
+        let twoThirds = PlacementCycle.frame(for: .left, current: third, usable: usable)
+        XCTAssertEqual(twoThirds, CGRect(x: 0, y: 0, width: 1200, height: 1000))
+        XCTAssertEqual(PlacementCycle.frame(for: .left, current: twoThirds, usable: usable), half, "wraps around")
+    }
+
+    func testRightAndVerticalSides() {
+        XCTAssertEqual(PlacementCycle.frame(for: .right, current: .zero, usable: usable), CGRect(x: 900, y: 0, width: 900, height: 1000))
+        XCTAssertEqual(PlacementCycle.frame(for: .up, current: .zero, usable: usable), CGRect(x: 0, y: 500, width: 1800, height: 500))
+        XCTAssertEqual(PlacementCycle.frame(for: .down, current: .zero, usable: usable), CGRect(x: 0, y: 0, width: 1800, height: 500))
+    }
+
+    func testSlackForAppsThatRoundTheirSize() {
+        // A terminal snapped to 894 instead of 900 wide still counts as the half.
+        let third = PlacementCycle.frame(for: .left, current: CGRect(x: 0, y: 0, width: 894, height: 996), usable: usable)
+        XCTAssertEqual(third.width, 600)
+    }
+
+    func testFillAndCenter() {
+        XCTAssertEqual(PlacementCycle.frame(for: .fill, current: .zero, usable: usable), usable)
+        XCTAssertEqual(PlacementCycle.frame(for: .center, current: CGRect(x: 0, y: 0, width: 800, height: 600), usable: usable),
+                       CGRect(x: 500, y: 200, width: 800, height: 600))
+    }
+
+    func testMoveToAnotherDisplayKeepsTheProportions() {
+        let laptop = CGRect(x: 0, y: 0, width: 1440, height: 875)
+        let monitor = CGRect(x: 1440, y: 0, width: 2560, height: 1415)
+        let leftHalf = CGRect(x: 0, y: 0, width: 720, height: 875)
+        XCTAssertEqual(PlacementCycle.move(leftHalf, from: laptop, to: monitor), CGRect(x: 1440, y: 0, width: 1280, height: 1415))
+    }
+}

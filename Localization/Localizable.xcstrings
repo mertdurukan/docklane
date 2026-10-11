@@ -624,6 +624,70 @@
         }
       }
     },
+    "Arrange windows with ⌃⌥ and the arrow keys": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رتّب النوافذ باستخدام ⌃⌥ ومفاتيح الأسهم"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥ ও তীর কী দিয়ে উইন্ডো সাজান"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizar ventanas con ⌃⌥ y las flechas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disposer les fenêtres avec ⌃⌥ et les flèches"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥ और तीर कुंजियों से विंडो व्यवस्थित करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atur jendela dengan ⌃⌥ dan tombol panah"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizar janelas com ⌃⌥ e as setas"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расставлять окна с помощью ⌃⌥ и стрелок"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencereleri ⌃⌥ ve ok tuşlarıyla yerleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用 ⌃⌥ 和方向键排列窗口"
+          }
+        }
+      }
+    },
     "Automatically hide and show the panel": {
       "localizations": {
         "ar": {
@@ -8108,6 +8172,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "你的工作区，始终尽收眼底。"
+          }
+        }
+      }
+    },
+    "⌃⌥← → ↑ ↓ put the front window in a half; press again for a third, then two thirds. ⌃⌥↩ fills the screen, ⌃⌥C centers the window, ⌃⌥⌘← → move it to the other display.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ تضع النافذة الأمامية في نصف الشاشة؛ اضغط مجددًا للثلث ثم للثلثين. ⌃⌥↩ يملأ الشاشة، و⌃⌥C يوسّط النافذة، و⌃⌥⌘← → ينقلها إلى الشاشة الأخرى."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ সামনের উইন্ডোকে অর্ধেকে বসায়; আবার চাপলে এক-তৃতীয়াংশ, তারপর দুই-তৃতীয়াংশ। ⌃⌥↩ পুরো স্ক্রিন ভরে, ⌃⌥C মাঝখানে আনে, ⌃⌥⌘← → অন্য ডিসপ্লেতে সরায়।"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ colocan la ventana delantera en una mitad; vuelve a pulsar para un tercio y luego dos tercios. ⌃⌥↩ llena la pantalla, ⌃⌥C centra la ventana y ⌃⌥⌘← → la mueven a la otra pantalla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ placent la fenêtre au premier plan sur une moitié ; appuyez à nouveau pour un tiers, puis deux tiers. ⌃⌥↩ remplit l’écran, ⌃⌥C centre la fenêtre, ⌃⌥⌘← → la déplacent sur l’autre écran."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ सामने की विंडो को आधे हिस्से में रखते हैं; फिर दबाने पर एक-तिहाई, फिर दो-तिहाई। ⌃⌥↩ पूरी स्क्रीन भरता है, ⌃⌥C विंडो को बीच में लाता है, ⌃⌥⌘← → उसे दूसरे डिस्प्ले पर ले जाते हैं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ menaruh jendela depan di separuh layar; tekan lagi untuk sepertiga, lalu dua pertiga. ⌃⌥↩ memenuhi layar, ⌃⌥C menengahkan jendela, ⌃⌥⌘← → memindahkannya ke layar lain."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ colocam a janela da frente em uma metade; pressione de novo para um terço e depois dois terços. ⌃⌥↩ preenche a tela, ⌃⌥C centraliza a janela e ⌃⌥⌘← → a movem para a outra tela."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ ставят переднее окно на половину экрана; нажмите ещё раз — на треть, затем на две трети. ⌃⌥↩ разворачивает на весь экран, ⌃⌥C ставит окно по центру, ⌃⌥⌘← → переносят его на другой дисплей."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ öndeki pencereyi yarıma yerleştirir; tekrar basınca üçte bire, sonra üçte ikiye. ⌃⌥↩ ekranı doldurur, ⌃⌥C pencereyi ortalar, ⌃⌥⌘← → diğer ekrana taşır."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥← → ↑ ↓ 将最前面的窗口放到半屏；再按一次变为三分之一，然后三分之二。⌃⌥↩ 填满屏幕，⌃⌥C 将窗口居中，⌃⌥⌘← → 将其移到另一台显示器。"
           }
         }
       }

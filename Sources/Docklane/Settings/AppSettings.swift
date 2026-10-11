@@ -27,6 +27,7 @@ final class AppSettings {
     var switcherShortcut: SwitcherShortcut { didSet { store(switcherShortcut.rawValue, "switcherShortcut") } }
     var desktopSwitcherEnabled: Bool { didSet { store(desktopSwitcherEnabled, "desktopSwitcherEnabled") } }
     var rememberDisplayLayouts: Bool { didSet { store(rememberDisplayLayouts, "rememberDisplayLayouts") } }
+    var keyboardPlacement: Bool { didSet { store(keyboardPlacement, "keyboardPlacement") } }
 
     /// Apps whose previews are blurred everywhere (password managers, banking, chat…).
     var privateApps: [String] { didSet { store(privateApps, "privateApps") } }
@@ -70,6 +71,7 @@ final class AppSettings {
             "switcherShortcut": SwitcherShortcut.commandTab.rawValue,
             "desktopSwitcherEnabled": true,
             "rememberDisplayLayouts": true,
+            "keyboardPlacement": true,
             "peekEnabled": true,
             "peekDelay": 0.6,
             "showAudioIndicator": true,
@@ -92,6 +94,7 @@ final class AppSettings {
         switcherShortcut = SwitcherShortcut(rawValue: defaults.string(forKey: "switcherShortcut") ?? "") ?? .commandTab
         desktopSwitcherEnabled = defaults.bool(forKey: "desktopSwitcherEnabled")
         rememberDisplayLayouts = defaults.bool(forKey: "rememberDisplayLayouts")
+        keyboardPlacement = defaults.bool(forKey: "keyboardPlacement")
         privateApps = defaults.stringArray(forKey: "privateApps") ?? []
         peekEnabled = defaults.bool(forKey: "peekEnabled")
         peekDelay = defaults.double(forKey: "peekDelay")

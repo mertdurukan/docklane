@@ -8,6 +8,9 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
+- Arrange the front window from the keyboard: ⌃⌥←/→/↑/↓ halves, pressing again cycles to a
+  third and two thirds; ⌃⌥↩ fill, ⌃⌥C center, ⌃⌥⌘←/→ to the other display (same place, scaled).
+  Respects the strip a pinned panel keeps clear; ⌃⌥Z undoes; can be turned off
 - Window memory. Workspaces get a shortcut each (⌃⌥⌘1–9), remember which display every
   window was on (and where on it, so they fit another resolution or the laptop screen), wait
   for apps they open to show their windows, and can hide every other app. Docklane also
