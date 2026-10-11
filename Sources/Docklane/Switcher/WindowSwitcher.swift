@@ -147,14 +147,19 @@ final class WindowSwitcher {
 
     /// Returns false when there is nothing to switch to, so the system shortcut still works.
     private func show(reverse: Bool) -> Bool {
-        let items = WindowEngine.shared.switcherOrder()
-        guard !items.isEmpty else { return false }
+        let ordered = WindowEngine.shared.switcherOrder()
+        guard !ordered.isEmpty else { return false }
+        // Read focus live, before Docklane activates: the recent-window list can lag behind.
+        let front = NSWorkspace.shared.frontmostApplication
+        let frontPID = front.map(\.processIdentifier).flatMap { $0 == getpid() ? nil : $0 }
+        let current = frontPID == nil ? nil : AccessibilityInspector.focusedWindowNumber()
+        let (items, selection) = SwitcherStart.arrange(ordered, current: current, frontPID: frontPID, reverse: reverse)
         model.allItems = items
         model.items = items
         model.isSearching = false
         model.query = ""
-        model.selection = items.count == 1 ? 0 : (reverse ? items.count - 1 : 1)
-        previousApp = NSWorkspace.shared.frontmostApplication
+        model.selection = selection
+        previousApp = front
 
         let panel = self.panel ?? makePanel()
         self.panel = panel

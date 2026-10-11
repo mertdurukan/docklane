@@ -14,6 +14,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Fixed
 
+- One ⌘Tab press now selects the next app; the window you are in is always first and is
+  read live when the switcher opens
 - Clicking a window sometimes brought only its app forward instead of that exact window;
   focus is now checked and retried once
 - Clicking a window of a hidden app (⌘H) now unhides the app

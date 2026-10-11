@@ -445,3 +445,60 @@ final class HintTextTests: XCTestCase {
         XCTAssertEqual(HintText.wrappingBetweenItems("Return switch"), "Return\u{00A0}switch")
     }
 }
+
+final class SwitcherStartTests: XCTestCase {
+    private func win(_ id: WindowNumber, pid: pid_t, minimized: Bool = false) -> DockWindow {
+        DockWindow(id: id, pid: pid, bundleID: "app\(pid)", appName: "App \(pid)", title: "",
+                   bounds: CGRect(x: 0, y: 0, width: 800, height: 600),
+                   isOnScreen: !minimized, isMinimized: minimized)
+    }
+
+    func testFirstPressSelectsTheNextApp() {
+        let items = [win(1, pid: 10), win(2, pid: 20), win(3, pid: 30)]
+        let result = SwitcherStart.arrange(items, current: 1, frontPID: 10, reverse: false)
+        XCTAssertEqual(result.items.map(\.id), [1, 2, 3])
+        XCTAssertEqual(result.selection, 1)
+    }
+
+    func testStaleRecentListStillStartsFromTheFocusedWindow() {
+        // The focused window (3) was not yet recorded as most recent.
+        let items = [win(1, pid: 10), win(2, pid: 20), win(3, pid: 30)]
+        let result = SwitcherStart.arrange(items, current: 3, frontPID: 30, reverse: false)
+        XCTAssertEqual(result.items.map(\.id), [3, 1, 2])
+        XCTAssertEqual(result.items[result.selection].id, 1)
+    }
+
+    func testOtherWindowsOfTheSameAppAreSkippedOnFirstPress() {
+        let items = [win(1, pid: 10), win(2, pid: 10), win(3, pid: 30)]
+        let result = SwitcherStart.arrange(items, current: 1, frontPID: 10, reverse: false)
+        XCTAssertEqual(result.items[result.selection].id, 3)
+    }
+
+    func testSingleAppFallsBackToItsNextWindow() {
+        let items = [win(1, pid: 10), win(2, pid: 10)]
+        XCTAssertEqual(SwitcherStart.arrange(items, current: 1, frontPID: 10, reverse: false).selection, 1)
+    }
+
+    func testMinimizedWindowsOfOtherAppsAreNotTheFirstTarget() {
+        let items = [win(1, pid: 10), win(2, pid: 10), win(3, pid: 30, minimized: true)]
+        XCTAssertEqual(SwitcherStart.arrange(items, current: 1, frontPID: 10, reverse: false).selection, 1)
+    }
+
+    func testNothingFocusedSelectsTheFirstWindow() {
+        // Desktop or an app without windows is in front: the first window is the target.
+        let items = [win(1, pid: 10), win(2, pid: 20)]
+        XCTAssertEqual(SwitcherStart.arrange(items, current: nil, frontPID: 99, reverse: false).selection, 0)
+        XCTAssertEqual(SwitcherStart.arrange(items, current: nil, frontPID: nil, reverse: false).selection, 0)
+    }
+
+    func testFrontAppWithoutFocusedWindowStillCountsAsHere() {
+        let items = [win(1, pid: 10), win(2, pid: 20)]
+        XCTAssertEqual(SwitcherStart.arrange(items, current: nil, frontPID: 10, reverse: false).selection, 1)
+    }
+
+    func testReverseSelectsTheLastItem() {
+        let items = [win(1, pid: 10), win(2, pid: 20), win(3, pid: 30)]
+        XCTAssertEqual(SwitcherStart.arrange(items, current: 1, frontPID: 10, reverse: true).selection, 2)
+        XCTAssertEqual(SwitcherStart.arrange([win(1, pid: 10)], current: 1, frontPID: 10, reverse: false).selection, 0)
+    }
+}

@@ -154,6 +154,8 @@ final class WindowEngine {
     }
 
     private func updateFocus() {
+        // Docklane's own panels (⌘Tab, menus) are not windows of the list; keep the last real one.
+        guard NSWorkspace.shared.frontmostApplication?.processIdentifier != getpid() else { return }
         let focused = AccessibilityInspector.focusedWindowNumber()
         guard focused != focusedWindow else { return }
         let previous = focusedWindow
