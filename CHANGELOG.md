@@ -8,8 +8,8 @@ All notable changes to Docklane are listed here. The format follows
 
 ### Added
 
-- C in the window switcher hides the selected app at once, like H (⌘H): its windows leave the
-  screen without animation and come back when it is chosen again
+- C in the window switcher minimizes every window of the selected app to the Dock (full-screen
+  windows leave full screen first). H (hide) is gone
 - Live pins: Pin Live Preview (panel menu) keeps a live, always-on-top copy of a window on every
   desktop (10 frames a second; once a second for a window on another desktop), up to four
 - App rules (Settings → Workspaces): new windows of an app are placed as soon as they open

@@ -87,7 +87,7 @@ final class DesktopSwitcher {
                 commit()
             }
             return true
-        case .beginSearch, .character, .backspace, .quitApp, .hideApp, .closeWindow, .minimizeWindow:
+        case .beginSearch, .character, .backspace, .quitApp, .minimizeApp, .closeWindow, .minimizeWindow:
             return isActive
         }
     }

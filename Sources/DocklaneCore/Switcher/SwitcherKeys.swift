@@ -4,7 +4,9 @@ import Foundation
 public enum SwitcherCommand: Equatable, Sendable {
     case next, previous, left, right, up, down
     case confirm, cancel
-    case quitApp, hideApp, closeWindow, minimizeWindow
+    case quitApp, closeWindow, minimizeWindow
+    /// Every window of the selected app to the Dock.
+    case minimizeApp
     case beginSearch
     /// Go to the Nth space of the desktop strip (1-based, Mission Control order).
     case goToSpace(Int)
@@ -102,7 +104,7 @@ public enum SwitcherKeys {
         switch key.baseCharacter?.lowercased() {
         case "f": return .handle(.beginSearch)
         case "q": return .handle(.quitApp)
-        case "h", "c": return .handle(.hideApp)  // C: "clear it off the screen", instantly
+        case "c": return .handle(.minimizeApp)
         case "w": return .handle(.closeWindow)
         case "m": return .handle(.minimizeWindow)
         default: return .swallow // stray keys while the switcher is open

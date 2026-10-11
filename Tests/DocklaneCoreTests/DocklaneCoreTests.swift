@@ -655,9 +655,9 @@ final class SwitcherKeysTests: XCTestCase {
         XCTAssertEqual(SwitcherKeys.decide(press(nil, "."), isOpen: true, isSearching: false), .handle(.cancel))
     }
 
-    func testCHidesTheAppLikeH() {
-        XCTAssertEqual(SwitcherKeys.decide(press(nil, "c"), isOpen: true, isSearching: false), .handle(.hideApp))
-        XCTAssertEqual(SwitcherKeys.decide(press(nil, "h"), isOpen: true, isSearching: false), .handle(.hideApp))
+    func testCMinimizesTheWholeAppAndHIsGone() {
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "c"), isOpen: true, isSearching: false), .handle(.minimizeApp))
+        XCTAssertEqual(SwitcherKeys.decide(press(nil, "h"), isOpen: true, isSearching: false), .swallow)
     }
 
     func testNumbersGoToSpaces() {

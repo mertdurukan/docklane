@@ -107,7 +107,7 @@ private struct BehaviorSettings: View {
             } header: {
                 Text("Window switcher")
             } footer: {
-                Text("Hold the key and press Tab to move between windows; release to switch. Press F to search. Esc cancels; Q, H, W and M quit, hide, close or minimize.")
+                Text("Hold the key and press Tab to move between windows; release to switch. Press F to search. Esc cancels; Q quits, C minimizes all of the app's windows, W closes and M minimizes.")
             }
             Section {
                 Picker("Show / hide panel", selection: $settings.hotKey) {
