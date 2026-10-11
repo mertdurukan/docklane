@@ -189,7 +189,9 @@ final class WindowSwitcher {
         let layout = SwitcherLayout(count: model.allItems.count, maxWidth: area.width * 0.9)
         model.columns = layout.columns
         var size = layout.panelSize
-        size.height += SwitcherLayout.footerHeight + (model.isSearching ? SwitcherLayout.searchHeight : 0)
+        let footer = SwitcherLayout.footerHeight(for: SwitcherLayout.hint(searching: model.isSearching),
+                                                 width: size.width - 2 * SwitcherLayout.padding)
+        size.height += footer + (model.isSearching ? SwitcherLayout.searchHeight : 0)
         size.height = min(size.height, area.height * 0.9)
         panel.setFrame(NSRect(x: area.midX - size.width / 2, y: area.midY - size.height / 2,
                               width: size.width, height: size.height), display: true)
@@ -227,15 +229,36 @@ struct SwitcherLayout {
     static let spacing: CGFloat = 10
     static let padding: CGFloat = 18
     static let searchHeight: CGFloat = 44
-    static let footerHeight: CGFloat = 30
+    static let footerFontSize: CGFloat = 11
+    static let footerPadding: CGFloat = 8
+    static let footerMaxLines = 3
 
     let columns: Int
     let rows: Int
 
     init(count: Int, maxWidth: CGFloat) {
         let fit = Int((maxWidth - 2 * Self.padding + Self.spacing) / (Self.cardWidth + Self.spacing))
-        columns = max(1, min(max(count, 3), fit))
+        // As wide as the cards (no empty columns), up to what fits on screen.
+        columns = max(1, min(count, fit))
         rows = max(1, Int((Double(count) / Double(columns)).rounded(.up)))
+    }
+
+    /// The keyboard hint under the cards, localized; wraps only between its items.
+    static func hint(searching: Bool) -> String {
+        HintText.wrappingBetweenItems(searching
+            ? String(localized: "Return switch  ·  Esc clear / close  ·  ← → move")
+            : String(localized: "Tab next  ·  / search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel"))
+    }
+
+    /// Height of the hint wrapped to `width`, at most `footerMaxLines` lines.
+    static func footerHeight(for hint: String, width: CGFloat) -> CGFloat {
+        let font = NSFont.systemFont(ofSize: footerFontSize)
+        let lineHeight = ceil(font.ascender - font.descender + font.leading)
+        let text = NSAttributedString(string: hint, attributes: [.font: font])
+        let height = text.boundingRect(with: CGSize(width: max(width, 1), height: .greatestFiniteMagnitude),
+                                       options: [.usesLineFragmentOrigin, .usesFontLeading]).height
+        let lines = min(max(Int((height / lineHeight).rounded(.up)), 1), footerMaxLines)
+        return CGFloat(lines) * lineHeight + 2 * footerPadding
     }
 
     var panelSize: CGSize {
@@ -316,12 +339,14 @@ struct SwitcherView: View {
                 }
             }
 
-            Text(model.isSearching
-                 ? "Return switch  ·  Esc clear / close  ·  ← → move"
-                 : "Tab next  ·  / search  ·  Q quit  ·  H hide  ·  W close  ·  M minimize  ·  Esc cancel")
-                .font(.system(size: 11))
+            Text(verbatim: SwitcherLayout.hint(searching: model.isSearching))
+                .font(.system(size: SwitcherLayout.footerFontSize))
                 .foregroundStyle(.secondary)
-                .frame(height: SwitcherLayout.footerHeight)
+                .multilineTextAlignment(.center)
+                .lineLimit(SwitcherLayout.footerMaxLines)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, SwitcherLayout.padding)
+                .padding(.vertical, SwitcherLayout.footerPadding)
                 .frame(maxWidth: .infinity)
         }
         .background(VisualEffectView(material: .hudWindow))

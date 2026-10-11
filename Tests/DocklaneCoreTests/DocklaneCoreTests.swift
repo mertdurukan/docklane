@@ -432,3 +432,16 @@ final class LocalizationCatalogTests: XCTestCase {
         }
     }
 }
+
+final class HintTextTests: XCTestCase {
+    func testItemsStayTogetherAndBreaksFallAfterTheDot() {
+        let text = HintText.wrappingBetweenItems("Tab next  ·  / search  ·  Esc cancel")
+        XCTAssertEqual(text, "Tab\u{00A0}next\u{00A0}·  /\u{00A0}search\u{00A0}·  Esc\u{00A0}cancel")
+        // The only ordinary spaces are the break points after each dot.
+        XCTAssertEqual(text.components(separatedBy: " ").filter { !$0.isEmpty }.count, 3)
+    }
+
+    func testTextWithoutSeparatorsIsOneUnbreakableItem() {
+        XCTAssertEqual(HintText.wrappingBetweenItems("Return switch"), "Return\u{00A0}switch")
+    }
+}

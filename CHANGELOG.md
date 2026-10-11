@@ -6,6 +6,12 @@ All notable changes to Docklane are listed here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- The window switcher is only as wide as its cards, centred, with no empty columns
+- The switcher's keyboard hint wraps to up to three lines, breaking only between shortcuts
+- v0.1.0 is now signed with a Developer ID and notarized; no Open Anyway step
+
 ## [0.1.0] — 2026-10-11
 
 First version.

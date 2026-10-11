@@ -121,12 +121,9 @@ Because of these, Docklane cannot be sandboxed or distributed through the Mac Ap
 
 1. Download `Docklane.zip` from the [latest release](https://github.com/mertdurukan/docklane/releases/latest),
    unzip it and move `Docklane.app` to `/Applications`.
-2. Docklane is not notarized yet, so macOS blocks the first launch. Open it once, then go to
-   **System Settings → Privacy & Security** and click **Open Anyway**.
+2. Open it. Releases are signed with a Developer ID and notarized by Apple, so it opens like
+   any other app.
 3. Grant **Accessibility** and **Screen Recording** when asked.
-
-Release builds are signed ad hoc, so after installing a new version macOS may ask for the two
-permissions again.
 
 ### Build from source
 
@@ -169,8 +166,8 @@ tccutil reset All io.github.mertdurukan.docklane
 
 ## Releasing
 
-Pushing a `v*` tag makes CI publish a GitHub release with an ad-hoc signed zip. To replace it
-with a notarized build (no **Open Anyway** step for users), once:
+Pushing a `v*` tag makes CI publish a GitHub release with an ad-hoc signed zip. Replace it with
+a notarized build so users can open the app without an **Open Anyway** step. Once:
 
 1. In Xcode → Settings → Accounts → *your team* → Manage Certificates, add a
    **Developer ID Application** certificate (only the team's Account Holder can create one).
@@ -227,8 +224,6 @@ swift test
 - DRM-protected video (for example some streaming sites) shows as a black thumbnail.
 - Multiple displays have had little testing.
 - Private APIs can change in any macOS update; affected features turn off rather than crash.
-- Until a release is notarized, the first launch needs **Open Anyway** in System Settings →
-  Privacy & Security.
 
 ## Acknowledgements
 
