@@ -20,6 +20,10 @@ All notable changes to Docklane are listed here. The format follows
   focus is now checked and retried once
 - Clicking a window of a hidden app (⌘H) now unhides the app
 - Choosing a window whose app has quit hands focus back instead of leaving it on Docklane
+- Closed windows that the system still reports on no desktop no longer show as ghost tiles
+- Windows with the same title (two "New Incognito Tab", two Terminal windows) on another
+  desktop are no longer merged into one tile
+- A window assigned to all desktops counts as being on the current one
 - Thumbnails of apps that quit are released (memory no longer grows over time)
 - Thumbnails are captured only as large as a tile or switcher card shows them, and
   CoreGraphics no longer keeps converted copies: memory stays flat after hundreds of windows

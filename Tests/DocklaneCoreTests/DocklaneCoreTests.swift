@@ -53,7 +53,34 @@ final class WindowFilterTests: XCTestCase {
 
     func testOffScreenDuplicatesAreRemovedOnScreenKept() {
         let records = [makeRecord(1, onScreen: false), makeRecord(2, onScreen: false), makeRecord(3), makeRecord(4)]
-        XCTAssertEqual(WindowFilter.removingDuplicates(records).map(\.id), [1, 3, 4])
+        XCTAssertEqual(WindowFilter.resolving(records, located: [1, 2, 3, 4], minimized: []).map(\.id), [1, 3, 4])
+    }
+
+    func testSameTitleAtDifferentPositionsAreTwoWindows() {
+        let first = makeRecord(1, title: "New Incognito Tab", onScreen: false)
+        let second = WindowRecord(id: 2, pid: 10, title: "New Incognito Tab",
+                                  bounds: CGRect(x: 22, y: 22, width: 800, height: 600),
+                                  layer: 0, alpha: 1, isOnScreen: false)
+        XCTAssertEqual(WindowFilter.resolving([first, second], located: [1, 2], minimized: []).map(\.id), [1, 2])
+    }
+
+    func testOffScreenWindowOnNoSpaceIsAGhost() {
+        let records = [makeRecord(1, onScreen: false), makeRecord(2, onScreen: false), makeRecord(3)]
+        XCTAssertEqual(WindowFilter.resolving(records, located: [2], minimized: []).map(\.id), [2, 3],
+                       "closed window 1 lingers on no space; on-screen 3 needs no space")
+    }
+
+    func testGhostTwinDoesNotReplaceTheRealWindow() {
+        // A full-screen app reports its window twice; the first copy is on no space.
+        let ghost = makeRecord(1, onScreen: false)
+        let real = makeRecord(2, onScreen: false)
+        XCTAssertEqual(WindowFilter.resolving([ghost, real], located: [2], minimized: []).map(\.id), [2])
+    }
+
+    func testMinimizedWindowsAndUnknownSpacesAreKept() {
+        let records = [makeRecord(1, onScreen: false), makeRecord(2, title: "Other", onScreen: false)]
+        XCTAssertEqual(WindowFilter.resolving(records, located: [], minimized: [1]).map(\.id), [1])
+        XCTAssertEqual(WindowFilter.resolving(records, located: nil, minimized: []).map(\.id), [1, 2])
     }
 }
 
@@ -70,19 +97,27 @@ final class SpaceDirectoryTests: XCTestCase {
         let result = SpaceDirectory.placements(
             displays: displays,
             activeSpace: 3,
-            windowSpaces: [100: 3, 101: 7, 102: 444, 103: 999]
+            windowSpaces: [100: [3], 101: [7], 102: [444], 103: [999], 104: []]
         )
         XCTAssertEqual(result[100], .current)
         XCTAssertEqual(result[101], .desktop(2))
         XCTAssertEqual(result[102], .fullScreen)
         XCTAssertEqual(result[103], .current, "unknown spaces are not labelled")
+        XCTAssertNil(result[104], "windows on no space are left out")
     }
 
     func testActiveFullScreenSpaceCountsAsCurrent() {
         let displays: [[String: Any]] = [["Spaces": [space(3), space(444, fullScreen: true)]]]
-        let result = SpaceDirectory.placements(displays: displays, activeSpace: 444, windowSpaces: [1: 444, 2: 3])
+        let result = SpaceDirectory.placements(displays: displays, activeSpace: 444, windowSpaces: [1: [444], 2: [3]])
         XCTAssertEqual(result[1], .current)
         XCTAssertEqual(result[2], .desktop(1))
+    }
+
+    func testWindowOnAllDesktopsIsCurrent() {
+        let displays: [[String: Any]] = [["Current Space": space(3), "Spaces": [space(3), space(7)]]]
+        let result = SpaceDirectory.placements(displays: displays, activeSpace: 3, windowSpaces: [1: [7, 3], 2: [7]])
+        XCTAssertEqual(result[1], .current)
+        XCTAssertEqual(result[2], .desktop(2))
     }
 }
 

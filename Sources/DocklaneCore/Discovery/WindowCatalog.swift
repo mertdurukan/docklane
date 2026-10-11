@@ -55,13 +55,20 @@ public enum WindowFilter {
         return record.isOnScreen || !record.title.isEmpty
     }
 
-    /// Off-screen entries of one app with the same title and size are one window reported
-    /// twice (full-screen apps do this). Keeps the first, preserving order.
-    public static func removingDuplicates(_ records: [WindowRecord]) -> [WindowRecord] {
+    /// Final pass once spaces and minimized state are known. Drops
+    /// - ghosts: off-screen, not minimized and on no space (`located` lists the windows that
+    ///   are on one; nil when that is unknown, then nothing is dropped as a ghost),
+    /// - duplicates: off-screen entries of one app with the same title, position and size are
+    ///   one window reported twice (full-screen apps do this); the first is kept.
+    /// Separate windows that merely share a title (two "New Incognito Tab") differ in position.
+    public static func resolving(_ records: [WindowRecord], located: Set<WindowNumber>?,
+                                 minimized: Set<WindowNumber>) -> [WindowRecord] {
         var seen = Set<String>()
         return records.filter { record in
             guard !record.isOnScreen else { return true }
-            let key = "\(record.pid)|\(record.title)|\(Int(record.bounds.width))x\(Int(record.bounds.height))"
+            if let located, !located.contains(record.id), !minimized.contains(record.id) { return false }
+            let frame = record.bounds.integral
+            let key = "\(record.pid)|\(record.title)|\(frame.minX),\(frame.minY)|\(frame.width)x\(frame.height)"
             return seen.insert(key).inserted
         }
     }
@@ -75,14 +82,13 @@ public enum WindowCatalog {
 
         let infos = CGWindowListCopyWindowInfo([.optionAll, .excludeDesktopElements], kCGNullWindowID)
             as? [[String: Any]] ?? []
-        let records = WindowFilter.removingDuplicates(
-            infos.compactMap(WindowRecord.init).filter {
-                WindowFilter.isUserWindow($0, ownPID: getpid(), regularApps: Set(appsByPID.keys))
-            }
-        )
-
-        let minimized = AccessibilityInspector.minimizedWindowNumbers(of: Set(records.map(\.pid)))
-        let placements = SpaceDirectory.placements(for: records.map(\.id))
+        let candidates = infos.compactMap(WindowRecord.init).filter {
+            WindowFilter.isUserWindow($0, ownPID: getpid(), regularApps: Set(appsByPID.keys))
+        }
+        let minimized = AccessibilityInspector.minimizedWindowNumbers(of: Set(candidates.map(\.pid)))
+        let placements = SpaceDirectory.placements(for: candidates.map(\.id))
+        let records = WindowFilter.resolving(candidates, located: placements.map { Set($0.keys) },
+                                             minimized: minimized)
 
         return records.compactMap { record in
             guard let app = appsByPID[record.pid] else { return nil }
@@ -96,7 +102,7 @@ public enum WindowCatalog {
                 bounds: record.bounds,
                 isOnScreen: record.isOnScreen,
                 isMinimized: isMinimized,
-                space: isMinimized ? .current : placements[record.id] ?? .current
+                space: isMinimized ? .current : placements?[record.id] ?? .current
             )
         }
     }
