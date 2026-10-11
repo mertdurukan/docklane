@@ -81,6 +81,18 @@ public enum SpaceDirectory {
                              windowSpaces: windowSpaces)
     }
 
+    /// Spaces one window is on (empty while it moves between spaces); nil when the private
+    /// calls are unavailable.
+    public static func spaces(of window: WindowNumber) -> [UInt64]? {
+        guard let mainConnection = PrivateSymbols.mainConnectionID,
+              let copySpacesForWindows = PrivateSymbols.copySpacesForWindows
+        else { return nil }
+        let allSpacesMask: Int32 = 0x7
+        let spaces = copySpacesForWindows(mainConnection(), allSpacesMask, [NSNumber(value: window)] as CFArray)?
+            .takeRetainedValue() as? [NSNumber]
+        return spaces?.map(\.uint64Value) ?? []
+    }
+
     /// Pure part, unit tested: every space in Mission Control order (displays in order, then
     /// their spaces), numbering normal desktops 1, 2, … across displays.
     public static func spaces(displays: [[String: Any]], activeSpace: UInt64) -> [SpaceInfo] {

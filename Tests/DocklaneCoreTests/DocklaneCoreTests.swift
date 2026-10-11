@@ -1218,3 +1218,13 @@ final class WindowlessAppsTests: XCTestCase {
         XCTAssertEqual(WindowlessApps.inserting([standIn], into: [window(1, pid: 1)]).map(\.id), [1, standIn.id])
     }
 }
+
+final class FullScreenExitTests: XCTestCase {
+    // Measured with Claude leaving full screen: space 1058 → no space, unlisted → desktop 3.
+    func testLandsOnlyWhenBackOnADesktop() {
+        XCTAssertFalse(FullScreenExit.hasLanded(spaces: [1058], fullScreenSpaces: [1058], isListed: true))
+        XCTAssertFalse(FullScreenExit.hasLanded(spaces: [], fullScreenSpaces: [1058], isListed: false))
+        XCTAssertFalse(FullScreenExit.hasLanded(spaces: [3], fullScreenSpaces: [1058], isListed: false))
+        XCTAssertTrue(FullScreenExit.hasLanded(spaces: [3], fullScreenSpaces: [1058], isListed: true))
+    }
+}

@@ -13,23 +13,37 @@ public enum WindowActions {
             return
         }
         let screenSize = size(of: element)
+        let fullScreenSpaces = SpaceDirectory.spaces(of: window.id)
         AXUIElementSetAttributeValue(element, fullScreenAttribute, kCFBooleanFalse)
         Task { @MainActor in
             // The attribute flips at once but the animation takes a moment, and a minimize
-            // request during it is ignored: wait until the window has left the screen-sized
-            // frame and stopped changing size (checked every 50 ms, up to 3 s).
+            // request during it is ignored (checked every 50 ms, up to 3 s). The size can't
+            // tell when it ends: Electron apps (Claude) report the new size at once and even
+            // answer "minimized" to a request that was ignored. So wait until the window is
+            // back on a desktop; without the space calls, until its size stops changing.
             var last = screenSize
             for _ in 0..<60 {
                 try? await Task.sleep(for: .milliseconds(50))
-                let current = size(of: element)
-                if current != screenSize && current == last { break }
-                last = current
+                if let fullScreenSpaces, let now = SpaceDirectory.spaces(of: window.id) {
+                    if FullScreenExit.hasLanded(spaces: now, fullScreenSpaces: fullScreenSpaces,
+                                                isListed: isListed(window.id)) { break }
+                } else {
+                    let current = size(of: element)
+                    if current != screenSize && current == last { break }
+                    last = current
+                }
             }
             for _ in 0..<3 where !AccessibilityInspector.isMinimized(element) {
                 AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, kCFBooleanTrue)
                 try? await Task.sleep(for: .milliseconds(300))
             }
         }
+    }
+
+    /// The window server knows the window (it drops it from the list mid-transition).
+    private static func isListed(_ window: WindowNumber) -> Bool {
+        let info = CGWindowListCopyWindowInfo([.optionIncludingWindow], CGWindowID(window)) as? [[String: Any]]
+        return !(info ?? []).isEmpty
     }
 
     private static func size(of element: AXUIElement) -> CGSize? {
