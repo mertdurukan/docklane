@@ -16,7 +16,6 @@ final class AppSettings {
     var autoHideDelay: Double { didSet { store(autoHideDelay, "autoHideDelay") } }
     var showBackground: Bool { didSet { store(showBackground, "showBackground") } }
     var alwaysShowTitles: Bool { didSet { store(alwaysShowTitles, "alwaysShowTitles") } }
-    var perspectiveTiles: Bool { didSet { store(perspectiveTiles, "perspectiveTiles") } }
     var labelOtherDesktops: Bool { didSet { store(labelOtherDesktops, "labelOtherDesktops") } }
     var minimizeOnFrontClick: Bool { didSet { store(minimizeOnFrontClick, "minimizeOnFrontClick") } }
     /// Move windows out of the panel's area (only while auto-hide is off).
@@ -67,7 +66,6 @@ final class AppSettings {
             "autoHideDelay": 0.4,
             "showBackground": false,
             "alwaysShowTitles": false,
-            "perspectiveTiles": true,
             "labelOtherDesktops": true,
             "minimizeOnFrontClick": false,
             "keepWindowsClear": true,
@@ -90,7 +88,6 @@ final class AppSettings {
         autoHideDelay = defaults.double(forKey: "autoHideDelay")
         showBackground = defaults.bool(forKey: "showBackground")
         alwaysShowTitles = defaults.bool(forKey: "alwaysShowTitles")
-        perspectiveTiles = defaults.bool(forKey: "perspectiveTiles")
         labelOtherDesktops = defaults.bool(forKey: "labelOtherDesktops")
         minimizeOnFrontClick = defaults.bool(forKey: "minimizeOnFrontClick")
         keepWindowsClear = defaults.bool(forKey: "keepWindowsClear")

@@ -78,10 +78,6 @@ struct WindowTile: View {
             }
             .saturation(window.isMinimized ? 0 : 1)
             .opacity(window.isMinimized ? 0.55 : 1)
-            // Stage Manager–style depth: the side away from the screen edge recedes; the tile
-            // under the pointer turns flat so it reads well.
-            .rotation3DEffect(.degrees(settings.perspectiveTiles && !isHovered ? edge.tiltAngle : 0),
-                              axis: edge.tiltAxis, anchor: edge.tiltAnchor, perspective: 0.55)
             .scaleEffect(isHovered && !reduceMotion ? 1.03 : 1)
             .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: isHovered)
             // No margin toward the screen edge (the panel's minimal edge gap is the distance),
@@ -378,32 +374,6 @@ enum RenameDialog {
         case .alertFirstButtonReturn: WindowEngine.shared.setLabel(field.stringValue, for: window)
         case .alertThirdButtonReturn: WindowEngine.shared.setLabel(nil, for: window)
         default: break
-        }
-    }
-}
-
-extension PanelEdge {
-    /// How far tiles turn away from the viewer, the far side going into the screen.
-    var tiltAngle: Double {
-        switch self {
-        case .left: 24
-        case .right: -24
-        case .bottom: 20
-        case .top: -20
-        }
-    }
-
-    var tiltAxis: (x: CGFloat, y: CGFloat, z: CGFloat) {
-        isVertical ? (0, 1, 0) : (1, 0, 0)
-    }
-
-    /// The tile's edge facing the screen edge stays put.
-    var tiltAnchor: UnitPoint {
-        switch self {
-        case .left: .leading
-        case .right: .trailing
-        case .bottom: .bottom
-        case .top: .top
         }
     }
 }
